@@ -1,0 +1,31 @@
+# .pre-commit-config.yaml
+repos:
+  # 使用本地 Poetry 安装的 ruff
+  - repo: local
+    hooks:
+      - id: ruff-lint
+        name: lint
+        entry: poetry run ruff
+        language: system
+        types: [ python ]
+        args: [ check, hm_book/, tests/ ]
+
+      - id: ruff-format
+        name: format
+        entry: poetry run ruff
+        language: system
+        types: [ python ]
+        args: [ format, hm_book/, tests/ ]
+
+      - id: mypy
+        name: type
+        entry: poetry run mypy
+        language: system
+        pass_filenames: false
+
+      - id: pytest
+        name: test
+        entry: poetry run pytest
+        language: system
+        pass_filenames: false
+        args: [ "-q" ]
