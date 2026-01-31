@@ -1,4 +1,4 @@
-from hm_book import demo
+from hm_book.demo import demo
 
 
 def test_demo():
