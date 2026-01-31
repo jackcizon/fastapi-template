@@ -3,10 +3,10 @@
 all: lint format type test coverage pre_commit
 
 lint:
-	poetry run ruff check hm_book/ tests/
+	poetry run ruff check src/ tests/
 
 format:
-	poetry run ruff format hm_book/ tests/
+	poetry run ruff format src/ tests/
 
 type:
 	poetry run mypy --config-file mypy.ini

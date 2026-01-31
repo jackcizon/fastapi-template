@@ -8,14 +8,14 @@ repos:
         entry: poetry run ruff
         language: system
         types: [ python ]
-        args: [ check, hm_book/, tests/ ]
+        args: [ check, src/, tests/ ]
 
       - id: ruff-format
         name: format
         entry: poetry run ruff
         language: system
         types: [ python ]
-        args: [ format, hm_book/, tests/ ]
+        args: [ format, src/, tests/ ]
 
       - id: mypy
         name: type

@@ -1,6 +1,6 @@
 """update to dev branch"""
 
-from hm_book.demo import demo
+from src.demo import demo
 
 
 def test_demo():

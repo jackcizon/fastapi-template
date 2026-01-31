@@ -1,4 +1,4 @@
-src = ["hm_book", "tests"]
+src = ["src", "tests"]
 line-length = 100
 target-version = "py312"
 lint.ignore = ["F401", "F403", "E402"]
