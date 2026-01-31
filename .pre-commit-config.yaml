@@ -19,7 +19,7 @@ repos:
 
       - id: mypy
         name: type
-        entry: poetry run mypy
+        entry: poetry run mypy --config-file mypy.ini
         language: system
         pass_filenames: false
 

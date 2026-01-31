@@ -9,7 +9,7 @@ format:
 	poetry run ruff format hm_book/ tests/
 
 type:
-	poetry run mypy
+	poetry run mypy --config-file mypy.ini
 
 test:
 	poetry run pytest -q

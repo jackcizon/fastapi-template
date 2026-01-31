@@ -23,25 +23,3 @@ dependencies = [
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.coverage.report]
-fail_under = 80
-show_missing = true
-
-[tool.mypy]
-python_version = "3.12"
-files = ["hm_book"]
-
-check_untyped_defs = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-
-warn_unused_ignores = true
-warn_redundant_casts = true
-warn_unused_configs = true
-
-no_implicit_optional = true
-strict_optional = true
-
-ignore_missing_imports = true
-disable_error_code = ["union-attr", "assignment"]
