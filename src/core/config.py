@@ -3,9 +3,7 @@ from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-__all__ = [
-    'settings'
-]
+__all__ = ["settings"]
 
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 SRC_DIR = os.path.join(ROOT_DIR, "src")
@@ -19,8 +17,7 @@ class Settings(BaseSettings):
     debug: bool = True
     database_url: str | None = None
     model_config = SettingsConfigDict(
-        env_file=os.path.join(ENVS_DIR, f".env.{ENV}"),
-        env_file_encoding="utf-8"
+        env_file=os.path.join(ENVS_DIR, f".env.{ENV}"), env_file_encoding="utf-8"
     )
 
 

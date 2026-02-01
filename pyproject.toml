@@ -7,7 +7,7 @@ authors = [
 ]
 license = { text = "MIT" }
 requires-python = ">=3.12"
-packages = [{ include = "src" }]
+#packages = [{ include = "src" }]
 dependencies = [
     "fastapi (>=0.128.0,<0.129.0)",
     "sqlmodel (>=0.0.31,<0.0.32)",
