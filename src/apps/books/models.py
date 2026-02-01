@@ -146,6 +146,7 @@ class BookVolume(Base):
 
 class BookChapters(Base):
     """书籍章节信息"""
+
     __tablename__ = "book_chapters"
 
     id = Column(Integer, primary_key=True)  # ID
