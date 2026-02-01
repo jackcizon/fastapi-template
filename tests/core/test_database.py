@@ -1,4 +1,5 @@
 """tests for core:database"""
+
 from sqlalchemy.orm import Session
 
 from src.core.database import get_session
