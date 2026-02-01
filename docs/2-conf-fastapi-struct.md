@@ -6,3 +6,6 @@
    `PYTHONPATH=src`, 这样就不用写`src`了
 4. 启动时要以`module`级别启动module`uvicorn`, `parameters`中填写
    相关的启动参数(详情见`uvicorn --help`)
+5. `3`在django，这种框架下工作是可行的，但这仍然需要insert into `sys.path`,
+   显然不符合fastapi的原则，在fastapi中，直接从`src`导包即可，否则后续测试等
+   都会遇到问题(因为pip包的导入原则)
