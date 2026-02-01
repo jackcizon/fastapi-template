@@ -11,11 +11,17 @@ from src.core.config import infra_settings
 engine = create_engine(infra_settings.DATABASE_URL)
 
 
-def create_db_and_tables() -> None:
+def create_db_and_tables() -> None:  # pragma: no cover
     """useless when dba has already managed db"""
-    # from src.apps.users.models import User
+    from src.apps.users.models import User
 
-    SQLModel.metadata.create_all(engine)  # pragma: no cover
+    SQLModel.metadata.create_all(engine)
+
+
+def drop_all_tables() -> None:  # pragma: no cover
+    from src.apps.users.models import User
+
+    SQLModel.metadata.drop_all(engine)
 
 
 def get_session() -> Generator:
