@@ -2,23 +2,63 @@
 
 from typing import Generator
 
-from sqlmodel.main import SQLModel
 from sqlalchemy.engine.create import create_engine
-from sqlmodel.orm.session import Session
+from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
 from src.core.config import infra_settings
 
-engine = create_engine(infra_settings.DATABASE_URL)
+
+class Base(DeclarativeBase):
+    pass
 
 
-def create_db_and_tables() -> None:
+engine = create_engine(infra_settings.DATABASE_URL, pool_pre_ping=True)
+
+# session factory
+SessionLocal = sessionmaker(engine)
+
+
+def create_db_and_tables() -> None:  # pragma: no cover
     """useless when dba has already managed db"""
-    # from src.apps.users.models import User
+    from src.apps.users.models import User
+    from src.apps.books.models import (
+        Book,
+        BookShelf,
+        BookVolume,
+        BookCategory,
+        BookChapters,
+        BookBigCategory,
+        BookChapterContent,
+        BookCategoryRelation,
+    )
+    from src.apps.search.models import SearchKeyWord
+    from src.apps.history.models import BrowseHistory
 
-    SQLModel.metadata.create_all(engine)  # pragma: no cover
+    Base.metadata.create_all(engine)
 
 
-def get_session() -> Generator:
-    """yield a db session"""
-    with Session(engine) as session:
-        yield session
+def drop_all_tables() -> None:  # pragma: no cover
+    from src.apps.users.models import User
+    from src.apps.books.models import (
+        Book,
+        BookShelf,
+        BookVolume,
+        BookCategory,
+        BookChapters,
+        BookBigCategory,
+        BookChapterContent,
+        BookCategoryRelation,
+    )
+    from src.apps.search.models import SearchKeyWord
+    from src.apps.history.models import BrowseHistory
+
+    Base.metadata.drop_all(engine)
+
+
+def get_db() -> Generator:
+    """db deps"""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
