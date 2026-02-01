@@ -4,3 +4,7 @@ poetry.lock
 .env
 .coverage
 htmlcov/
+
+# Docker 数据卷
+pgdata/
+redisdata/
