@@ -20,19 +20,38 @@ SessionLocal = sessionmaker(engine)
 
 def create_db_and_tables() -> None:  # pragma: no cover
     """useless when dba has already managed db"""
-    global Base
     from src.apps.users.models import User
     from src.apps.books.models import (
-        Book, BookShelf, BookVolume, BookCategory,
-        BookChapters, BookBigCategory, BookChapterContent, BookCategoryRelation)
+        Book,
+        BookShelf,
+        BookVolume,
+        BookCategory,
+        BookChapters,
+        BookBigCategory,
+        BookChapterContent,
+        BookCategoryRelation,
+    )
     from src.apps.search.models import SearchKeyWord
     from src.apps.history.models import BrowseHistory
+
     Base.metadata.create_all(engine)
 
 
 def drop_all_tables() -> None:  # pragma: no cover
-    # from src.apps.users.models import User
-    global Base
+    from src.apps.users.models import User
+    from src.apps.books.models import (
+        Book,
+        BookShelf,
+        BookVolume,
+        BookCategory,
+        BookChapters,
+        BookBigCategory,
+        BookChapterContent,
+        BookCategoryRelation,
+    )
+    from src.apps.search.models import SearchKeyWord
+    from src.apps.history.models import BrowseHistory
+
     Base.metadata.drop_all(engine)
 
 

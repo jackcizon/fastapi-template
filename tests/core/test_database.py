@@ -2,20 +2,38 @@
 
 from sqlalchemy.orm import Session
 
-from src.core.database import get_session
+from src.core.database import get_db
 
 
-def test_get_session():
-    # 创建 generator
-    gen = get_session()
+# from sqlalchemy.orm import Session
 
-    # 取出 yield 的 session
-    session = next(gen)
+# from src.core.database import get_session
 
-    # 断言类型正确
-    assert isinstance(session, Session)
+#
+# def test_get_session():
+#     # 创建 generator
+#     gen = get_session()
+#
+#     # 取出 yield 的 session
+#     session = next(gen)
+#
+#     # 断言类型正确
+#     assert isinstance(session, Session)
+#
+#     # 关闭 generator，保证 coverage 完整
+#     try:
+#         next(gen)
+#     except StopIteration:
+#         pass
 
-    # 关闭 generator，保证 coverage 完整
+
+def test_get_db():
+    gen = get_db()
+
+    # get yield db
+    db = next(gen)
+    assert isinstance(db, Session)
+
     try:
         next(gen)
     except StopIteration:
