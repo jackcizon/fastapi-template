@@ -9,6 +9,7 @@ services:
   #          path: .
   #          target: /code
   redis:
+    container_name: redis
     image: redis:7.2-alpine
     ports:
       - "${REDIS_PORT:-6379}:6379"
@@ -26,6 +27,7 @@ services:
       - "${REDIS_PASSWORD}"
 
   postgres:
+    container_name: postgres
     image: postgres:16.2
     ports:
       - "5432:5432"
