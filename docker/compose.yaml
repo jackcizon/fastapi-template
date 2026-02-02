@@ -25,6 +25,7 @@ services:
       - "yes"
       - --requirepass
       - "${REDIS_PASSWORD}"
+    restart: always
 
   postgres:
     container_name: postgres
