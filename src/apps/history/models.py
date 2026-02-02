@@ -1,20 +1,20 @@
 from sqlalchemy.sql import func
-from sqlalchemy import Column, Integer, ForeignKey, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, DateTime, Index
 
-from src.core.database import Base
+from src.utils.models import BaseModel
 
 
-class BrowseHistory(Base):
+class BrowseHistory(BaseModel):
     """
     浏览记录
     """
 
-    __tablename__ = "browse_history"
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("user.id"))
-    book_id = Column(Integer, ForeignKey("book.book_id"))
+    id = Column(Integer(), primary_key=True)
+    user_id = Column(Integer(), index=True)
+    book_id = Column(Integer(), index=True)
 
-    book = relationship("Book", uselist=False)
     created = Column(DateTime(), server_default=func.now())
     updated = Column(DateTime(), server_default=func.now())
+
+    __tablename__ = "browse_history"
+    __table_args__ = (Index("ix_user_book", "user_id", "book_id"),)
