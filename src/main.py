@@ -1,10 +1,5 @@
 """entry point for FastAPI APP"""
 
-from fastapi import FastAPI
+from src.utils.lazy_load_app import create_app
 
-from src.apps.users.routes import users_router
-from src.core.config import app_settings
-
-app = FastAPI(debug=app_settings.debug)
-
-app.include_router(router=users_router, prefix="/users", tags=["users"])
+app = create_app()

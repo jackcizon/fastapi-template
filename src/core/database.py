@@ -60,5 +60,9 @@ def get_db() -> Generator:
     db = SessionLocal()
     try:
         yield db
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise  # any exceptions
     finally:
         db.close()
