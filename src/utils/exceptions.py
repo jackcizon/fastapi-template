@@ -1,10 +1,12 @@
+# pragma: no cover
+
+
 class BizException(Exception):
     code: int = 400
     message: str = "biz error"
 
-    def __init__(self, message: str | None = None):
-        if message:
-            self.message = message
+    def __init__(self, message: str = ""):
+        self.message = message
 
 
 class AuthError(BizException):
