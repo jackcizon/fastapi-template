@@ -7,3 +7,12 @@ get the template project:
 ```bash
 git clone <https://github.com/jackcizon/fastapi-template.git>
 ```
+
+del useless part:
+
+```bash
+cd fastaapi-template
+rm -rf .git
+cd ..
+mv fastapi-tempalte <your_project_name>
+```
