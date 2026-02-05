@@ -1,6 +1,3 @@
-# pragma: no cover
-
-
 class BizException(Exception):
     code: int = 400
     message: str = "biz error"

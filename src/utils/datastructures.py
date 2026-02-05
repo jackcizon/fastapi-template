@@ -8,7 +8,7 @@ from src.core.config import infra_settings
 
 class JSONWebToken:
     @staticmethod
-    def create_access_token(id_: str | int) -> str:  #  pragma: no cover
+    def create_access_token(id_: str | int) -> str:
         payload = {
             "id": id_,
             "exp": int(datetime.now(tz=timezone.utc).timestamp()) + infra_settings.ACCESS_TOKEN_TTL,

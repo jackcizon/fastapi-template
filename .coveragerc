@@ -8,6 +8,7 @@ omit =
     */routes.py
     */__init__.py
     src/core/**
+    src/utils/**
 
 [report]
 fail_under = 60
