@@ -1,3 +1,3 @@
-![CI](https://github.com/jackcizon/hm_book/actions/workflows/ci.yaml/badge.svg)
+![CI](https://github.com/<your_name>/<repo_name>/actions/workflows/ci.yaml/badge.svg)
 
-# HM Book
+# Minium FastAPI Template project
