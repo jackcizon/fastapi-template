@@ -27,13 +27,22 @@ class AppSettings(BaseSettings):
 class InfraSettings(BaseSettings):
     """infrastructure settings(db, etc...)"""
 
+    # DB
     POSTGRES_USER: str
     POSTGRES_PW: str
     POSTGRES_DB: str
     DATABASE_URL: str
+
+    # cache
     REDIS_HOST: str
     REDIS_PORT: int
     REDIS_PASSWORD: str
+
+    # jwt
+    ACCESS_TOKEN_TTL: int
+    REFRESH_TOKEN_TTL: int
+    JWT_KEY: str
+    JWT_ALGO: str
 
     model_config = SettingsConfigDict(
         env_file=os.path.join(ENVS_DIR, f".env.{ENV}.infra"),
