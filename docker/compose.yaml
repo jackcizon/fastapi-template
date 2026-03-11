@@ -1,3 +1,4 @@
+name: fastapi_template_services
 services:
   #  web:  # when each branch's tests pass, enable this service
   #    build: .
@@ -9,16 +10,16 @@ services:
   #          path: .
   #          target: /code
   redis:
-    container_name: redis
+    container_name: redis_fastapi_template
     image: redis:7.2-alpine
     ports:
-      - "${REDIS_PORT:-6379}:6379"
+      - "${REDIS_PORT}:6379"
     volumes:
       - redisdata:/data
     command:
       - redis-server
       - --bind
-      - 0.0.0.0
+      - "${REDIS_HOST}"
       - --protected-mode
       - "no"
       - --appendonly
@@ -28,10 +29,10 @@ services:
     restart: always
 
   postgres:
-    container_name: postgres
+    container_name: postgresql_fastapi_template
     image: postgres:16.2
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PW}

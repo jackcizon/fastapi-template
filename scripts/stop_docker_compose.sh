@@ -1,5 +1,5 @@
-# 文件在 root/scripts/ 下
+# please modify vars in envs before running this scripts.
 docker compose \
-  --env-file ../envs/.env.dev.infra \
+  --env-file ../envs/.env.docker.dev \
   -f ../docker/compose.yaml \
-  down
+  down # -v
