@@ -1,9 +1,9 @@
-from datetime import datetime, timezone
 from typing import Any
+from datetime import datetime, timezone
 
 import jwt
 
-from src.core.config import infra_settings
+from src.core.config import settings
 
 
 class JSONWebToken:
@@ -11,12 +11,12 @@ class JSONWebToken:
     def create_access_token(id_: str | int) -> str:
         payload = {
             "id": id_,
-            "exp": int(datetime.now(tz=timezone.utc).timestamp()) + infra_settings.ACCESS_TOKEN_TTL,
+            "exp": int(datetime.now(tz=timezone.utc).timestamp()) + settings.access_token_ttl,
             "iat": int(datetime.now(tz=timezone.utc).timestamp()),
             "type": "access",
         }
         return jwt.encode(
-            payload=payload, key=infra_settings.JWT_KEY, algorithm=infra_settings.JWT_ALGO
+            payload=payload, key=settings.jwt_key, algorithm=settings.jwt_algo
         )
 
     @staticmethod
@@ -24,34 +24,25 @@ class JSONWebToken:
         payload = {
             "id": id_,
             "exp": int(datetime.now(tz=timezone.utc).timestamp())
-            + infra_settings.REFRESH_TOKEN_TTL,
+                   + settings.refresh_token_ttl,
             "iat": int(datetime.now(tz=timezone.utc).timestamp()),
             "type": "refresh",
         }
         return jwt.encode(
-            payload=payload, key=infra_settings.JWT_KEY, algorithm=infra_settings.JWT_ALGO
+            payload=payload, key=settings.jwt_key, algorithm=settings.jwt_algo
         )
 
-    def decode_token(self, token: str, token_type: str | None = None) -> dict[str, Any]:
+    @staticmethod
+    def decode_token(token: str, token_type: str | None = None) -> dict[str, Any]:
         try:
             payload = jwt.decode(
-                jwt=token, key=infra_settings.JWT_KEY, algorithms=[infra_settings.JWT_ALGO]
+                jwt=token, key=settings.jwt_key, algorithms=[settings.jwt_algo]
             )
             if token_type is not None:
                 if payload.get("type") != token_type:
                     raise jwt.InvalidKeyError("payload key:val error")
-                # if self.in_blacklist(token):
-                #     raise jwt.InvalidTokenError('token is in blacklist')
             return payload
         except jwt.ExpiredSignatureError:
             raise jwt.ExpiredSignatureError("token expired")
         except jwt.InvalidTokenError:
             raise jwt.InvalidTokenError("invalid token")
-
-    # @staticmethod
-    # def in_blacklist(token: str) -> bool:
-    #     return False
-    #
-    # def join_token_in_blacklist(self, token: str) -> None:
-    #     # set token in redis blacklist
-    #     return
