@@ -22,7 +22,7 @@ def get_current_user(request: Request) -> str:
     except InvalidTokenError:
         raise HTTPException(401, "Invalid token")
 
-    # 2. payload type 认证
+    # 2. payload type check
     if payload.get("type") != "access":
         raise HTTPException(status_code=401, detail="token type must be access")
     user_open_id = payload.get("id")
