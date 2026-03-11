@@ -1,14 +1,22 @@
-![CI](https://github.com/<your_name>/<repo_name>/actions/workflows/ci.yaml/badge.svg)
+![CI](https://github.com/jackcizon/fastapi-template/actions/workflows/ci.yaml/badge.svg)
 
-# Minium FastAPI Template project
+<div style="display: none">
+![CI](https://github.com/jackcizon/fastapi-template/actions/workflows/ci.yaml/badge.svg)
+</div>
 
-get the template project:
+# A Minium FastAPI Template Project
+
+# Version
+
+`1.0.0`
+
+## get the template project:
 
 ```bash
 git clone <https://github.com/jackcizon/fastapi-template.git>
 ```
 
-del useless part:
+## del the useless parts:
 
 ```bash
 cd fastaapi-template
