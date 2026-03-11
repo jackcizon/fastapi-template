@@ -1,18 +1,19 @@
 # ORM things
 
-## !避免 db constraints
+## !avoid db constraints
 
 ```python
 user_id = Column(Integer, ForeignKey("user.id"))
 ```
 
-这会导致数据库级别的外键约束，一堆问题。
+This leads to database-level foreign key constraints and a host of problems.
 
-它会在数据库表中创建外键，非常差劲。
+It creates foreign keys in the database table, which is extremely inefficient.
 
-100% 避免在项目中这么做，否则后面项目大了直接崩了，非常难调试优化，做修改。
+Avoid doing this in your projects 100%! Otherwise, the project will crash as it grows, making debugging, optimization,
+and modifications extremely difficult.
 
-即使在ORM中定义了类似：
+Even if you define something like this in your ORM:
 
 ```python
 user_id = Column(
@@ -25,38 +26,39 @@ user_id = Column(
 )
 ```
 
-的`on_delete, etc...`, 也没什么大的作用，该受限制还是一点不少。
+`on_delete, etc...`, It doesn't have much effect; the limitations are still quite significant.
 
-## 使用逻辑外键
+## use logic fk
 
-在`sqlalchemy`的标准做法：
+In SQLAlchemy's standard practice:
 
-全面禁止使用`FK`，使用`relationship()`
+Completely disable the use of `FK` and use `relationship()` instead.
 
 ```python
 class Post(Base):
     __tablename__ = "post"
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, index=True)  # 普通字段, 不再标注FK
+    user_id = Column(Integer, index=True)
     user = relationship(
         "User",
         primaryjoin="Post.user_id == User.id",
         foreign_keys=[user_id],
-        # viewonly=True,   # 关键！(这将处于只读模式， 不能改变user.id)
     )
 ```
 
-通过`post.user`得到`user.id`
+You can get `user.id` from `post.user`.
 
-而`django`中：
+In Django:
 
-1. 照常使用`FK`
-2. 必须添加`db_constraint=False`，django在ORM层处理了逻辑外键，而DB层不会出现`FK`
+1. You can use `FK` as usual.
 
-这是ORM为我们做的最大便利。
+2. You must add `db_constraint=False`. Django handles logical foreign keys at the ORM layer, and `FK` will not appear at
+   the database layer.
 
-django和sqlalchemy的映射：
+This is the biggest convenience that ORM provides for us.
+
+Mapping between Django and SQLAlchemy:
 
 | Django             | SQLAlchemy                              |
 |--------------------|-----------------------------------------|
@@ -66,14 +68,18 @@ django和sqlalchemy的映射：
 | `select_related`   | `lazy="joined"`                         |
 | `prefetch_related` | `selectinload()`                        |
 
-## 使用分层结构，统一处理每个表及其关联表
+## Using a layered structure to uniformly handle each table and its related tables
 
-1. `crud/repo`层处理sql表，及其关联关系，sql代码100%存在于此
-2. `service`层处理业务代码，禁止在该层出现sql代码
-3. 配合`soft delete`，快速处理sql的删除逻辑
-4. 必须使用`index`索引`全部id`,否则仅靠service和crud是全盘`join`速度只会更慢。
+1. The `crud/repo` layer handles SQL tables and their relationships; 100% of the SQL code resides here.
 
-删除user:
+2. The `service` layer handles business logic; SQL code is prohibited in this layer.
+
+3. Use `soft delete` to quickly process SQL deletion logic.
+
+4. Use `index` to index `id`; otherwise, relying solely on `service` and `crud` for full `joins` will only slow things
+   down.
+
+Delete user:
 
 ```python
 def delete_user(user_id: int):
@@ -82,31 +88,11 @@ def delete_user(user_id: int):
     .update({"is_deleted": True})
 ```
 
-当user被删除，与其关联的表`可能要被删除`，看情况。
+When a user is deleted, the table associated with them may also need to be deleted, depending on the situation.
 
-❌错误做法:
-
-```python
-# 各种地方 scattered
-delete
-from post where
-
-user_id = x
-delete
-from comment where
-
-user_id = x
-delete
-from like where
-
-user_id = x
-```
-
-✔正确做法：
+Correct practice:
 
 ```python
-# 以函数举例是为了简单起见
-
 # user_repo.py
 def delete_user(user_id: int):
     session.query(Post).filter(Post.user_id == user_id).delete()
@@ -119,7 +105,7 @@ def del_user(user_id):
     repo.delete_user(user_id)
 
 
-# or 通过cls
+# or by cls
 class UserRepo:
 
     @staticmethod
@@ -146,11 +132,9 @@ class UserService:
 
     @staticmethod
     def delete_user(session, user_id: int):
-        # 业务校验
         if not UserRepo.exists(session, user_id):
             raise ValueError("user not found")
 
-        # 事务内编排
         UserRepo.soft_delete(session, user_id)
         PostRepo.soft_delete_by_user(session, user_id)
 
@@ -160,8 +144,11 @@ def delete_user_handler(user_id: int):
         UserService.delete_user(session, user_id)
 ```
 
-当然ORM也内置了`on_*(delete, update, etc...)`,但一劳永逸的做法对高并发并不好。
+While ORMs do have built-in `on_*(delete, update, etc...)`, this one-size-fits-all approach isn't ideal for high
+concurrency.
 
-虽然`service`可以动态处理代码逻辑，但复杂度要比ORM自动处理高。
+Although `service` statements can dynamically handle code logic, their complexity is higher than ORM's automatic
+processing.
 
-但ORM的`on_*`在面对`SQL(脚本)`就失效了，因为没有框架环境。
+However, ORM's `on_*` statements become ineffective when dealing with `SQL (scripts)` because there's no framework
+environment for it.

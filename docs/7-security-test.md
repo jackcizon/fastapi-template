@@ -2,7 +2,7 @@
 
 ## security
 
-生成jwt`key`, 不推荐使用`uuid`, 建议使用：
+When generating a JWT key, using `uuid` is not recommended; it is suggested to use:
 
 ```python
 import secrets
@@ -12,7 +12,7 @@ JWT_KEY = secrets.token_hex(32)
 
 ## Test
 
-必须测试：
+Test required:
 
 ```text
 apps/*/service(mock)
@@ -26,7 +26,7 @@ token
 permission
 ```
 
-可选测试：
+Optional tests:
 
 ```text
 routes(unittest ignore, e2e需要测试)
@@ -34,7 +34,7 @@ exception handler
 middleware
 ```
 
-不用测试：
+No testing required:
 
 ```text
 config
