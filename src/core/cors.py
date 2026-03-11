@@ -4,7 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 from src.core.config import settings
 
 
-def setup_cors(app_: FastAPI):
+def setup_cors(app_: FastAPI) -> None:
     app_.add_middleware(
         # CORSMiddleware has already implements __call__(), it is ok.
         middleware_class=CORSMiddleware,  # type: ignore

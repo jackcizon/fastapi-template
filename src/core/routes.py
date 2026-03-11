@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from src.apps.users.routes import users_router
+from src.apps.demo.routes import users_router
 
 
 def include_routers(app_: FastAPI) -> None:

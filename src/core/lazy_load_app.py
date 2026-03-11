@@ -9,7 +9,7 @@ class LazyLoadApp:
         self._app: FastAPI | None = None
         self.debug = debug
 
-    def _setup_cors(self):
+    def _setup_cors(self) -> None:
         setup_cors(self._app)
 
     def _include_routers(self) -> None:
@@ -17,15 +17,15 @@ class LazyLoadApp:
 
     def _config_app(self) -> None:
         """app factory for lazy loading"""
-
-        self._app = FastAPI(debug=self.debug)
-        self._include_routers()
-        self._setup_cors()
+        if self._app is None:
+            self._app = FastAPI(debug=self.debug)
+            self._include_routers()
+            self._setup_cors()
 
     @property
-    def app(self):
+    def app(self) -> FastAPI:
         self._config_app()
         return self._app
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self) -> FastAPI:
         return self.app
