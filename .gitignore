@@ -5,6 +5,6 @@ poetry.lock
 .coverage
 htmlcov/
 
-# Docker 数据卷
+# Docker volumes
 pgdata/
 redisdata/

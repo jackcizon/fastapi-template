@@ -1,6 +1,5 @@
 # .pre-commit-config.yaml
 repos:
-  # 使用本地 Poetry 安装的 ruff
   - repo: local
     hooks:
       - id: ruff-lint

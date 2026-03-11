@@ -1,6 +1,6 @@
 [project]
 name = "fastapi_template"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
 authors = [
     { name = "jackcizon", email = "jack20021213cn@gmail.com" }
