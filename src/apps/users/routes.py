@@ -33,16 +33,16 @@ async def register(req: RegisterRequestSchema, db: Session = Depends(get_db)) ->
 @users_router.get("/me/")
 async def me(
     db: Session = Depends(get_db),
-    user_open_id: str = Depends(get_current_user),
+    user_id: int = Depends(get_current_user),
 ) -> dict[str, Any]:
     """
     personal home page.
     :param db: db session
-    :param user_open_id: user.open_id(JWT verify)
+    :param user_id: user.id(JWT verify)
     :return:
     """
     repo = UserRepo(db=db)
     service = UserService(repo=repo)
-    user = service.get_user_by_open_id(open_id=user_open_id)
+    user = service.get_user_by_id(id_=user_id)
     user_info = service.get_user_info_by_model(user)
     return user_info

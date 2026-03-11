@@ -1,10 +1,11 @@
 from typing import Any
 
+from fastapi.exceptions import HTTPException
+
 from src.apps.users.models import User
 from src.apps.users.repos import UserRepo
 from src.apps.users.schemas import LoginRequestSchema, RegisterRequestSchema, UserInfoSchema
 from src.utils.datastructures import JSONWebToken
-from src.utils.exceptions import NotFoundError
 
 
 class UserService:
@@ -16,17 +17,16 @@ class UserService:
         :param req: login request schema
         :return: tuple | None: (user instance, access, refresh)
         """
-        user = self.repo.get_login_user(open_id=req.open_id)
+        user = self.repo.get_user_by_id(req.id)
         if not user:
-            # 万一事务失败也抛异常
-            raise NotFoundError("failed to create user")
+            raise HTTPException(status_code=400, detail="failed to create user")
         access, refresh = self._generate_token_pair(req=req)
         return user, access, refresh
 
     @staticmethod
     def _generate_token_pair(req: LoginRequestSchema) -> tuple[str, str]:
-        access = JSONWebToken.create_access_token(id_=req.open_id)
-        refresh = JSONWebToken.create_refresh_token(id_=req.open_id)
+        access = JSONWebToken.create_access_token(id_=req.id)
+        refresh = JSONWebToken.create_refresh_token(id_=req.id)
         return access, refresh
 
     def register(self, req: RegisterRequestSchema) -> User:
@@ -34,10 +34,10 @@ class UserService:
         :param req:
         :return: user instance
         """
-        return self.repo.create_user(nick_name=req.nick_name, gender=req.gender)
+        return self.repo.create_user(name=req.name)
 
-    def get_user_by_open_id(self, open_id: str) -> User | None:
-        return self.repo.get_login_user(open_id=open_id)
+    def get_user_by_id(self, id_: int) -> User | None:
+        return self.repo.get_user_by_id(id_=id_)
 
     @staticmethod
     def get_user_info_by_model(user: User) -> dict[str, Any]:
