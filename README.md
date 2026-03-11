@@ -1,14 +1,14 @@
 ![CI](https://github.com/jackcizon/fastapi-template/actions/workflows/ci.yaml/badge.svg)
 
 <div style="display: none">
-![CI](https://github.com/jackcizon/fastapi-template/actions/workflows/ci.yaml/badge.svg)
+![CI](https://github.com/yourname/repo_name/actions/workflows/ci.yaml/badge.svg)
 </div>
 
 # A Minium FastAPI Template Project
 
 # Version
 
-`1.0.0`
+`1.0.1`
 
 ## get the template project:
 
