@@ -1,0 +1,33 @@
+{
+    "env": "dev",
+    "debug": true,
+    "db": {
+        "name": "fastapi_template",
+        "user": "jack",
+        "password": "jack021213",
+        "url": "postgresql+psycopg2://jack:jack021213@192.168.8.7:5432/fastapi_template"
+    },
+    "cache": {
+        "host": "0.0.0.0",
+        "port": "6379",
+        "password": "jack021213"
+    },
+    "jwt": {
+        "access_token_ttl": 3600,
+        "refresh_token_ttl": 360000,
+        "key": "import secrets;secrets.token_hex(32)",
+        "algo": "HS256"
+    },
+    "cors": {
+        "allow_origins": [
+            "*"
+        ],
+        "allow_credentials": true,
+        "allow_methods": [
+            "*"
+        ],
+        "allow_headers": [
+            "*"
+        ]
+    }
+}
