@@ -5,10 +5,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 from fastapi import HTTPException
 
-from src.apps.users.models import User
-from src.apps.users.services import UserService
+from src.apps.demo.models import User
+from src.apps.demo.services import UserService
 from src.utils.datastructures import JSONWebToken
-from src.apps.users.schemas import LoginRequestSchema, RegisterRequestSchema
+from src.apps.demo.schemas import LoginRequestSchema, RegisterRequestSchema
 
 
 class TestUserService:
@@ -16,7 +16,7 @@ class TestUserService:
         fake_user = User(id=1)
 
         mock_repo = MagicMock()
-        mock_repo.get_login_user.return_value = fake_user
+        mock_repo.get_user_by_id.return_value = fake_user
 
         service = UserService(repo=mock_repo)
 
@@ -33,36 +33,36 @@ class TestUserService:
         assert access == "access123"
         assert refresh == "refresh123"
 
-    def test_login_user_not_found(self):
+    def test_user_not_found(self):
         mock_repo = MagicMock()
-        mock_repo.get_login_user.return_value = None
+        mock_repo.get_user_by_id.return_value = None
 
         service = UserService(repo=mock_repo)
 
-        req = LoginRequestSchema(open_id="abc123")
+        req = LoginRequestSchema(id=2)
 
         with pytest.raises(HTTPException):
             service.login(req)
 
     def test_register_user(self):
-        fake_user = User(id=1, name="jack")
+        fake_user = User(name="jack")
 
         mock_repo = MagicMock()
         mock_repo.create_user.return_value = fake_user
 
         service = UserService(repo=mock_repo)
 
-        req = RegisterRequestSchema(nick_name="jack")
+        req = RegisterRequestSchema(name="jack")
         user = service.register(req)
 
         assert user is fake_user
         mock_repo.create_user.assert_called_once_with(name="jack")
 
-    def test_get_user_by_open_id(self):
+    def test_get_user_by_id(self):
         fake_user = User(id=1)
 
         mock_repo = MagicMock()
-        mock_repo.get_login_user.return_value = fake_user
+        mock_repo.get_user_by_id.return_value = fake_user
 
         service = UserService(repo=mock_repo)
 

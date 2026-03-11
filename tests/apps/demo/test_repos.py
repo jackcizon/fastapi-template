@@ -1,4 +1,4 @@
-from src.apps.users.repos import UserRepo
+from src.apps.demo.repos import UserRepo
 
 
 class TestUserRepo:

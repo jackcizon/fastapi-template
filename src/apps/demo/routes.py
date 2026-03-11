@@ -3,9 +3,9 @@ from fastapi.params import Depends
 from fastapi.routing import APIRouter
 from sqlalchemy.orm import Session
 
-from src.apps.users.repos import UserRepo
-from src.apps.users.schemas import LoginRequestSchema, RegisterRequestSchema
-from src.apps.users.services import UserService
+from src.apps.demo.repos import UserRepo
+from src.apps.demo.schemas import LoginRequestSchema, RegisterRequestSchema
+from src.apps.demo.services import UserService
 from src.utils.auth import get_current_user
 from src.core.database import get_db
 

@@ -12,6 +12,4 @@ class RegisterRequestSchema(BaseModel):
 class UserInfoSchema(BaseModel):
     id: int
     name: str
-    model_config = {
-        "from_attributes": True
-    }
+    model_config = {"from_attributes": True}

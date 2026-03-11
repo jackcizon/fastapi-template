@@ -2,9 +2,9 @@ from typing import Any
 
 from fastapi.exceptions import HTTPException
 
-from src.apps.users.models import User
-from src.apps.users.repos import UserRepo
-from src.apps.users.schemas import LoginRequestSchema, RegisterRequestSchema, UserInfoSchema
+from src.apps.demo.models import User
+from src.apps.demo.repos import UserRepo
+from src.apps.demo.schemas import LoginRequestSchema, RegisterRequestSchema, UserInfoSchema
 from src.utils.datastructures import JSONWebToken
 
 

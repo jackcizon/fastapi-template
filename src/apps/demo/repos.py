@@ -2,7 +2,7 @@
 
 from sqlalchemy.orm import Session
 
-from src.apps.users.models import User
+from src.apps.demo.models import User
 
 
 class UserRepo:
