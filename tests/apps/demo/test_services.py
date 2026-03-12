@@ -1,24 +1,24 @@
-"""tests for app:users services"""
+"""tests for app:demos services"""
 
 from unittest.mock import MagicMock, patch
 
 import pytest
 from fastapi import HTTPException
 
-from src.apps.demo.models import User
-from src.apps.demo.services import UserService
+from src.apps.demo.models import Demo
+from src.apps.demo.services import DemoService
 from src.utils.datastructures import JSONWebToken
 from src.apps.demo.schemas import LoginRequestSchema, RegisterRequestSchema
 
 
-class TestUserService:
+class TestDemoService:
     def test_login_success(self):
-        fake_user = User(id=1)
+        fake_demo = Demo(id=1)
 
         mock_repo = MagicMock()
-        mock_repo.get_user_by_id.return_value = fake_user
+        mock_repo.get_demo_by_id.return_value = fake_demo
 
-        service = UserService(repo=mock_repo)
+        service = DemoService(repo=mock_repo)
 
         req = LoginRequestSchema(id=1)
 
@@ -27,61 +27,61 @@ class TestUserService:
             patch.object(JSONWebToken, "create_access_token", return_value="access123"),
             patch.object(JSONWebToken, "create_refresh_token", return_value="refresh123"),
         ):
-            user, access, refresh = service.login(req)
+            demo, access, refresh = service.login(req)
 
-        assert user is fake_user
+        assert demo is fake_demo
         assert access == "access123"
         assert refresh == "refresh123"
 
-    def test_user_not_found(self):
+    def test_demo_not_found(self):
         mock_repo = MagicMock()
-        mock_repo.get_user_by_id.return_value = None
+        mock_repo.get_demo_by_id.return_value = None
 
-        service = UserService(repo=mock_repo)
+        service = DemoService(repo=mock_repo)
 
         req = LoginRequestSchema(id=2)
 
         with pytest.raises(HTTPException):
             service.login(req)
 
-    def test_register_user(self):
-        fake_user = User(name="jack")
+    def test_register_demo(self):
+        fake_demo = Demo(name="jack")
 
         mock_repo = MagicMock()
-        mock_repo.create_user.return_value = fake_user
+        mock_repo.create_demo.return_value = fake_demo
 
-        service = UserService(repo=mock_repo)
+        service = DemoService(repo=mock_repo)
 
         req = RegisterRequestSchema(name="jack")
-        user = service.register(req)
+        demo = service.register(req)
 
-        assert user is fake_user
-        mock_repo.create_user.assert_called_once_with(name="jack")
+        assert demo is fake_demo
+        mock_repo.create_demo.assert_called_once_with(name="jack")
 
-    def test_get_user_by_id(self):
-        fake_user = User(id=1)
+    def test_get_demo_by_id(self):
+        fake_demo = Demo(id=1)
 
         mock_repo = MagicMock()
-        mock_repo.get_user_by_id.return_value = fake_user
+        mock_repo.get_demo_by_id.return_value = fake_demo
 
-        service = UserService(repo=mock_repo)
+        service = DemoService(repo=mock_repo)
 
-        user = service.get_user_by_id(1)
-        assert user is fake_user
+        demo = service.get_demo_by_id(1)
+        assert demo is fake_demo
 
-    def test_get_user_info_by_model(self):
-        user = User(id=1, name="jack")
+    def test_get_demo_info_by_model(self):
+        demo = Demo(id=1, name="jack")
 
-        info = UserService.get_user_info_by_model(user)
+        info = DemoService.get_demo_info_by_model(demo)
         assert info["name"] == "jack"
         assert info["id"] == 1
 
     def test_get_register_success_info(self):
-        user = User(id=1)
-        info = UserService.get_register_success_info(user)
+        demo = Demo(id=1)
+        info = DemoService.get_register_success_info(demo)
         assert info == {"id": 1, "msg": "register success, please login"}
 
     def test_get_login_success_info(self):
-        user = User(id=1)
-        info = UserService.get_login_success_info(user, "access", "refresh")
+        demo = Demo(id=1)
+        info = DemoService.get_login_success_info(demo, "access", "refresh")
         assert info == {"msg": "success", "id": 1, "access": "access", "refresh": "refresh"}
