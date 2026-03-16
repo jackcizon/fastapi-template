@@ -41,7 +41,7 @@ class JSONWebToken:
             raise jwt.InvalidTokenError("invalid token")
 
     @staticmethod
-    def generate_token_pair(id_: int | str):
+    def generate_token_pair(id_: int | str) -> tuple[str, str]:
         if isinstance(id_, str):
             id_ = int(id_)
         access = JSONWebToken.create_access_token(id_)

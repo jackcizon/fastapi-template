@@ -13,8 +13,8 @@ class Password:
         return pwd_context.verify(plain_password, hashed_password)
 
 
-if __name__ == '__main__':
-    pwd = '123456'
+if __name__ == "__main__":
+    pwd = "123456"
     # wrong
     assert (Password.hash(pwd) == Password.hash(pwd)) is False
     hashed_pwd = Password.hash(pwd)

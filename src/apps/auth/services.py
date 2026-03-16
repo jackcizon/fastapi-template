@@ -18,6 +18,6 @@ class AuthService:
         :return: tuple(access, refresh) or None
         """
         user = UserRepo(db).get_user_by_email(req.email)
-        if user is None or not Password.verify(req.password, user.get('password')):
+        if user is None or not Password.verify(req.password, user.get("password")):
             raise AuthError()
-        return JSONWebToken.generate_token_pair(user.get('id'))
+        return JSONWebToken.generate_token_pair(user.get("id"))

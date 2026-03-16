@@ -9,7 +9,7 @@ from src.utils.datastructures.permission_info import PermissionInfo
 from src.utils.helpers import get_superior_roles
 
 
-def batch_update_permissions():
+def batch_update_permissions() -> None:
     permissions: list[PermissionInfo] = []
     app_routes: list[Route | APIRoute | Any] = app.instance.routes
     for app_route in app_routes:
@@ -18,7 +18,7 @@ def batch_update_permissions():
             continue
 
         # auth app must pass
-        app_name = app_route.path.split('/')[1]
+        app_name = app_route.path.split("/")[1]
         if app_name in PASSED_APP_PERMISSIONS_CHECK:
             continue
 
@@ -26,19 +26,17 @@ def batch_update_permissions():
         metadata: dict[str, str] | None = app_route.openapi_extra
 
         if metadata is None:
-            role = 'user'
+            role = "user"
         else:
-            role = metadata.get('role', 'user')
+            role = metadata.get("role", "user")
 
         role_parents_set = get_superior_roles(role, ROLE_CHILD_MAP)
 
-        permissions.append(
-            PermissionInfo(code=code, role_parents_set=role_parents_set)
-        )
+        permissions.append(PermissionInfo(code=code, role_parents_set=role_parents_set))
 
         for p in permissions:
-            print(f'{p.role_parents_set} => {p.code}')
+            print(f"{p.role_parents_set} => {p.code}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     batch_update_permissions()

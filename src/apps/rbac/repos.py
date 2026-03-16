@@ -16,10 +16,7 @@ class UserRepo:
             select id, name, password, email
             from "Rbac_User"
             where email = :email
-              and is_deleted = true;
+              and is_deleted = false;
             """)
-        result = self.db.execute(
-            statement=stat,
-            params={'email': email}
-        ).mappings().first()
+        result = self.db.execute(statement=stat, params={"email": email}).mappings().first()
         return result

@@ -1,8 +1,9 @@
+from typing import Any
+
 from sqlalchemy.orm import Session
 
 
 class AuthRepo:
-    def __init__(self, db: Session | None = None, cursor=None):
+    def __init__(self, db: Session | None = None, cursor: Any = None) -> None:
         self.db = db
         self.cursor = cursor
-

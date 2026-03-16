@@ -1,4 +1,4 @@
-def get_superior_roles(role_name: str, role_map: dict[str, list[str]]):
+def get_superior_roles(role_name: str, role_map: dict[str, list[str]]) -> set[str]:
     """
     input role_name and map, get a set of role and its parents.
 

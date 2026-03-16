@@ -15,19 +15,16 @@ auth_router = APIRouter()
 from src.apps.auth.services import AuthService
 
 
-@auth_router.post("/login/", name='auth:login')
+@auth_router.post("/login/", name="auth:login")
 async def login(req: LoginRequestSchema, db: Session = Depends(get_db)) -> JSONResponse:
     service = AuthService()
     access, refresh = service.login(req=req, db=db)
     schema = LoginResponseSchema(access=access, refresh=refresh)
-    return JSONResponse(content={
-        'access': schema.access,
-        'refresh': schema.refresh
-    })
+    return JSONResponse(content={"access": schema.access, "refresh": schema.refresh})
 
 
 @auth_router.post("/register/", name="auth:register")
-async def register(req: RegisterRequestSchema, db: Session = Depends(get_db)) -> dict[str, Any]:
+async def register(req: RegisterRequestSchema, db: Session = Depends(get_db)) -> Any:
     #     repo = DemoRepo(db=db)
     #     service = DemoService(repo=repo)
     #     demo = service.register(req=req)
@@ -37,9 +34,14 @@ async def register(req: RegisterRequestSchema, db: Session = Depends(get_db)) ->
 
 
 @auth_router.get("/me/", name="auth:me")
-async def me(user_id=Depends(jwt_required_dep)) -> JSONResponse:
+async def me(user_id: int = Depends(jwt_required_dep)) -> JSONResponse:
     """
     personal home page.
     :return:
     """
-    return JSONResponse(content={'jwt': 'passed', 'user_id': user_id})
+    return JSONResponse(content={"jwt": "passed", "user_id": user_id})
+
+
+async def refresh() -> None:
+    """todo"""
+    return None
