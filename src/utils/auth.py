@@ -1,7 +1,7 @@
 from fastapi import HTTPException, Request
 from jwt import ExpiredSignatureError, InvalidTokenError
 
-from src.utils.datastructures import JSONWebToken
+from src.utils.datastructures.json_web_token import JSONWebToken
 
 
 def get_current_user(request: Request) -> str:

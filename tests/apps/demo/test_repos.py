@@ -1,4 +1,4 @@
-from src.apps.demo.repos import DemoRepo
+from src.apps.auth.repos import DemoRepo
 
 
 class TestDemoRepo:

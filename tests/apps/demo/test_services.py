@@ -5,10 +5,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 from fastapi import HTTPException
 
-from src.apps.demo.models import Demo
-from src.apps.demo.services import DemoService
-from src.utils.datastructures import JSONWebToken
-from src.apps.demo.schemas import LoginRequestSchema, RegisterRequestSchema
+from src.apps.auth.models import Demo
+from src.apps.auth.services import DemoService
+from src.utils.datastructures.json_web_token import JSONWebToken
+from src.apps.auth.schemas import LoginRequestSchema, RegisterRequestSchema
 
 
 class TestDemoService:
