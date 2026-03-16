@@ -10,7 +10,7 @@ class JSONWebToken:
     @staticmethod
     def create_access_token(id_: str | int) -> str:
         payload = {
-            "id": id_,
+            "user_id": id_,
             "exp": int(datetime.now(tz=timezone.utc).timestamp()) + settings.access_token_ttl,
             "iat": int(datetime.now(tz=timezone.utc).timestamp()),
             "type": "access",
@@ -20,7 +20,7 @@ class JSONWebToken:
     @staticmethod
     def create_refresh_token(id_: str | int) -> str:  # pragma: no cover
         payload = {
-            "id": id_,
+            "user_id": id_,
             "exp": int(datetime.now(tz=timezone.utc).timestamp()) + settings.refresh_token_ttl,
             "iat": int(datetime.now(tz=timezone.utc).timestamp()),
             "type": "refresh",
@@ -39,3 +39,11 @@ class JSONWebToken:
             raise jwt.ExpiredSignatureError("token expired")
         except jwt.InvalidTokenError:
             raise jwt.InvalidTokenError("invalid token")
+
+    @staticmethod
+    def generate_token_pair(id_: int | str):
+        if isinstance(id_, str):
+            id_ = int(id_)
+        access = JSONWebToken.create_access_token(id_)
+        refresh = JSONWebToken.create_refresh_token(id_)
+        return access, refresh
