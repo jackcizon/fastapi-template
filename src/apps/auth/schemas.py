@@ -2,14 +2,22 @@ from pydantic import BaseModel, Field
 
 
 class LoginRequestSchema(BaseModel):
-    id: int
+    email: str = Field(
+        min_length=6,
+        max_length=32,
+        pattern=r'^[1-9a-zA-Z][\w\.-]*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$'
+    )
+    password: str = Field(min_length=6, max_length=32)
+
+
+class LoginResponseSchema(BaseModel):
+    access: str
+    refresh: str
 
 
 class RegisterRequestSchema(BaseModel):
-    name: str
+    pass
 
 
-class DemoInfoSchema(BaseModel):
-    id: int
-    name: str
-    model_config = {"from_attributes": True}
+class RegisterResponseSchema(BaseModel):
+    pass
