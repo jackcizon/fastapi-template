@@ -15,7 +15,6 @@ class Role(Base):
 class Permission(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     code: Mapped[str] = mapped_column(String(256))
-    url: Mapped[str] = mapped_column(String(256), doc="this one will be deprecated")
 
     __tablename__ = "Rbac_Permission"
 
@@ -23,6 +22,8 @@ class Permission(Base):
 class User(BaseModel):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(16))
+    email: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(String(256))
 
     __tablename__ = "Rbac_User"
 
