@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from src.core.cors import setup_cors
 from src.core.routes import include_routers
+from src.core.exceptions import add_exception_handlers
 
 
 class LazyLoadApp:
@@ -15,10 +16,14 @@ class LazyLoadApp:
     def _include_routers(self) -> None:
         include_routers(self._app)
 
+    def _add_exception_handlers(self) -> None:
+        add_exception_handlers(self._app)
+
     def _config_app(self) -> None:
         """app factory for lazy loading"""
         if self._app is None:
             self._app = FastAPI(debug=self.debug)
+            self._add_exception_handlers()
             self._include_routers()
             self._setup_cors()
 
