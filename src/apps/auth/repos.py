@@ -2,7 +2,7 @@
 
 from sqlalchemy.orm import Session
 
-from src.apps.demo.models import Demo
+from src.apps.auth.models import Demo
 
 
 class DemoRepo:

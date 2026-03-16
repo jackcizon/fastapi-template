@@ -2,10 +2,10 @@ from typing import Any
 
 from fastapi.exceptions import HTTPException
 
-from src.apps.demo.models import Demo
-from src.apps.demo.repos import DemoRepo
-from src.apps.demo.schemas import LoginRequestSchema, RegisterRequestSchema, DemoInfoSchema
-from src.utils.datastructures import JSONWebToken
+from src.apps.auth.models import Demo
+from src.apps.auth.repos import DemoRepo
+from src.apps.auth.schemas import LoginRequestSchema, RegisterRequestSchema, DemoInfoSchema
+from src.utils.datastructures.json_web_token import JSONWebToken
 
 
 class DemoService:
@@ -15,11 +15,11 @@ class DemoService:
     def login(self, req: LoginRequestSchema) -> Any:
         """
         :param req: login request schema
-        :return: tuple | None: (demo instance, access, refresh)
+        :return: tuple | None: (auth instance, access, refresh)
         """
         demo = self.repo.get_demo_by_id(req.id)
         if not demo:
-            raise HTTPException(status_code=400, detail="failed to create demo")
+            raise HTTPException(status_code=400, detail="failed to create auth")
         access, refresh = self._generate_token_pair(req=req)
         return demo, access, refresh
 
@@ -32,7 +32,7 @@ class DemoService:
     def register(self, req: RegisterRequestSchema) -> Demo:
         """
         :param req:
-        :return: demo instance
+        :return: auth instance
         """
         return self.repo.create_demo(name=req.name)
 
