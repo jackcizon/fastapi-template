@@ -23,9 +23,9 @@ class LazyLoadApp:
             self._setup_cors()
 
     @property
-    def app(self) -> FastAPI:
+    def instance(self) -> FastAPI:
         self._config_app()
         return self._app
 
     def __call__(self) -> FastAPI:
-        return self.app
+        return self.instance
