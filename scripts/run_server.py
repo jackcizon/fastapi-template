@@ -15,4 +15,4 @@ sys.path.insert(0, str(ROOT_DIR))
 sys.path.insert(0, os.path.join(ROOT_DIR, "src"))
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", reload=True, factory=True)
