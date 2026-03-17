@@ -8,7 +8,7 @@ from src.utils.constants import ROLE_CHILD_MAP, PASSED_APP_PERMISSIONS_CHECK
 from src.utils.datastructures.permission_info import PermissionInfo
 from src.utils.helpers import get_superior_roles
 
-
+# TODO: wrap into a Command
 def batch_update_permissions() -> None:
     permissions: list[PermissionInfo] = []
     app_routes: list[Route | APIRoute | Any] = app.instance.routes
