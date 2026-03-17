@@ -13,3 +13,11 @@ Do not place commands in packages like `commands/app1`, `commands/app2`, etc.
 For structs, wrap `click.command` with classes, not just functions with decorators.
 
 Discover and read all py-files in `app_name.commands`.
+
+## Hint
+
+But for simple and robust, I will use global Singleton, return a CommandManager, explicit add commands.
+
+## Warning
+
+Do Not Use `click` Docorator.
