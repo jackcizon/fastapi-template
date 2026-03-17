@@ -1,5 +1,3 @@
-from typing import Any
-
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
@@ -10,7 +8,7 @@ class UserRepo:
 
     def get_user_by_email(self, email: str) -> dict[str, str] | None:
         """
-        :return: dict(name, email, password) or None
+        :return: dict(id, name, email, password) or None
         """
         stat = text("""
             select id, name, password, email
