@@ -1,6 +1,16 @@
 """register all Commands here."""
 
-from src.core.cli.cli import GlobalCommandsManager, __DemoCommand
+from src.core.cli.manager import GlobalCommandsManager
+from src.core.cli.default_commands.demo import DemoCommand
+from src.core.cli.default_commands.create_app import CreateAppCommand
+from src.core.cli.default_commands.run_server import RunServerCommand
+
+
+def add_default_commands(manager: GlobalCommandsManager) -> None:
+    manager.add_command(DemoCommand("demo"))
+    manager.add_command(CreateAppCommand("create_app"))
+    manager.add_command(RunServerCommand("run_server"))
+    # manager.discover_commands()
 
 
 def add_commands(manager: GlobalCommandsManager) -> None:

@@ -14,15 +14,24 @@ class DemoCommand(Command):
     def __init__(self, name: str, *args: Any, **kwargs: Any) -> None:
         super().__init__(name, *args, **kwargs)
 
+        self._dict = {"opt": {"demo-opt": ["-d", "--demo-opt"]}, "arg": {"demo-arg": ["demo-arg"]}}
         self.params: list[Parameter] = [
-            Option(param_decls=["-d", "--demo-opt"], default="0", type=str),
-            Argument(param_decls=["demo-arg"], default="0", type=str),
+            Option(param_decls=self._dict.get("opt").get("demo-opt"), default="0", type=str),
+            Argument(param_decls=self._dict.get("arg").get("demo-arg"), default="0", type=str),
             # others...
         ]
         self.help = "A demo command, see my implementation to know how to use `click`."
 
     def invoke(self, ctx: Context) -> Any:
-        super().invoke(ctx)
         for param in self.params:
             print(f"{param.param_type_name} => {param.name}")
-        print("it works. please write more cmds in apps.<app_name>.default_commands.<custom_cmd.py>")
+
+        demo_opt = ctx.params.get("demo-opt")
+        demo_arg = ctx.params.get("demo-arg")
+
+        print(f"input demo-opt: {demo_opt}, input demo-arg: {demo_arg}")
+        print(
+            "it works. please write more cmds in apps.<app_name>.default_commands.<custom_cmd.py>"
+        )
+
+        return super().invoke(ctx)
