@@ -1,6 +1,11 @@
+import os
+import inspect
+from importlib import import_module
 from typing import Any
 
 from click import Command, Group
+
+from src.core.config import ROOT_DIR
 
 
 class GlobalCommandsManager(Group):
@@ -22,11 +27,48 @@ class GlobalCommandsManager(Group):
         super().__init__(*args, **kwargs)
 
     def add_command(self, cmd: Command | Any, name: str | None = None) -> None:
-        if isinstance(cmd, Command) or issubclass(type(cmd), type(Command)):
+        if isinstance(cmd, Command) or issubclass(cmd, Command):
             super().add_command(cmd, name)  # type: ignore
 
-    def discover_commands(self) -> None:
-        raise NotImplementedError("Not prepare to implement this method.")
+    def discover_commands(
+        self, path_from_project_root: str = "src/core/cli/default_commands"
+    ) -> None:
+        """
+        default path should in src/core/cli/default_commands
+
+        command style is CamelCase.
+        """
+        module_from_project_root = path_from_project_root.replace(
+            "/", "."
+        )  # src/core/cli/default_commands -> src.core.cli.default_commands
+        cmds_abs_path = os.path.join(ROOT_DIR, path_from_project_root)  # /path/to/default_commands
+
+        try:
+            for file in os.listdir(cmds_abs_path):
+                if not file.endswith(".py"):
+                    continue
+
+                filename = file.split(".")[0]  # demo.py -> demo
+                file_module = (
+                    f"{module_from_project_root}.{filename}"  # src.core.cli.default_commands.demo
+                )
+                module = import_module(file_module)
+
+                members = inspect.getmembers(module, inspect.isclass)
+                for member in members:
+                    member_cls_str = member[0]
+                    member_cls = member[1]
+
+                    if (
+                        issubclass(member_cls, Command)
+                        and member_cls_str.endswith("Command")  # custom Command rule
+                        and len(member_cls_str) > len("Command")  # ignore click.core.Command
+                    ):
+                        # DemoCommand -> Demo. CamelCase
+                        self.add_command(member_cls(name=member_cls_str.replace("Command", "")))
+        except Exception as e:
+            print(e)
+            raise
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
         """if not implement this __call__, you need do like:
