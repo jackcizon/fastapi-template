@@ -1,4 +1,4 @@
-from src.core.cli.cli import GlobalCommandsManager
+from src.core.cli.manager import GlobalCommandsManager
 from src.core.cli.registry import add_commands
 
 
