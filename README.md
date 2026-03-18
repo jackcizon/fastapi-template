@@ -15,7 +15,7 @@ git clone <https://github.com/jackcizon/fastapi-template.git>
 ## del the useless parts:
 
 ```bash
-cd fastaapi-template
+cd fastapi-template
 rm -rf .git
 cd ..
 mv fastapi-tempalte <your_project_name>
