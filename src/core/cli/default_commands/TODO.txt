@@ -1,0 +1,1 @@
+# TODO: auto discover this pkg, add all default commands into Manager.
