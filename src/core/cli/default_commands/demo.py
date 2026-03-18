@@ -9,10 +9,13 @@ class DemoCommand(Command):
     Option and Argument must use cls to init if you need them.
     params: list[Parameter] | None = None,
     Both `Option` and `Argument` are inherit from Parameter
+
+    rule:
+    a command cls name must like `*Command`
     """
 
-    def __init__(self, name: str, *args: Any, **kwargs: Any) -> None:
-        super().__init__(name, *args, **kwargs)
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
 
         self._dict = {"opt": {"demo-opt": ["-d", "--demo-opt"]}, "arg": {"demo-arg": ["demo-arg"]}}
         self.params: list[Parameter] = [

@@ -9,8 +9,8 @@ from src.core.config import ROOT_DIR
 
 
 class RunServerCommand(Command):
-    def __init__(self, name: str, *args: Any, **kwargs: Any) -> None:
-        super().__init__(name, *args, **kwargs)
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
 
         sys.path.append(str(ROOT_DIR))
         sys.path.append(os.path.join(ROOT_DIR, "src"))

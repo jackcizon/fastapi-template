@@ -4,8 +4,8 @@ from click import Context, Command
 
 
 class TplCommand(Command):
-    def __init__(self, name: str, *args: Any, **kwargs: Any) -> None:
-        super().__init__(name, *args, **kwargs)
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
 
     def invoke(self, ctx: Context) -> Any:
         return super().invoke(ctx)
