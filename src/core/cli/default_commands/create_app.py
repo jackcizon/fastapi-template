@@ -7,8 +7,8 @@ from src.core.config import SRC_DIR
 
 
 class CreateAppCommand(Command):
-    def __init__(self, name: str, *args: Any, **kwargs: Any) -> None:
-        super().__init__(name, *args, **kwargs)
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
 
         self._dict = {"opt": {"name": ["-n", "--name"]}, "arg": {}}
         self.params: list[Parameter] = [
