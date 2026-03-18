@@ -9,7 +9,7 @@
 ## get the template project:
 
 ```bash
-git clone <https://github.com/jackcizon/fastapi-template.git>
+git clone https://github.com/jackcizon/fastapi-template.git
 ```
 
 ## del the useless parts:
