@@ -1,6 +1,5 @@
 """register all Commands here."""
 
-from src.apps.rbac.commands.batch_update_permissions import TplCommand
 from src.core.cli.manager import GlobalCommandsManager
 
 
