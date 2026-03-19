@@ -2,7 +2,6 @@ from typing import Any
 
 from click import Command, Context
 from fastapi.routing import APIRoute
-from sqlalchemy import text
 from starlette.routing import Route
 
 from src.apps.rbac.repos import PermissionRepo, Role2PermissionRepo
@@ -50,36 +49,19 @@ class BatchUpdatePermissionsCommand(Command):
             valid_codes.append(code)
             roles_dict[role] = role_parents_set
 
-        with SessionLocal() as db:
+        with SessionLocal() as db:  # manually manage db context
             try:
+                perm_service = PermissionService(PermissionRepo(db))
+                role2perm_service = Role2PermissionService(Role2PermissionRepo(db))
+
                 if valid_codes is None:
-                    PermissionService(PermissionRepo(db)).del_all()
-                    Role2PermissionService(Role2PermissionRepo(db)).del_all()
+                    perm_service.del_all()
+                    role2perm_service.del_all()
                     db.commit()
                     return
 
-                # upsert Permission
-                # code_values = ",".join(
-                #     f"('{code}')" for code in valid_codes
-                # )  # ('auth:login'),('auth:register'), ...
-                # upsert = text(f"""
-                # INSERT INTO "Rbac_Permission"(code)
-                # VALUES {code_values}
-                # ON CONFLICT(code) DO NOTHING;
-                # """)
-                # db.execute(upsert)
-                PermissionService(PermissionRepo(db)).upsert_by_codes(valid_codes)
-
-                # del dirty data
-                # codes = ",".join(
-                #     f"'{code}'" for code in valid_codes
-                # )  # 'auth:login','auth:register', ...
-                # del_dirties = text(f"""
-                # DELETE FROM "Rbac_Permission"
-                # WHERE code NOT IN ({codes});
-                # """)
-                # db.execute(del_dirties)
-                PermissionService(PermissionRepo(db)).del_dirty_data(valid_codes)
+                perm_service.upsert_by_codes(valid_codes)
+                perm_service.del_dirty_data(valid_codes)
 
                 # Role2Permission
                 role_perm_pairs: list[tuple[str, str]] = []
@@ -93,35 +75,25 @@ class BatchUpdatePermissionsCommand(Command):
                     db.commit()
                     return
 
-                # update Role2Permission
-                # values_clause = ",".join(
-                #     f"('{role_name}', '{perm_code}')" for role_name, perm_code in role_perm_pairs
-                # )  # ('chairman', 'auth:login'),('ceo', 'auth:login'),('cto', 'auth:login'), ...
-                # upsert = text(f"""
-                # INSERT INTO "Rbac_Role2Permission"(role_id, permission_id)
-                # SELECT role.id, perm.id
-                # FROM (VALUES {values_clause}) AS tmp(role_name, perm_code)
-                # JOIN "Rbac_Role" role ON role.name = tmp.role_name
-                # JOIN "Rbac_Permission" perm ON perm.code = tmp.perm_code
-                # ON CONFLICT(role_id, permission_id) DO NOTHING;
-                # """)
-                # db.execute(upsert)
-                Role2PermissionService(Role2PermissionRepo(db)).upsert_by_list_of_pairs(role_perm_pairs)
-
-                # del dirty data
-                # values_clause = ",".join(
-                #     f"('{role_name}', '{perm_code}')" for role_name, perm_code in role_perm_pairs
-                # )  # ('chairman', 'auth:login'),('ceo', 'auth:login'),('cto', 'auth:login'), ...
-                # del_dirties = text(f"""
-                # DELETE FROM "Rbac_Role2Permission"
-                # WHERE (role_id, permission_id) NOT IN (
-                # SELECT role.id, perm.id
-                # FROM (VALUES {values_clause}) AS tmp(role_name, perm_code)
-                # JOIN "Rbac_Role" role ON role.name = tmp.role_name
-                # JOIN "Rbac_Permission" perm ON perm.code = tmp.perm_code);
-                # """)
-                # db.execute(del_dirties)
-                Role2PermissionService(Role2PermissionRepo(db)).del_dirty_data(role_perm_pairs)
+                role2perm_service.upsert_by_list_of_pairs(role_perm_pairs)
+                role2perm_service.del_dirty_data(role_perm_pairs)
+                """
+                # example in django orm: not optimize:
+                # for permission in permissions:
+                #     code = permission.code
+                #     url = permission.url
+                #     role_names = permission.role_parents_set
+                #     perm, _ = Permission.objects.update_or_create(
+                #         code=code,
+                #         url=url
+                #     )
+                #     for role_name in role_names:
+                #         role = Role.objects.get(name=role_name)
+                #         Role2Permission.objects.update_or_create(
+                #             role_id=role.id,
+                #             permission_id=perm.id
+                #         )
+                """
 
                 db.commit()
             except Exception as e:

@@ -5,13 +5,13 @@ class PermissionService:
     def __init__(self, repo: PermissionRepo) -> None:
         self.repo = repo
 
-    def del_all(self):
+    def del_all(self) -> None:
         self.repo.del_all()
 
     def upsert_by_codes(self, codes: list[str]) -> None:
         self.repo.upsert_by_codes(codes)
 
-    def del_dirty_data(self, codes: list[str]):
+    def del_dirty_data(self, codes: list[str]) -> None:
         self.repo.del_dirty_data(codes)
 
 
@@ -19,11 +19,11 @@ class Role2PermissionService:
     def __init__(self, repo: Role2PermissionRepo) -> None:
         self.repo = repo
 
-    def del_all(self):
+    def del_all(self) -> None:
         self.repo.del_all()
 
     def upsert_by_list_of_pairs(self, role_perm_pairs: list[tuple[str, str]]) -> None:
         self.repo.upsert_by_role_perm_pairs(role_perm_pairs)
 
-    def del_dirty_data(self, role_perm_pairs: list[tuple[str, str]]):
+    def del_dirty_data(self, role_perm_pairs: list[tuple[str, str]]) -> None:
         self.repo.del_dirty_data(role_perm_pairs)
