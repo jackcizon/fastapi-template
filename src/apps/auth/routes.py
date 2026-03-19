@@ -1,5 +1,4 @@
 from typing import Any
-from starlette.requests import Request
 from fastapi.params import Depends
 from fastapi.routing import APIRouter
 from sqlalchemy.orm import Session
@@ -8,11 +7,9 @@ from starlette.responses import JSONResponse
 from src.apps.auth.schemas import LoginRequestSchema, LoginResponseSchema, RegisterRequestSchema
 from src.utils.dependencies.auth import jwt_required_dep
 from src.core.database import get_db
-from src.utils.exceptions.auth import AuthError
+from src.apps.auth.services import AuthService
 
 auth_router = APIRouter()
-
-from src.apps.auth.services import AuthService
 
 
 @auth_router.post("/login/", name="auth:login")
