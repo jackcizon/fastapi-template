@@ -247,6 +247,9 @@ ALTER TABLE ONLY public."Rbac_User2Role" ALTER COLUMN id SET DEFAULT nextval('pu
 --
 
 COPY public."Rbac_Permission" (id, code) FROM stdin;
+105	auth:login
+106	auth:register
+107	auth:me
 \.
 
 
@@ -255,6 +258,12 @@ COPY public."Rbac_Permission" (id, code) FROM stdin;
 --
 
 COPY public."Rbac_Role" (id, name) FROM stdin;
+1	chairman
+2	ceo
+3	cto
+4	finance
+5	staff
+6	user
 \.
 
 
@@ -263,6 +272,24 @@ COPY public."Rbac_Role" (id, name) FROM stdin;
 --
 
 COPY public."Rbac_Role2Permission" (id, role_id, permission_id) FROM stdin;
+91	3	105
+92	4	105
+93	2	105
+94	1	105
+95	5	105
+96	6	105
+97	3	106
+98	4	106
+99	2	106
+100	1	106
+101	5	106
+102	6	106
+103	3	107
+104	4	107
+105	2	107
+106	1	107
+107	5	107
+108	6	107
 \.
 
 
@@ -280,6 +307,7 @@ COPY public."Rbac_User" (id, name, created_time, is_deleted, email, password) FR
 --
 
 COPY public."Rbac_User2Role" (id, user_id, role_id) FROM stdin;
+1	1	1
 \.
 
 
@@ -288,7 +316,7 @@ COPY public."Rbac_User2Role" (id, user_id, role_id) FROM stdin;
 --
 
 COPY public.alembic_version (version_num) FROM stdin;
-6c2450dc53a0
+37a2133546f9
 \.
 
 
@@ -296,14 +324,14 @@ COPY public.alembic_version (version_num) FROM stdin;
 -- Name: Rbac_Permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jack
 --
 
-SELECT pg_catalog.setval('public."Rbac_Permission_id_seq"', 1, false);
+SELECT pg_catalog.setval('public."Rbac_Permission_id_seq"', 107, true);
 
 
 --
 -- Name: Rbac_Role2Permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jack
 --
 
-SELECT pg_catalog.setval('public."Rbac_Role2Permission_id_seq"', 1, false);
+SELECT pg_catalog.setval('public."Rbac_Role2Permission_id_seq"', 108, true);
 
 
 --
@@ -328,6 +356,14 @@ SELECT pg_catalog.setval('public."Rbac_User_id_seq"', 1, false);
 
 
 --
+-- Name: Rbac_Permission Rbac_Permission_code_key; Type: CONSTRAINT; Schema: public; Owner: jack
+--
+
+ALTER TABLE ONLY public."Rbac_Permission"
+    ADD CONSTRAINT "Rbac_Permission_code_key" UNIQUE (code);
+
+
+--
 -- Name: Rbac_Permission Rbac_Permission_pkey; Type: CONSTRAINT; Schema: public; Owner: jack
 --
 
@@ -344,6 +380,14 @@ ALTER TABLE ONLY public."Rbac_Role2Permission"
 
 
 --
+-- Name: Rbac_Role Rbac_Role_name_key; Type: CONSTRAINT; Schema: public; Owner: jack
+--
+
+ALTER TABLE ONLY public."Rbac_Role"
+    ADD CONSTRAINT "Rbac_Role_name_key" UNIQUE (name);
+
+
+--
 -- Name: Rbac_Role Rbac_Role_pkey; Type: CONSTRAINT; Schema: public; Owner: jack
 --
 
@@ -357,6 +401,14 @@ ALTER TABLE ONLY public."Rbac_Role"
 
 ALTER TABLE ONLY public."Rbac_User2Role"
     ADD CONSTRAINT "Rbac_User2Role_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Rbac_User Rbac_User_email_key; Type: CONSTRAINT; Schema: public; Owner: jack
+--
+
+ALTER TABLE ONLY public."Rbac_User"
+    ADD CONSTRAINT "Rbac_User_email_key" UNIQUE (email);
 
 
 --
