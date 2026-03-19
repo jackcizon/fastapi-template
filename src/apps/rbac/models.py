@@ -7,14 +7,14 @@ from src.utils.models import BaseModel
 
 class Role(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(16))
+    name: Mapped[str] = mapped_column(String(16), unique=True)
 
     __tablename__ = "Rbac_Role"
 
 
 class Permission(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
-    code: Mapped[str] = mapped_column(String(256))
+    code: Mapped[str] = mapped_column(String(256), unique=True)
 
     __tablename__ = "Rbac_Permission"
 
