@@ -1,6 +1,5 @@
 """config for database"""
 
-import contextlib
 from typing import Generator
 
 from sqlalchemy.engine.create import create_engine
@@ -13,16 +12,16 @@ engine = create_engine(settings.database_url, pool_pre_ping=True)
 SessionLocal = sessionmaker(engine)
 
 
-@contextlib.contextmanager
 def get_db() -> Generator:
     """
-    A Route/Script(with Depends()/ContextManager() -> context) -> Service -> Repo -> DB
+    A Route(with Depends() -> context)---------\
+                                                =====> Service -> Repo -> DB
+    A Script(with SessionLocal() -> context)---/
 
     call it in routes via `db = Depends(get_db)`.
-    or
-    call it in scripts via `with get_db() as db:`.
 
-    `with SessionLocal() as db:` is not recommend usually, because you need to manually manage `try, except, finally`.
+    `with SessionLocal() as db:` is not recommend usually, because you need to manually manage `try, except, finally`,
+    or use it in scripts.
     """
     db = SessionLocal()
     try:
