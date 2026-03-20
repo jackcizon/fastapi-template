@@ -9,6 +9,6 @@ ROLE_CHILD_MAP = {
     "chairman": ["ceo"],
 }
 
-PASSED_APP_PERMISSIONS_CHECK = ["authentication"]  # these apps will ignore permissions update.
+PASSED_APP_PERMISSIONS_CHECK: list[str] = []  # these apps will ignore permissions update.
 
-DEFAULT_ROLE = "user"
+DEFAULT_ROLE: str = "user"
