@@ -1,4 +1,15 @@
-from src.apps.rbac.repos import PermissionRepo, Role2PermissionRepo
+from typing import Sequence
+
+from src.apps.rbac.models import User
+from src.apps.rbac.repos import PermissionRepo, Role2PermissionRepo, UserRepo, RbacRepo
+
+
+class UserService:
+    def __init__(self, repo: UserRepo):
+        self.repo = repo
+
+    def get_user_by_id(self, id_: int) -> User | None:
+        return self.repo.get_user_by_id(id_)
 
 
 class PermissionService:
@@ -27,3 +38,11 @@ class Role2PermissionService:
 
     def del_dirty_data(self, role_perm_pairs: list[tuple[str, str]]) -> None:
         self.repo.del_dirty_data(role_perm_pairs)
+
+
+class RbacService:
+    def __init__(self, repo: RbacRepo):
+        self.repo = repo
+
+    def get_user_permissions(self, user: User) -> Sequence:
+        return self.repo.get_user_permissions(user)
