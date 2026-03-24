@@ -69,8 +69,8 @@ python manage.py BatchUpdatePermissions
 python manage.py RunServer
 ```
 
-## Hint
+## Notes
 
-tests are not yet fully covered.(done in Future)
-registration hasn't been done yet.(done in Future)
-There is no script yet to batch create `Rbac_Role`(it's simple, without admin-site).
+- tests are not yet fully covered.(done in Future)
+- registration hasn't been done yet.(done in Future)
+- There is no script yet to batch create `Rbac_Role`(it's simple, without admin-site).
