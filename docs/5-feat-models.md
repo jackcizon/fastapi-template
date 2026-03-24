@@ -1,6 +1,6 @@
 # Feat Models
 
-1. `sqlmodel` is no longer used; its functionality is too poor and it's completely inferior to `sqlalchemy`.
+1. `sqlmodel` is no longer used; its functionality is too poor, and it's completely inferior to `sqlalchemy`.
 
 2. Unit testing and test coverage reporting for `models.py` will no longer be performed.
 
