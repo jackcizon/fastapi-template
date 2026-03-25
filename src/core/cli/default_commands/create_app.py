@@ -26,21 +26,12 @@ class CreateAppCommand(Command):
             app_dir = os.path.join(target_dir, name)
             os.chdir(app_dir)
 
-            files = (
-                "__init__.py",
-                "routes.py",
-                "models.py"
-            )
+            files = ("__init__.py", "routes.py", "models.py")
             for file in files:
                 fd = os.open(file, os.O_CREAT)
                 os.close(fd)
 
-            dirs = (
-                "commands",
-                "services",
-                "repos",
-                "schemas"
-            )
+            dirs = ("commands", "services", "repos", "schemas")
             for dir_ in dirs:
                 os.mkdir(dir_)
                 fd = os.open(f"{dir_}/__init__.py", os.O_CREAT)
