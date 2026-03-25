@@ -1,9 +1,24 @@
-from typing import Sequence
+from typing import Sequence, Any
 
-from sqlalchemy import text, Result
+from sqlalchemy import text, Result, insert
 from sqlalchemy.orm import Session
 
-from src.apps.rbac.models import User
+from src.apps.rbac.models import User, Role
+from src.utils.constants import DEFAULT_ROLES
+
+
+class RoleRepo:
+    def __init__(self, db: Session) -> None:
+        self.db = db
+
+    def batch_create(self, stat: Any = None, params: list[dict[str, Any]] = None) -> None:
+        if stat is None:
+            stat = insert(Role)
+        if params is None:
+            params = []
+            for role in DEFAULT_ROLES:
+                params.append({"name": role})
+        self.db.execute(stat, params)
 
 
 class UserRepo:

@@ -1,7 +1,15 @@
-from typing import Sequence
+from typing import Sequence, Any
 
 from src.apps.rbac.models import User
-from src.apps.rbac.repos import PermissionRepo, Role2PermissionRepo, UserRepo, RbacRepo
+from src.apps.rbac.repos import PermissionRepo, Role2PermissionRepo, UserRepo, RbacRepo, RoleRepo
+
+
+class RoleService:
+    def __init__(self, repo: RoleRepo) -> None:
+        self.repo = repo
+
+    def batch_create(self, stat: Any = None, params: list = None) -> None:
+        self.repo.batch_create(stat, params)
 
 
 class UserService:
