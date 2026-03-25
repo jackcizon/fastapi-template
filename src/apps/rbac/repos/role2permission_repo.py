@@ -4,7 +4,6 @@ from src.core.db.repo.base import BaseRepo
 
 
 class Role2PermissionRepo(BaseRepo):
-
     def del_all(self) -> None:
         stat = text("""DELETE FROM "Rbac_Role2Permission" where id > 0;""")
         self.db.execute(stat)
