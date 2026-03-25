@@ -8,8 +8,7 @@ class BaseRepo:
         self.db = db
         self.model = model
 
+
+class QueryRepo(BaseRepo):
     def get_by_id(self, id_: int) -> Any:
         return self.db.query(self.model).get(id_)
-
-    def batch_create(self, params: list[dict[str, Any]] = None) -> None:
-        raise NotImplementedError
