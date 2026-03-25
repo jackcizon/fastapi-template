@@ -1,6 +1,6 @@
 from typing import Any
 
-from sqlalchemy import delete
+from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 
@@ -14,7 +14,10 @@ class QueryRepo(BaseRepo):
     """select"""
 
     def get_by_id(self, id_: int) -> Any:
-        return self.db.query(self.model).get(id_)
+        stat = (
+            select(self.model).where(self.model.id == id_)  # type: ignore
+        )
+        return self.db.execute(stat).scalars().first()
 
 
 class ModifyRepo(BaseRepo):
@@ -25,6 +28,7 @@ class ModifyRepo(BaseRepo):
         self.db.execute(stat)
 
 
-class CrudRepo(ModifyRepo):
+class CrudRepo(QueryRepo, ModifyRepo):
     """crud"""
+
     pass
