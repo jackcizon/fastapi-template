@@ -74,6 +74,7 @@ class RolePermissionCheck:
             self._role = metadata.get("role")
 
     def _has_permission(self, db: Session, user: User) -> bool:
+        # TODO: store in cache, query from cache, not db.
         user_permissions = RbacService(RbacRepo(db)).get_user_permissions(user)
         codes = [user_permission[0] for user_permission in user_permissions]
 
