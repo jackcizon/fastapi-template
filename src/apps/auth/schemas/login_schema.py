@@ -9,11 +9,3 @@ class LoginRequestSchema(BaseModel):
 class LoginResponseSchema(BaseModel):
     access: str
     refresh: str
-
-
-class RegisterRequestSchema(BaseModel):
-    pass
-
-
-class RegisterResponseSchema(BaseModel):
-    pass

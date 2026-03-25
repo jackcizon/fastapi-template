@@ -3,11 +3,11 @@ from fastapi.routing import APIRouter
 from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
 
-from src.apps.auth.schemas import LoginRequestSchema, LoginResponseSchema
+from src.apps.auth.schemas.login_schema import LoginRequestSchema, LoginResponseSchema
+from src.apps.auth.services.auth_service import AuthService
 from src.apps.rbac.models import User
 from src.utils.dependencies.auth import jwt_required_dep
 from src.core.database import get_db
-from src.apps.auth.services import AuthService
 
 auth_router = APIRouter()
 

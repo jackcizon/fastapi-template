@@ -29,14 +29,23 @@ class CreateAppCommand(Command):
             files = (
                 "__init__.py",
                 "routes.py",
-                "repos.py",
-                "services.py",
-                "models.py",
-                "schemas.py",
+                "models.py"
             )
             for file in files:
                 fd = os.open(file, os.O_CREAT)
                 os.close(fd)
+
+            dirs = (
+                "commands",
+                "services",
+                "repos",
+                "schemas"
+            )
+            for dir_ in dirs:
+                os.mkdir(dir_)
+                fd = os.open(f"{dir_}/__init__.py", os.O_CREAT)
+                os.close(fd)
+
             print(f"new app:{name} created.")
         except Exception as e:
             print(e)

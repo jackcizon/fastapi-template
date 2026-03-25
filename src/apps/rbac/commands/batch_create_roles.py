@@ -2,7 +2,7 @@ from typing import Any
 
 from click import Command, Context
 
-from src.apps.rbac.repos import RoleRepo
+from src.apps.rbac.repos.role_repo import RoleRepo
 from src.core.database import SessionLocal
 from src.utils.constants import DEFAULT_ROLES
 

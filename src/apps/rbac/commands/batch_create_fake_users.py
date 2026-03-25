@@ -2,7 +2,7 @@ from datetime import datetime
 
 from faker import Faker
 
-from src.apps.rbac.repos import UserRepo
+from src.apps.rbac.repos.user_repo import UserRepo
 from src.core.database import SessionLocal
 
 from typing import Any

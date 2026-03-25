@@ -4,7 +4,8 @@ from click import Command, Context
 from fastapi.routing import APIRoute
 from starlette.routing import Route
 
-from src.apps.rbac.repos import PermissionRepo, Role2PermissionRepo
+from src.apps.rbac.repos.permission_repo import PermissionRepo
+from src.apps.rbac.repos.role2permission_repo import Role2PermissionRepo
 from src.core.database import SessionLocal
 from src.main import app
 from src.utils.constants import ROLE_CHILD_MAP, PASSED_APP_PERMISSIONS_CHECK, DEFAULT_ROLE
