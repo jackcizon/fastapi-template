@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
 
 from src.apps.auth.schemas import LoginRequestSchema, LoginResponseSchema, RegisterRequestSchema
+from src.apps.rbac.models import User
 from src.utils.dependencies.auth import jwt_required_dep
 from src.core.database import get_db
 from src.apps.auth.services import AuthService
@@ -31,12 +32,12 @@ async def register(req: RegisterRequestSchema, db: Session = Depends(get_db)) ->
 
 
 @auth_router.get("/me/", name="auth:me", openapi_extra={"role": "user"})
-async def me(user_id: int = Depends(jwt_required_dep)) -> JSONResponse:
+async def me(user: User = Depends(jwt_required_dep)) -> JSONResponse:
     """
     personal home page.
     :return:
     """
-    return JSONResponse(content={"jwt": "passed", "user_id": user_id})
+    return JSONResponse(content={"jwt": "passed", "user_id": user.id})
 
 
 async def refresh() -> None:
