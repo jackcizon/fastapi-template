@@ -1,15 +1,12 @@
 from typing import Sequence
 
 from sqlalchemy import text, Result
-from sqlalchemy.orm import Session
 
 from src.apps.rbac.models import User
+from src.core.db.repo.base import BaseRepo
 
 
-class RbacRepo():
-    def __init__(self, db: Session):
-        self.db = db
-
+class RbacRepo(BaseRepo):
     def get_user_permissions(self, user: User) -> Sequence:
         user_permissions_result: Result = self.db.execute(
             text("""

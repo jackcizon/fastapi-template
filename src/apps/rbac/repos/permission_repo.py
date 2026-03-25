@@ -1,11 +1,10 @@
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
+from src.core.db.repo.base import BaseRepo
 
-class PermissionRepo:
-    def __init__(self, db: Session) -> None:
-        self.db = db
 
+class PermissionRepo(BaseRepo):
     def del_all(self) -> None:
         stat = text("""DELETE FROM "Rbac_Permission" where id > 0;""")
         self.db.execute(stat)
