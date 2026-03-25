@@ -1,12 +1,13 @@
 from sqlalchemy import text
+from sqlalchemy.orm import Session
 
-from src.core.db.repo.base import BaseRepo
+from src.apps.rbac.models import Role2Permission
+from src.core.db.repo.base import ModifyRepo
 
 
-class Role2PermissionRepo(BaseRepo):
-    def del_all(self) -> None:
-        stat = text("""DELETE FROM "Rbac_Role2Permission" where id > 0;""")
-        self.db.execute(stat)
+class Role2PermissionRepo(ModifyRepo):
+    def __init__(self, db: Session):
+        super().__init__(db, model=Role2Permission)
 
     def upsert_by_role_perm_pairs(self, role_perm_pairs: list[tuple[str, str]]) -> None:
         values_clause = ",".join(

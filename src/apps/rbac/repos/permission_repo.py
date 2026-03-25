@@ -1,12 +1,13 @@
 from sqlalchemy import text
+from sqlalchemy.orm import Session
 
-from src.core.db.repo.base import BaseRepo
+from src.apps.rbac.models import Permission
+from src.core.db.repo.base import ModifyRepo
 
 
-class PermissionRepo(BaseRepo):
-    def del_all(self) -> None:
-        stat = text("""DELETE FROM "Rbac_Permission" where id > 0;""")
-        self.db.execute(stat)
+class PermissionRepo(ModifyRepo):
+    def __init__(self, db: Session):
+        super().__init__(db, model=Permission)
 
     def upsert_by_codes(self, codes: list[str]) -> None:
         code_values = ",".join(f"('{code}')" for code in codes)  # ('auth:login'),('auth:register'), ...
