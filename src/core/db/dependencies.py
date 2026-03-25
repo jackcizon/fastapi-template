@@ -1,15 +1,6 @@
-"""config for database"""
-
 from typing import Generator
 
-from sqlalchemy.engine.create import create_engine
-from sqlalchemy.orm import sessionmaker, DeclarativeBase
-
-from src.core.config import settings
-
-engine = create_engine(settings.database_url, pool_pre_ping=True)
-# session factory
-SessionLocal = sessionmaker(engine)
+from src.core.db.session import SessionLocal
 
 
 def get_db() -> Generator:
@@ -33,7 +24,3 @@ def get_db() -> Generator:
         raise  # any exceptions
     finally:
         db.close()
-
-
-class Base(DeclarativeBase):
-    pass

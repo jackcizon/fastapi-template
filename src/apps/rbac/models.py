@@ -1,7 +1,7 @@
 from sqlalchemy import String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.core.database import Base
+from src.core.db.session import Base
 from src.utils.models import BaseModel
 
 

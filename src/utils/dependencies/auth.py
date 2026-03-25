@@ -8,7 +8,8 @@ from sqlalchemy.orm import Session
 from src.apps.rbac.models import User
 from src.apps.rbac.repos.rbac_repo import RbacRepo
 from src.apps.rbac.repos.user_repo import UserRepo
-from src.core.database import get_db, SessionLocal
+from src.core.db.dependencies import get_db
+from src.core.db.session import SessionLocal
 from src.utils.constants import DEFAULT_ROLE
 from src.utils.datastructures.json_web_token import JSONWebToken
 

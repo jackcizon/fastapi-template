@@ -1,14 +1,11 @@
+from typing import Any
 from datetime import datetime
 
 from faker import Faker
-
-from src.apps.rbac.repos.user_repo import UserRepo
-from src.core.database import SessionLocal
-
-from typing import Any
-
 from click import Context, Parameter, Option, Command
 
+from src.apps.rbac.repos.user_repo import UserRepo
+from src.core.db.session import SessionLocal
 from src.utils.securities.password import Password
 
 

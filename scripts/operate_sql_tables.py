@@ -1,4 +1,4 @@
-from src.core.database import Base, engine
+from src.core.db.session import Base, engine
 
 
 def create_all_tables() -> None:  # pragma: no cover
