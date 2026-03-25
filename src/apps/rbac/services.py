@@ -19,6 +19,9 @@ class UserService:
     def get_user_by_id(self, id_: int) -> User | None:
         return self.repo.get_user_by_id(id_)
 
+    def batch_create(self, stat: Any = None, params: list = None) -> None:
+        self.repo.batch_create(stat, params)
+
 
 class PermissionService:
     def __init__(self, repo: PermissionRepo) -> None:

@@ -1,6 +1,7 @@
 from typing import Sequence, Any
 
 from sqlalchemy import text, Result, insert
+from sqlalchemy.dialects.postgresql import Insert
 from sqlalchemy.orm import Session
 
 from src.apps.rbac.models import User, Role
@@ -40,6 +41,17 @@ class UserRepo:
 
     def get_user_by_id(self, id_: int) -> User | None:
         return self.db.query(User).get(id_)
+
+    def batch_create(self, stat: Any, params: list[dict[str, Any]]) -> None:
+        if stat is None:
+            stat = Insert(User)
+        stat = stat.on_conflict_do_nothing(index_elements=["email"])
+        # raw_stat = text("""
+        #                 INSERT INTO "Rbac_User" (name, email, password, created_time, is_deleted)
+        #                 VALUES (:name, :email, :password, :created_time, :is_deleted)
+        #                 ON CONFLICT(email) DO NOTHING;
+        #                 """)
+        self.db.execute(stat, params)
 
 
 class PermissionRepo:
