@@ -1,0 +1,2 @@
+class CacheMixin:
+    pass
