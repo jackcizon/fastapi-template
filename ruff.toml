@@ -1,4 +1,4 @@
 src = ["src", "tests"]
 line-length = 120
 target-version = "py312"
-lint.ignore = ["F401", "F403", "E402"]
+lint.ignore = ["F401", "F403", "E402", "E712"]
