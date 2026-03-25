@@ -4,7 +4,7 @@
 
 # Version
 
-`1.2.2`
+`1.2.3`
 
 ## get the template project:
 
