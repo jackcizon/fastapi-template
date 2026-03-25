@@ -20,3 +20,4 @@ if __name__ == "__main__":
     hashed_pwd = Password.hash(pwd)
     # right
     assert (Password.verify(pwd, hashed_pwd)) is True
+    print(Password.hash(pwd))
