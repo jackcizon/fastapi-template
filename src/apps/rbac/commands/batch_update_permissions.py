@@ -8,7 +8,7 @@ from src.apps.rbac.repos import PermissionRepo, Role2PermissionRepo
 from src.apps.rbac.services import PermissionService, Role2PermissionService
 from src.core.database import SessionLocal
 from src.main import app
-from src.utils.constants import ROLE_CHILD_MAP, PASSED_APP_PERMISSIONS_CHECK
+from src.utils.constants import ROLE_CHILD_MAP, PASSED_APP_PERMISSIONS_CHECK, DEFAULT_ROLE
 from src.utils.helpers import get_superior_roles
 
 
@@ -29,9 +29,12 @@ class BatchUpdatePermissionsCommand(Command):
                 continue
 
             # auth app must pass
-            app_name = app_route.path.split("/")[
-                1
-            ]  # app name must in urlpath, e.g.: app:demo, url:/demo
+            try:
+                # app name must in urlpath, e.g.: app:demo, url:/demo
+                app_name = app_route.path.split("/")[1]
+            except Exception as e:
+                raise e
+
             if app_name in PASSED_APP_PERMISSIONS_CHECK:
                 continue
 
@@ -39,9 +42,9 @@ class BatchUpdatePermissionsCommand(Command):
             metadata: dict[Any, Any] | None = app_route.openapi_extra
 
             if metadata is None:
-                role = "user"
+                role = DEFAULT_ROLE
             else:
-                role = metadata.get("role", "user")
+                role = metadata.get("role", DEFAULT_ROLE)
 
             role_parents_set = get_superior_roles(role, ROLE_CHILD_MAP)
 

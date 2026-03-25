@@ -3,7 +3,8 @@ from typing import Final, Any
 
 ROLE_CHILD_MAP: Final[dict[str, list[Any]]] = {
     # role: [child1, child2] or []
-    "user": [],
+    "visitor": [],  # not login user
+    "user": ["visitor"],
     "staff": ["user"],
     "finance": ["staff"],
     "cto": ["staff"],

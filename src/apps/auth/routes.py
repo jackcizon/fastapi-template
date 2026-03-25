@@ -15,8 +15,8 @@ auth_router = APIRouter()
 @auth_router.post("/login/", name="auth:login")
 async def login(req: LoginRequestSchema, db: Session = Depends(get_db)) -> JSONResponse:
     service = AuthService()
-    access, refresh = service.login(req=req, db=db)
-    schema = LoginResponseSchema(access=access, refresh=refresh)
+    access, refresh_ = service.login(req=req, db=db)
+    schema = LoginResponseSchema(access=access, refresh=refresh_)
     return JSONResponse(content={"access": schema.access, "refresh": schema.refresh})
 
 
@@ -30,7 +30,7 @@ async def register(req: RegisterRequestSchema, db: Session = Depends(get_db)) ->
     pass
 
 
-@auth_router.get("/me/", name="auth:me")
+@auth_router.get("/me/", name="auth:me", openapi_extra={"role": "user"})
 async def me(user_id: int = Depends(jwt_required_dep)) -> JSONResponse:
     """
     personal home page.
