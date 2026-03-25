@@ -1,6 +1,8 @@
 # Decide To Refactor
 
-When the responsibilities of different modules in a project become blurred, and functionality becomes redundant (RY),
+When the responsibilities of different modules in a project become blurred, and functionality becomes redundant.
+
+**Don't Repeat Yourself(DRY)**
 
 it's crucial to start considering the correctness and maintainability of the project structure.
 
