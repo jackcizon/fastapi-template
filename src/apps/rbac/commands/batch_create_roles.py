@@ -3,8 +3,8 @@ from typing import Any
 from click import Command, Context
 
 from src.apps.rbac.repos import RoleRepo
-from src.apps.rbac.services import RoleService
 from src.core.database import SessionLocal
+from src.utils.constants import DEFAULT_ROLES
 
 
 class BatchCreateRolesCommand(Command):
@@ -19,7 +19,11 @@ class BatchCreateRolesCommand(Command):
     def _batch_create() -> None:
         with SessionLocal() as db:
             try:
-                RoleService(RoleRepo(db)).batch_create()
+                params = []
+                for role in DEFAULT_ROLES:
+                    params.append({"name": role})
+
+                RoleRepo(db).batch_create(params)
                 db.commit()
             except Exception as e:
                 print(e)

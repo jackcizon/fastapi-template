@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Session
 
-from src.apps.auth.repos import AuthRepo
 from src.apps.rbac.repos import UserRepo
 from src.apps.auth.schemas import LoginRequestSchema
 from src.utils.datastructures.json_web_token import JSONWebToken
@@ -9,9 +8,6 @@ from src.utils.securities.password import Password
 
 
 class AuthService:
-    def __init__(self, repo: AuthRepo | None = None):
-        self.repo = repo
-
     @staticmethod
     def login(req: LoginRequestSchema, db: Session) -> tuple[str, str]:
         """

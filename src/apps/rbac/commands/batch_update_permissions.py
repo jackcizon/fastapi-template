@@ -5,7 +5,6 @@ from fastapi.routing import APIRoute
 from starlette.routing import Route
 
 from src.apps.rbac.repos import PermissionRepo, Role2PermissionRepo
-from src.apps.rbac.services import PermissionService, Role2PermissionService
 from src.core.database import SessionLocal
 from src.main import app
 from src.utils.constants import ROLE_CHILD_MAP, PASSED_APP_PERMISSIONS_CHECK, DEFAULT_ROLE
@@ -54,17 +53,17 @@ class BatchUpdatePermissionsCommand(Command):
 
         with SessionLocal() as db:  # manually manage db context
             try:
-                perm_service = PermissionService(PermissionRepo(db))
-                role2perm_service = Role2PermissionService(Role2PermissionRepo(db))
+                perm_repo = PermissionRepo(db)
+                role2perm_repo = Role2PermissionRepo(db)
 
                 if valid_codes is None:
-                    perm_service.del_all()
-                    role2perm_service.del_all()
+                    perm_repo.del_all()
+                    role2perm_repo.del_all()
                     db.commit()
                     return
 
-                perm_service.upsert_by_codes(valid_codes)
-                perm_service.del_dirty_data(valid_codes)
+                perm_repo.upsert_by_codes(valid_codes)
+                perm_repo.del_dirty_data(valid_codes)
 
                 # Role2Permission
                 role_perm_pairs: list[tuple[str, str]] = []
@@ -78,9 +77,9 @@ class BatchUpdatePermissionsCommand(Command):
                     db.commit()
                     return
 
-                role2perm_service.upsert_by_list_of_pairs(role_perm_pairs)
-                role2perm_service.del_dirty_data(role_perm_pairs)
-                """
+                role2perm_repo.upsert_by_role_perm_pairs(role_perm_pairs)
+                role2perm_repo.del_dirty_data(role_perm_pairs)
+
                 # example in django orm: not optimize:
                 # for permission in permissions:
                 #     code = permission.code
@@ -96,7 +95,6 @@ class BatchUpdatePermissionsCommand(Command):
                 #             role_id=role.id,
                 #             permission_id=perm.id
                 #         )
-                """
 
                 db.commit()
             except Exception as e:

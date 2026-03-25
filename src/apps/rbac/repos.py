@@ -1,30 +1,26 @@
 from typing import Sequence, Any
 
-from sqlalchemy import text, Result, insert
+from sqlalchemy import text, Result
 from sqlalchemy.dialects.postgresql import Insert
 from sqlalchemy.orm import Session
 
 from src.apps.rbac.models import User, Role
-from src.utils.constants import DEFAULT_ROLES
+from src.core.db.base_repo import BaseRepo
 
 
-class RoleRepo:
+class RoleRepo(BaseRepo):
     def __init__(self, db: Session) -> None:
-        self.db = db
+        super().__init__(db, model=Role)
 
-    def batch_create(self, stat: Any = None, params: list[dict[str, Any]] = None) -> None:
-        if stat is None:
-            stat = insert(Role)
-        if params is None:
-            params = []
-            for role in DEFAULT_ROLES:
-                params.append({"name": role})
+    def batch_create(self, params: list[dict[str, Any]] = None) -> None:
+        stat = Insert(self.model)
+        stat = stat.on_conflict_do_nothing(index_elements=["name"])
         self.db.execute(stat, params)
 
 
-class UserRepo:
-    def __init__(self, db: Session | None = None) -> None:
-        self.db = db
+class UserRepo(BaseRepo):
+    def __init__(self, db: Session) -> None:
+        super().__init__(db, model=User)
 
     def get_user_by_email(self, email: str) -> dict[str, str] | None:
         """
@@ -36,21 +32,12 @@ class UserRepo:
                     where email = :email
                       and is_deleted = false;
                     """)
-        result = self.db.execute(statement=stat, params={"email": email}).mappings().first()
+        result = self.db.execute(stat, {"email": email}).mappings().first()
         return result
 
-    def get_user_by_id(self, id_: int) -> User | None:
-        return self.db.query(User).get(id_)
-
-    def batch_create(self, stat: Any, params: list[dict[str, Any]]) -> None:
-        if stat is None:
-            stat = Insert(User)
+    def batch_create(self, params: list[dict[str, Any]] = None) -> None:
+        stat = Insert(self.model)
         stat = stat.on_conflict_do_nothing(index_elements=["email"])
-        # raw_stat = text("""
-        #                 INSERT INTO "Rbac_User" (name, email, password, created_time, is_deleted)
-        #                 VALUES (:name, :email, :password, :created_time, :is_deleted)
-        #                 ON CONFLICT(email) DO NOTHING;
-        #                 """)
         self.db.execute(stat, params)
 
 
@@ -63,9 +50,7 @@ class PermissionRepo:
         self.db.execute(stat)
 
     def upsert_by_codes(self, codes: list[str]) -> None:
-        code_values = ",".join(
-            f"('{code}')" for code in codes
-        )  # ('auth:login'),('auth:register'), ...
+        code_values = ",".join(f"('{code}')" for code in codes)  # ('auth:login'),('auth:register'), ...
         stat = text(f"""
                     INSERT INTO "Rbac_Permission"(code)
                     VALUES {code_values}

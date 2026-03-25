@@ -30,28 +30,26 @@ class GlobalCommandsManager(Group):
         if isinstance(cmd, Command) or issubclass(cmd, Command):
             super().add_command(cmd, name)  # type: ignore
 
-    def discover_commands(
-        self, path_from_project_root: str = "src/core/cli/default_commands"
-    ) -> None:
+    def discover_commands(self, path_from_project_root: str = "src/core/cli/default_commands") -> None:
         """
         default path should in src/core/cli/default_commands
 
         command style is CamelCase.
         """
-        module_from_project_root = path_from_project_root.replace(
-            "/", "."
-        )  # src/core/cli/default_commands -> src.core.cli.default_commands
-        cmds_abs_path = os.path.join(ROOT_DIR, path_from_project_root)  # /path/to/default_commands
+        # src/core/cli/default_commands -> src.core.cli.default_commands
+        module_from_project_root = path_from_project_root.replace("/", ".")
+        # /path/to/default_commands
+        cmds_abs_path = os.path.join(ROOT_DIR, path_from_project_root)
 
         try:
             for file in os.listdir(cmds_abs_path):
                 if not file.endswith(".py"):
                     continue
 
-                filename = file.split(".")[0]  # demo.py -> demo
-                file_module = (
-                    f"{module_from_project_root}.{filename}"  # src.core.cli.default_commands.demo
-                )
+                # demo.py -> demo
+                filename = file.split(".")[0]
+                # src.core.cli.default_commands.demo
+                file_module = f"{module_from_project_root}.{filename}"
                 module = import_module(file_module)
 
                 members = inspect.getmembers(module, inspect.isclass)
@@ -59,10 +57,12 @@ class GlobalCommandsManager(Group):
                     member_cls_str = member[0]
                     member_cls = member[1]
 
+                    # custom Command rule: endswith("Command")
+                    # ignore click.core.Command: > len("Command")
                     if (
                         issubclass(member_cls, Command)
-                        and member_cls_str.endswith("Command")  # custom Command rule
-                        and len(member_cls_str) > len("Command")  # ignore click.core.Command
+                        and member_cls_str.endswith("Command")
+                        and len(member_cls_str) > len("Command")
                     ):
                         # DemoCommand -> Demo. CamelCase
                         self.add_command(member_cls(name=member_cls_str.replace("Command", "")))

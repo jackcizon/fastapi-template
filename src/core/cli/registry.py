@@ -11,7 +11,9 @@ def add_commands(manager: GlobalCommandsManager) -> None:
     """
     Explicit is better than implicit.
 
-    add manually(any importable path in this project) or auto discover(must locate in `src.apps.<app_name>.commands`).
+    add manually(any importable path in this project)
+    or
+    auto discover(must locate in `src.apps.<app_name>.commands`).
 
     register cmds here.
     e.g.:

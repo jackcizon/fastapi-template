@@ -7,7 +7,6 @@ from sqlalchemy.orm import Session
 
 from src.apps.rbac.models import User
 from src.apps.rbac.repos import UserRepo, RbacRepo
-from src.apps.rbac.services import UserService, RbacService
 from src.core.database import get_db, SessionLocal
 from src.utils.constants import DEFAULT_ROLE
 from src.utils.datastructures.json_web_token import JSONWebToken
@@ -38,7 +37,7 @@ def jwt_required_dep(request: Request) -> User:
 
     with SessionLocal() as db:
         try:
-            user = UserService(UserRepo(db)).get_user_by_id(user_id)
+            user = UserRepo(db).get_by_id(user_id)
         except Exception as e:
             print(e)
             db.rollback()
@@ -75,7 +74,7 @@ class RolePermissionCheck:
 
     def _has_permission(self, db: Session, user: User) -> bool:
         # TODO: store in cache, query from cache, not db.
-        user_permissions = RbacService(RbacRepo(db)).get_user_permissions(user)
+        user_permissions = RbacRepo(db).get_user_permissions(user)
         codes = [user_permission[0] for user_permission in user_permissions]
 
         if self._permission_code in codes:

@@ -11,9 +11,7 @@ class AlembicInitCommand(Command):
 
         self._dict = {"arg": {"directory": ["directory"]}}
         self.params: list[Parameter] = [
-            Argument(
-                param_decls=self._dict["arg"]["directory"], default="src/apps/migrations", type=str
-            )
+            Argument(param_decls=self._dict["arg"]["directory"], default="src/apps/migrations", type=str)
         ]
 
     def invoke(self, ctx: Context) -> Any:

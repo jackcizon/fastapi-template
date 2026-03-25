@@ -3,7 +3,6 @@ from datetime import datetime
 from faker import Faker
 
 from src.apps.rbac.repos import UserRepo
-from src.apps.rbac.services import UserService
 from src.core.database import SessionLocal
 
 from typing import Any
@@ -52,7 +51,7 @@ class BatchCreateFakeUsersCommand(Command):
 
         with SessionLocal() as db:
             try:
-                UserService(UserRepo(db)).batch_create(params=params)
+                UserRepo(db).batch_create(params=params)
                 db.commit()
             except Exception as e:
                 print(e)

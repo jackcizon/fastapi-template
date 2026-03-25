@@ -65,6 +65,7 @@ python manage.py Migrate
 
 # if there are some issues, remember to `del all` records/rows in table:`alembic_version`.
 
+python manage.py BatchCreateRoles
 python manage.py BatchUpdatePermissions
 python manage.py RunServer
 ```
