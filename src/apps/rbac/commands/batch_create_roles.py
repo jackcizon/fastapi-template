@@ -4,7 +4,7 @@ from click import Command, Context
 
 from src.apps.rbac.repos.role_repo import RoleRepo
 from src.core.db.session import SessionLocal
-from src.utils.constants import DEFAULT_ROLES
+from src.core.constants import DEFAULT_ROLES
 
 
 class BatchCreateRolesCommand(Command):

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from src.utils.exceptions.auth import AuthError
-from src.utils.exceptions.handlers.auth import auth_error_handler
+from src.core.exceptions.auth import AuthError
+from src.core.exceptions.handlers.auth import auth_error_handler
 
 
 def add_exception_handlers(app_: FastAPI) -> None:

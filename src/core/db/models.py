@@ -1,9 +1,11 @@
 from datetime import datetime
 
 from sqlalchemy import func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
 
-from src.core.db.session import Base
+
+class Base(DeclarativeBase):
+    pass
 
 
 class BaseModel(Base):

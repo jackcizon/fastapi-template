@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
-from src.core.cors import setup_cors
-from src.core.routes import include_routers
-from src.core.exceptions import add_exception_handlers
+from src.core.application.cors import setup_cors
+from src.core.application.routes import include_routers
+from src.core.application.exceptions import add_exception_handlers
 
 
 class LazyLoadApp:

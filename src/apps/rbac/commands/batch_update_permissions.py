@@ -8,7 +8,7 @@ from src.main import app
 from src.apps.rbac.repos.permission_repo import PermissionRepo
 from src.apps.rbac.repos.role2permission_repo import Role2PermissionRepo
 from src.core.db.session import SessionLocal
-from src.utils.constants import ROLE_CHILD_MAP, PASSED_APP_PERMISSIONS_CHECK, DEFAULT_ROLE
+from src.core.constants import ROLE_CHILD_MAP, PASSED_APP_PERMISSIONS_CHECK, DEFAULT_ROLE
 from src.utils.helpers import get_superior_roles
 
 

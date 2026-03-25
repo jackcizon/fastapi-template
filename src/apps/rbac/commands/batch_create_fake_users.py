@@ -6,7 +6,7 @@ from click import Context, Parameter, Option, Command
 
 from src.apps.rbac.repos.user_repo import UserRepo
 from src.core.db.session import SessionLocal
-from src.utils.securities.password import Password
+from src.core.securities.password import Password
 
 
 class BatchCreateFakeUsersCommand(Command):

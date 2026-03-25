@@ -1,5 +1,4 @@
 from sqlalchemy import text
-from sqlalchemy.orm import Session
 
 from src.core.db.repo.base import BaseRepo
 

@@ -4,10 +4,10 @@ from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
 
 from src.apps.rbac.models import User
-from src.core.db.dependencies import get_db
-from src.utils.dependencies.auth import jwt_required_dep
 from src.apps.auth.schemas.login_schema import LoginRequestSchema, LoginResponseSchema
 from src.apps.auth.services.auth_service import AuthService
+from src.core.db.session import get_db
+from src.core.securities.jwt import jwt_required_dep
 
 auth_router = APIRouter()
 

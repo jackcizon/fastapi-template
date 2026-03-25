@@ -3,7 +3,7 @@ from fastapi.params import Depends
 from starlette.responses import JSONResponse
 
 from src.apps.rbac.models import User
-from src.utils.dependencies.auth import RolePermissionCheck
+from src.core.securities.rbac import RolePermissionCheck
 
 rbac_router = APIRouter()
 

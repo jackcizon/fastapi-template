@@ -1,8 +1,7 @@
 from sqlalchemy import String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.core.db.session import Base
-from src.utils.models import BaseModel
+from src.core.db.models import BaseModel, Base
 
 
 class Role(Base):
