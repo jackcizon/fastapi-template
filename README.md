@@ -4,7 +4,7 @@
 
 # Version
 
-`1.2.4`
+`2.0.0`
 
 ## get the template project:
 
@@ -70,7 +70,14 @@ python manage.py BatchUpdatePermissions
 python manage.py RunServer
 ```
 
+## Test
+
+```shell
+python manage.py RunTests
+# or
+# make test
+```
+
 ## Notes
 
-- tests are not yet fully covered.(done in Future)
 - registration hasn't been done yet.(done in Future)
