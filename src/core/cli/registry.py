@@ -13,11 +13,11 @@ def add_commands(manager: GlobalCommandsManager) -> None:
 
     add manually(any importable path in this project)
     or
-    auto discover(must locate in `src.apps.<app_name>.commands`).
+    auto discover(must locate in `src.api.<app_name>.commands`).
 
     register cmds here.
     e.g.:
         manager.add_command(cmd_cls("<name>"))
     """
     add_default_commands(manager)
-    manager.discover_commands("src/apps/rbac/commands")
+    manager.discover_commands("src/api/rbac/commands")

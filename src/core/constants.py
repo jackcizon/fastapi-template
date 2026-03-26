@@ -19,4 +19,4 @@ DEFAULT_ROLE: Final[str] = DEFAULT_ROLES[0]
 PASSED_APP_PERMISSIONS_CHECK: Final[list[str]] = [
     "alembic",
     "migrations",
-]  # these apps will ignore permissions update.
+]  # these api will ignore permissions update.

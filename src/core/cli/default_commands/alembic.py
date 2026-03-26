@@ -11,7 +11,7 @@ class AlembicInitCommand(Command):
 
         self._dict = {"arg": {"directory": ["directory"]}}
         self.params: list[Parameter] = [
-            Argument(param_decls=self._dict["arg"]["directory"], default="src/apps/migrations", type=str)
+            Argument(param_decls=self._dict["arg"]["directory"], default="src/api/migrations", type=str)
         ]
 
     def invoke(self, ctx: Context) -> Any:
@@ -38,7 +38,7 @@ class MakeMigrationsCommand(Command):
             Option(param_decls=self._dict["opt"]["message"], default="empty message", type=str),
             Option(
                 param_decls=self._dict["opt"]["version_path"],
-                default="src/apps/migrations/versions",
+                default="src/api/migrations/versions",
                 type=str,
             ),
         ]

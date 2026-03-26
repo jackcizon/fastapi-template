@@ -4,17 +4,17 @@ from fastapi import HTTPException, Request, Depends
 from fastapi.routing import APIRoute
 from sqlalchemy.orm import Session
 
-from src.apps.rbac.models import User
-from src.apps.rbac.repos.rbac_repo import RbacRepo
+from src.api.rbac.models import User
+from src.api.rbac.repos.rbac_repo import RbacRepo
 from src.core.db.session import get_db
 from src.core.securities.jwt import jwt_required_dep
 from src.core.constants import DEFAULT_ROLE
 
 
 def role_permission_check_dep(
-        request: Request,
-        db: Session = Depends(get_db),
-        user: User = Depends(jwt_required_dep),
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(jwt_required_dep),
 ) -> tuple[User, str]:
     """
     :return: tuple(user_instance, min_req_role_str)

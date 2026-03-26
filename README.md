@@ -18,7 +18,7 @@ git clone https://github.com/jackcizon/fastapi-template.git
 cd fastapi-template
 rm -rf .git
 rm docs/*.md
-rm -rf src/apps/migrations
+rm -rf src/api/migrations
 cd ..
 mv fastapi-tempalte <your_project_name>
 ```
@@ -51,7 +51,7 @@ target_metadata = None
 # to
 
 from src.core.database import Base
-from src.apps.models import *  # must include
+from src.api.models import *  # must include
 
 target_metadata = Base.metadata
 ```

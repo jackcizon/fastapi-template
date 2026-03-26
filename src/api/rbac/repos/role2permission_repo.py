@@ -2,7 +2,7 @@ from sqlalchemy import values, column, String, tuple_, delete, Select, select
 from sqlalchemy.dialects.postgresql import Insert
 from sqlalchemy.orm import Session
 
-from src.apps.rbac.models import Role2Permission, Role, Permission
+from src.api.rbac.models import Role2Permission, Role, Permission
 from src.core.db.repo.base import ModifyRepo
 
 

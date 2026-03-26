@@ -3,9 +3,9 @@ from fastapi.routing import APIRouter
 from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
 
-from src.apps.rbac.models import User
-from src.apps.auth.schemas.login_schema import LoginRequestSchema, LoginResponseSchema
-from src.apps.auth.services.auth_service import AuthService
+from src.api.rbac.models import User
+from src.api.auth.schemas.login_schema import LoginRequestSchema, LoginResponseSchema
+from src.api.auth.services.auth_service import AuthService
 from src.core.db.session import get_db
 from src.core.securities.jwt import jwt_required_dep
 

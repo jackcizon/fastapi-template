@@ -2,7 +2,7 @@ from sqlalchemy import text, delete
 from sqlalchemy.orm import Session
 from sqlalchemy.dialects.postgresql.dml import Insert
 
-from src.apps.rbac.models import Permission
+from src.api.rbac.models import Permission
 from src.core.db.repo.base import ModifyRepo
 
 

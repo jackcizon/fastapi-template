@@ -33,6 +33,6 @@ class DemoCommand(Command):
         demo_arg = ctx.params.get("demo-arg")
 
         print(f"input demo-opt: {demo_opt}, input demo-arg: {demo_arg}")
-        print("it works. please write more cmds in apps.<app_name>.default_commands.<custom_cmd.py>")
+        print("it works. please write more cmds in api.<app_name>.default_commands.<custom_cmd.py>")
 
         return super().invoke(ctx)

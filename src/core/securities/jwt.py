@@ -1,8 +1,8 @@
 from fastapi import HTTPException, Request
 from jwt import ExpiredSignatureError, InvalidTokenError
 
-from src.apps.rbac.models import User
-from src.apps.rbac.repos.user_repo import UserRepo
+from src.api.rbac.models import User
+from src.api.rbac.repos.user_repo import UserRepo
 from src.core.db.session import SessionLocal
 from src.utils.datastructures.json_web_token import JSONWebToken
 

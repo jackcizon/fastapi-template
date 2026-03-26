@@ -19,7 +19,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from src.core.db.models import Base
-from src.apps.models import *  # must include
+from src.api.models import *  # must include
 
 target_metadata = Base.metadata
 

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from src.apps.auth.schemas.login_schema import LoginRequestSchema
-from src.apps.rbac.repos.user_repo import UserRepo
+from src.api.auth.schemas.login_schema import LoginRequestSchema
+from src.api.rbac.repos.user_repo import UserRepo
 from src.utils.datastructures.json_web_token import JSONWebToken
 from src.core.exceptions.auth import AuthError
 from src.core.securities.password import Password

@@ -20,7 +20,7 @@ class CreateAppCommand(Command):
         name = ctx.params.get("name")
         print(f"try creating app:{name}....")
         try:
-            target_dir = os.path.join(SRC_DIR, "apps")
+            target_dir = os.path.join(SRC_DIR, "api")
             os.chdir(target_dir)
             os.mkdir(name)
             app_dir = os.path.join(target_dir, name)

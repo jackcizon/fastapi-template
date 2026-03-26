@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import Insert
 from sqlalchemy.orm import Session
 
-from src.apps.rbac.models import User
+from src.api.rbac.models import User
 from src.core.db.repo.base import QueryRepo
 from src.core.db.repo.mixins import BatchCreateMixin
 

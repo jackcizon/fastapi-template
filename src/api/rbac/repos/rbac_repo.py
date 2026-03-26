@@ -3,7 +3,7 @@ from typing import Sequence
 from sqlalchemy import select, text, Result
 from sqlalchemy.orm import Session
 
-from src.apps.rbac.models import User, User2Role, Role2Permission, Permission
+from src.api.rbac.models import User, User2Role, Role2Permission, Permission
 from src.core.db.repo.base import BaseRepo
 
 

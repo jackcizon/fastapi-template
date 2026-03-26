@@ -5,10 +5,10 @@
 # import pytest
 # from fastapi import HTTPException
 #
-# from src.apps.auth.models import Demo
-# from src.apps.auth.services import DemoService
+# from src.api.auth.models import Demo
+# from src.api.auth.services import DemoService
 # from src.utils.datastructures.json_web_token import JSONWebToken
-# from src.apps.auth.schemas import LoginRequestSchema, RegisterRequestSchema
+# from src.api.auth.schemas import LoginRequestSchema, RegisterRequestSchema
 #
 #
 # class TestDemoService:

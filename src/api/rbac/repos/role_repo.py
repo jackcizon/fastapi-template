@@ -3,7 +3,7 @@ from typing import Any
 from sqlalchemy.dialects.postgresql import Insert
 from sqlalchemy.orm import Session
 
-from src.apps.rbac.models import Role
+from src.api.rbac.models import Role
 from src.core.db.repo.base import BaseRepo
 from src.core.db.repo.mixins import BatchCreateMixin
 
