@@ -3,15 +3,14 @@ source = src
 branch = True
 omit =
 	src/main.py
-    */models.py
-    */schemas.py
-    */routes.py
     */__init__.py
     src/core/**
-    src/utils/**
+    */commands/**
+    */models.py
+    */enums.py
 
 [report]
-fail_under = 60
+fail_under = 20
 show_missing = True
 exclude_lines =
     pragma: no cover

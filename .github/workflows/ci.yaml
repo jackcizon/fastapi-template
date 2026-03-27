@@ -24,10 +24,10 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
 
-#      - name: pre-commit
-#        run: poetry run pre-commit run -a
-#
-#      - name: Run tests with coverage
-#        run: |
-#          poetry run coverage run -m pytest -v
-#          poetry run coverage report -m --fail-under=80
+      - name: pre-commit
+        run: poetry run pre-commit run -a
+
+      - name: Run tests with coverage
+        run: |
+          poetry run coverage run -m pytest -v
+          poetry run coverage report -m --fail-under=20

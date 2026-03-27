@@ -22,9 +22,9 @@ repos:
         language: system
         pass_filenames: false
 
-#      - id: pytest
-#        name: test
-#        entry: poetry run pytest
-#        language: system
-#        pass_filenames: false
-#        args: [ "-q" ]
+      - id: pytest
+        name: test
+        entry: poetry run pytest
+        language: system
+        pass_filenames: false
+        args: [ "-q" ]
