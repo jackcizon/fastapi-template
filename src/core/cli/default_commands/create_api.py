@@ -35,12 +35,12 @@ class CreateApiCommand(Command):
         api_dir = os.path.join(target_dir, name)
         os.chdir(api_dir)
 
-        files = ("__init__.py", "routes.py", "models.py")
+        files = ("__init__.py", "router.py", "models.py")
         for file in files:
             fd = os.open(file, os.O_CREAT)
             os.close(fd)
 
-        dirs = ("commands", "services", "repos", "schemas")
+        dirs = ("commands", "services", "repos", "schemas", "routes")
         for dir_ in dirs:
             os.mkdir(dir_)
             fd = os.open(f"{dir_}/__init__.py", os.O_CREAT)
@@ -58,12 +58,12 @@ class CreateApiCommand(Command):
         api_dir = os.path.join(target_dir, name)
         os.chdir(api_dir)
 
-        files = ("__init__.py", "test_routes.py")
+        files = ("__init__.py",)
         for file in files:
             fd = os.open(file, os.O_CREAT)
             os.close(fd)
 
-        dirs = ("test_services", "test_repos", "test_schemas")
+        dirs = ("test_services", "test_repos", "test_schemas", "test_routes")
         for dir_ in dirs:
             os.mkdir(dir_)
             fd = os.open(f"{dir_}/__init__.py", os.O_CREAT)
