@@ -4,7 +4,7 @@
 
 # Version
 
-`2.1.2`
+`2.1.3`
 
 ## get the template project:
 
@@ -77,7 +77,3 @@ python manage.py RunTests
 # or
 # make test
 ```
-
-## Notes
-
-- registration hasn't been done yet.(done in Future)
