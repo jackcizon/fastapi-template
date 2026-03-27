@@ -1,4 +1,5 @@
 """global fixtures"""
+
 from collections.abc import Generator
 from functools import partial
 
@@ -17,7 +18,7 @@ engine = create_engine(
     # echo=True,
     # echo_pool=True,
     pool_recycle=3600,
-    pool_size=20
+    pool_size=20,
 )
 
 TestSessionLocal = sessionmaker(bind=engine)
