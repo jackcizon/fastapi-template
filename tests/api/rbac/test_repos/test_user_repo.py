@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Any
 
 from faker import Faker
-from sqlalchemy import Select, func
+from sqlalchemy import Select, func, delete
 
 from src.api.rbac.models import User
 from src.api.rbac.repos.user_repo import UserRepo
@@ -25,6 +25,10 @@ class TestUserRepo:
         assert user_dict.get("password") == password
 
     def test_batch_create(self, test_db):
+        stat = delete(User)
+        test_db.execute(stat)
+        test_db.commit()
+
         faker_ = Faker()
         num = 10
         params = []
@@ -32,10 +36,9 @@ class TestUserRepo:
         password = "123456"
         date_time = datetime.now()
 
-        for i in range(num):
+        for _ in range(num):
             params.append(
                 {
-                    "id": i,
                     "name": faker_.name()[0:15],
                     "email": faker_.email()[0:31],
                     "password": password,
