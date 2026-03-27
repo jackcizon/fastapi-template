@@ -13,12 +13,9 @@ from src.core.db.models import Base
 from src.core.db.session import get_db
 
 engine = create_engine(
-    "sqlite://",  # memory db
-    pool_pre_ping=True,
-    # echo=True,
-    # echo_pool=True,
-    pool_recycle=3600,
-    pool_size=20,
+    "sqlite:///:memory:",
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool
 )
 
 TestSessionLocal = sessionmaker(bind=engine)
