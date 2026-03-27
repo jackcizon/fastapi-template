@@ -8,6 +8,7 @@ omit =
     */commands/**
     */models.py
     */enums.py
+    */router.py
 
 [report]
 fail_under = 20

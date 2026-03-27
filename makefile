@@ -1,6 +1,6 @@
 .PHONY: all lint format type test coverage pre_commit commit changelog
 
-all: lint format type pre_commit
+all: lint format type pre_commit coverage
 
 lint:
 	poetry run ruff check src/ tests/
