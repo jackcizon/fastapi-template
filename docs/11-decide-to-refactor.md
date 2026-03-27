@@ -14,11 +14,11 @@ In `src`:
 
 - utils: Business logic unrelated
 
-- apps: Various domains
+- api: Various domains
 
 In `src/core`:
 
-- app: app related
+- api: api related
 
 - db: database related
 
@@ -30,12 +30,11 @@ In `tests`:
 
 - utils: Test utility-related code
 
-- apps: Test app-related code
+- api: Test api-related code
 
-In `utils/apps`:
+In `utils/api`:
 
 - routes: API tests
-
 - services: Business logic tests
-
 - repos: DB tests
+-schemas: DTO tests

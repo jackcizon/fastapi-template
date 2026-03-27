@@ -37,7 +37,7 @@ mv fastapi-tempalte <your_project_name>
 python manage.py AlembicInit
 ```
 
-in `src/apps/migrations/env.py`
+in `src/api/migrations/env.py`
 
 ```python
 # from

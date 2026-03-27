@@ -9,5 +9,5 @@ or use third-party packages, but inheritance relationships cannot be explicitly 
 3. Export configurations through module-level singleton classes. Configurations must be isolated from the app and
    imported only as needed.
 
-4. Each app's `py files` must have clearly defined responsibilities. Under `tests`, directly copy the structure of
-   `apps`, and add the `test_` prefix for easier testing and management.
+4. Each api's `py files` must have clearly defined responsibilities. Under `tests`, directly copy the structure of
+   `api`, and add the `test_` prefix for easier testing and management.
