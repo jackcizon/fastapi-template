@@ -73,9 +73,11 @@ def test_client(test_db: Session) -> Generator[TestClient, None, None]:
 
     # use test db
     # froze to `test_db`
-    app.dependency_overrides[get_db] = partial(override_get_db, test_db)
+    app_instance = app.instance
 
-    with TestClient(app) as client:
+    app_instance.dependency_overrides[get_db] = partial(override_get_db, test_db)
+
+    with TestClient(app_instance) as client:
         yield client
 
-    app.dependency_overrides.clear()
+    app_instance.dependency_overrides.clear()
