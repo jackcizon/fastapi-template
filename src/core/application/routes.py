@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from src.api.auth.routes import auth_router
-from src.api.rbac.routes import rbac_router
+from src.api.auth.router import auth_router
+from src.api.rbac.router import rbac_router
 
 
 def include_routers(app_: FastAPI) -> None:
