@@ -6,21 +6,21 @@ from src.api.auth.schemas.login_schema import LoginRequestSchema
 
 class TestLoginSchema:
     def test_login_request_valid(self):
-        data = {
-            "email": "abc123@qq.com",
-            "password": "password123"
-        }
+        data = {"email": "abc123@qq.com", "password": "password123"}
         user = LoginRequestSchema(**data)
         assert user.email == data["email"]
 
-    @pytest.mark.parametrize("invalid_email", [
-        "short",
-        "0abc@test.com",
-        "@example.com",
-        "abc@com",
-        "abc.test.com",
-        " a@b.com",
-    ])
+    @pytest.mark.parametrize(
+        "invalid_email",
+        [
+            "short",
+            "0abc@test.com",
+            "@example.com",
+            "abc@com",
+            "abc.test.com",
+            " a@b.com",
+        ],
+    )
     def test_login_request_email_pattern_invalid(self, invalid_email):
         with pytest.raises(ValidationError) as exc:
             LoginRequestSchema(email=invalid_email, password="valid_password")

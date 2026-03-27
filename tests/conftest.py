@@ -4,7 +4,7 @@ from collections.abc import Generator
 from functools import partial
 
 import pytest
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, StaticPool
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import sessionmaker, Session
 
@@ -12,11 +12,7 @@ from src.main import app
 from src.core.db.models import Base
 from src.core.db.session import get_db
 
-engine = create_engine(
-    "sqlite:///:memory:",
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool
-)
+engine = create_engine("sqlite:///:memory:", connect_args={"check_same_thread": False}, poolclass=StaticPool)
 
 TestSessionLocal = sessionmaker(bind=engine)
 
