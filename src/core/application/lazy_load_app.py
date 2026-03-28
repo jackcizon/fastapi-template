@@ -1,8 +1,15 @@
+from typing import Protocol, runtime_checkable
+
 from fastapi import FastAPI
 
 from src.core.application.cors import setup_cors
 from src.core.application.routes import include_routers
 from src.core.application.exceptions import add_exception_handlers
+
+
+@runtime_checkable
+class AppFactory(Protocol):
+    def __call__(self) -> FastAPI: ...
 
 
 class LazyLoadApp:
