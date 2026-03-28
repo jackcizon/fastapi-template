@@ -76,6 +76,6 @@ class RolePermissionCheck:
 
 async def role_prem_check_wrapper_dep(
     request: Request, db: Session = Depends(get_db), user: User = Depends(jwt_required_dep)
-):
+) -> tuple[User, str]:
     checker = RolePermissionCheck()
     return await checker(request, db, user)

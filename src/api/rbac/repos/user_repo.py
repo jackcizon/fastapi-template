@@ -25,7 +25,6 @@ class UserRepo(BatchCreateMixin, QueryRepo):
         )
 
         result = self.db.execute(stat).mappings().first()
-        print(result)
         return result
 
     def batch_create(self, params: list[dict[str, Any]] = None) -> None:
