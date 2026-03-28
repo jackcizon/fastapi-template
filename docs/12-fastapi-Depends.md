@@ -1,6 +1,8 @@
 # FastAPI Depends
 
 ```python
+from fastapi.dependencies.utils import solve_dependencies  # depends inner logic
+
 @dataclass(frozen=True)
 class Depends:
     dependency: Optional[Callable[..., Any]] = None
@@ -11,8 +13,6 @@ class Depends:
 `use_cache` will cause some bugs.
 
 e.g.:
-
-before:
 
 ```python
 class RolePermissionCheck:
@@ -35,7 +35,7 @@ class RolePermissionCheck:
 
     def _has_permission(self, db: Session, user: User) -> bool:
         user_permissions = RbacRepo(db).get_user_permissions(user)
-        codes = [user_permission[0] for user_permission in user_permissions]
+        codes = [user_permission for user_permission in user_permissions]
 
         if self._permission_code in codes:
             self._passed = True
@@ -85,6 +85,24 @@ Solution:
 
 ## final solution:
 
+### solution 1
+
+use a func wrapper, each request create a new cls.
+
+```python
+async def role_prem_check_wrapper_dep(
+        request: Request,
+        db: Session = Depends(get_db),
+        user: User = Depends(jwt_required_dep)
+):
+    checker = RolePermissionCheck()
+    return await checker(request, db, user)
+```
+
+### solution 2
+
+use pure function: stateless
+
 ```python
 def role_permission_check_dep(
         request: Request,
@@ -116,45 +134,6 @@ cached by FastAPI, it's as if a space is malloced on the heap, or a global stati
 threads/coroutines) hold pointers to the same address. Function local variables $\approx$ Stack memory When
 role_permission_check_dep is called, it's as if a function is entered in C. The system pushes a stack frame onto the top
 of the current thread's stack.
-
-```c
-// Analogous to C code
-
-void role_permission_check_dep() {
-    char role[20]; // Local variable, allocated on Stack
-    // Each thread that calls this function has its own independent stack space
-    // Even if the thread switches, the Stack pointer (ESP/RSP) will switch accordingly
-    // The role of thread A and the role of thread B are completely different in physical address
-
-}
-```
-
-Each request (coroutine) has its own independent stack frame. The stack frame is private, while the heap memory is
-shared. As long as data doesn't enter `self`, it will never leave its own stack frame, thus eliminating the possibility
-of it being tampered with by others.
-
-Memory Model Summary: Heap vs Stack
-
-In FastAPI's dependency injection, classes and functions behave completely differently:
-
-Class Instances (Shared Heap): When you use `Depends(ClassName())`, FastAPI caches this object by default. From a C
-perspective, this is equivalent to a pointer to a global static struct.
-
-```c
-static RoleCheck *global_ptr; // A class instance similar to the FastAPI cache
-```
-
-If you write `global_ptr->user_id = 123` in this structure, and then `await` (equivalent to a context switch) occurs,
-and another thread changes `user_id` to 456, a Data Race will occur when the original thread returns to read it.
-
-Functions (Private Stack): When you use `Depends(func)`, each request allocates space on the current coroutine's stack.
-This is equivalent to local variables in C.
-
-```c
-void role_check(User *user) {
-    char permission_code[64]; // it's private, because it's allocated on the function local stack.
-}
-```
 
 Stack memory is created when a function is called and destroyed when the function returns, physically isolating
 requests.
