@@ -1,3 +1,3 @@
-class AuthError(Exception):
+class JWTError(Exception):
     def __init__(self, msg: str = None) -> None:
         self.msg = msg

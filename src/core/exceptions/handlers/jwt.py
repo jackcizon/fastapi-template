@@ -1,8 +1,8 @@
 from typing import Any
 
-from starlette.responses import JSONResponse
 from starlette.requests import Request
+from starlette.responses import JSONResponse
 
 
-def auth_error_handler(request: Request, exc: Any) -> JSONResponse:
+def jwt_error_handler(request: Request, exc: Any) -> JSONResponse:
     return JSONResponse(status_code=401, content={"detail": str(exc)})

@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 import jwt
 
 from src.core.config import settings
+from src.core.exceptions.jwt import JWTError
 
 
 class JSONWebToken:
@@ -15,7 +16,10 @@ class JSONWebToken:
             "iat": int(datetime.now(tz=timezone.utc).timestamp()),
             "type": "access",
         }
-        return jwt.encode(payload=payload, key=settings.jwt_key, algorithm=settings.jwt_algo)
+        try:
+            return jwt.encode(payload=payload, key=settings.jwt_key, algorithm=settings.jwt_algo)
+        except (Exception, TypeError):
+            raise JWTError("Jwt Encode error")
 
     @staticmethod
     def create_refresh_token(id_: str | int) -> str:  # pragma: no cover
@@ -25,7 +29,10 @@ class JSONWebToken:
             "iat": int(datetime.now(tz=timezone.utc).timestamp()),
             "type": "refresh",
         }
-        return jwt.encode(payload=payload, key=settings.jwt_key, algorithm=settings.jwt_algo)
+        try:
+            return jwt.encode(payload=payload, key=settings.jwt_key, algorithm=settings.jwt_algo)
+        except (Exception, TypeError):
+            raise JWTError("Jwt encode error")
 
     @staticmethod
     def decode_token(token: str, token_type: str | None = None) -> dict[str, Any]:
@@ -35,10 +42,13 @@ class JSONWebToken:
                 if payload.get("type") != token_type:
                     raise jwt.InvalidKeyError("payload key:val error")
             return payload
+        # catch their exceptions, raise your custom defined exception.
         except jwt.ExpiredSignatureError:
-            raise jwt.ExpiredSignatureError("token expired")
+            raise JWTError("token expired")
         except jwt.InvalidTokenError:
-            raise jwt.InvalidTokenError("invalid token")
+            raise JWTError("invalid token")
+        except Exception:
+            raise JWTError("JWT Error")
 
     @staticmethod
     def generate_token_pair(id_: int | str) -> tuple[str, str]:
