@@ -6,7 +6,6 @@ from src.api.rbac.models import User
 from src.api.auth.schemas.refresh_schema import RefreshRequestSchema
 from src.api.auth.services.refresh_service import RefreshService
 from src.core.exceptions.auth import AuthError
-from src.core.exceptions.jwt import JWTError
 
 
 class TestRefreshService:
