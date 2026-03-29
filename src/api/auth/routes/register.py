@@ -5,4 +5,9 @@ register_router = APIRouter()
 
 @register_router.post("/register/", name="auth:register")  # pragma: no cover
 async def register() -> None:
+    """
+    Warning, you should:
+     1. give user a role in `Role` table, see ROLE_CHILD_MAP in `src/core/constants.py`
+     2. add a record in `User2Role` table when registering success.
+    """
     return None

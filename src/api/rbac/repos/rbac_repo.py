@@ -1,6 +1,6 @@
 from typing import Sequence
 
-from sqlalchemy import select, text, Result
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from src.api.rbac.models import User, User2Role, Role2Permission, Permission
