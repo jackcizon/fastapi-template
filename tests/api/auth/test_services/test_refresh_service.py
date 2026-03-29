@@ -22,7 +22,7 @@ class TestRefreshService:
         patch path:
         `src.api.auth.services.refresh_service.JSONWebToken`
         """
-        test_user = User(id=1, name="test_user", email='test_email@qq.com', password='123456')
+        test_user = User(id=1, name="test_user", email="test_email@qq.com", password="123456")
         test_db.add(test_user)
         test_db.commit()
 

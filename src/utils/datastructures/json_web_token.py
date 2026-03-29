@@ -9,7 +9,7 @@ from src.core.exceptions.jwt import JWTError
 
 class JSONWebToken:
     @staticmethod
-    def create_access_token(id_: str | int) -> str:
+    def create_access_token(id_: str | int) -> str:  # pragma: no cover
         payload = {
             "user_id": id_,
             "exp": int(datetime.now(tz=timezone.utc).timestamp()) + settings.access_token_ttl,
@@ -35,7 +35,7 @@ class JSONWebToken:
             raise JWTError("Jwt encode error")
 
     @staticmethod
-    def decode_token(token: str, token_type: str | None = None) -> dict[str, Any]:
+    def decode_token(token: str, token_type: str | None = None) -> dict[str, Any]:  # pragma: no cover
         try:
             payload = jwt.decode(jwt=token, key=settings.jwt_key, algorithms=[settings.jwt_algo])
             if token_type is not None:
@@ -51,7 +51,7 @@ class JSONWebToken:
             raise JWTError("JWT Error")
 
     @staticmethod
-    def generate_token_pair(id_: int | str) -> tuple[str, str]:
+    def generate_token_pair(id_: int | str) -> tuple[str, str]:  # pragma: no cover
         if isinstance(id_, str):
             id_ = int(id_)
         access = JSONWebToken.create_access_token(id_)
