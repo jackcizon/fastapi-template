@@ -1,5 +1,6 @@
 """global fixtures"""
 
+import os
 from collections.abc import Generator
 from functools import partial
 
@@ -13,7 +14,12 @@ from src.core.db.models import Base
 from src.core.db.session import get_db
 
 # Hint: when test config becomes complex, use json as config.
-SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://jack:jack021213@192.168.8.7:5433/test_fastapi_template"
+# 1. is there exists an env var:TEST_DATABASE_URL?
+# 2. if has(in CI)，just use it.
+# 3. if not exists,(in local), use private ip 192.168.x.x
+SQLALCHEMY_DATABASE_URL = os.getenv(
+    "TEST_DATABASE_URL", "postgresql+psycopg2://jack:jack021213@192.168.8.7:5433/test_fastapi_template"
+)
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 TestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

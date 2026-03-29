@@ -27,11 +27,12 @@ jobs:
       - name: pre-commit
         run: poetry run pre-commit run -a
 
+      # gitHub action runner real path is in  root, so use ./env, ./docker, not ../../env,...
       - name: Start Postgres for Testing
         run: |
           sed -i 's/192.168.8.7/localhost/g' ./envs/.env.docker.test
           docker compose \
-            --env-file ../envs/.env.docker.test \
+            --env-file ./envs/.env.docker.test \
             -f ./docker/compose.test.yaml \
             up -d \
             --remove-orphans
@@ -39,7 +40,16 @@ jobs:
           until docker exec test_postgresql_fastapi_template test_postgresql_fastapi_template; do
             sleep 2
           done
-
+      - name: Run tests with coverage
+        env:
+          # define an env var, only valid in ci check.
+          # because in tests/conftest.py, ci cannot read private ip like 192.168.x.x
+          # so define a local loop ip, let gitHub runner can run tests.
+          # but we need use os.getenv() in conftest.py
+          TEST_DATABASE_URL: postgresql+psycopg2://jack:jack021213@localhost:5433/test_fastapi_template
+          # ----------------
+        run: |
+          poetry run coverage run -m pytest -v
       - name: Run tests with coverage
         run: |
           poetry run coverage run -m pytest -v
