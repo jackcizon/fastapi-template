@@ -1,6 +1,6 @@
 [project]
 name = "fastapi_template"
-version = "2.1.4"
+version = "2.2.0"
 description = "A Minium FastAPI Template Project"
 authors = [
     { name = "jackcizon", email = "jack20021213cn@gmail.com" }
