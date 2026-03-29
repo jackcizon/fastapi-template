@@ -4,7 +4,7 @@ from collections.abc import Generator
 from functools import partial
 
 import pytest
-from sqlalchemy import create_engine, StaticPool
+from sqlalchemy import create_engine, event
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import sessionmaker, Session
 
@@ -12,9 +12,10 @@ from src.main import app
 from src.core.db.models import Base
 from src.core.db.session import get_db
 
-engine = create_engine("sqlite:///:memory:", connect_args={"check_same_thread": False}, poolclass=StaticPool)
-
-TestSessionLocal = sessionmaker(bind=engine)
+# Hint: when test config becomes complex, use json as config.
+SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://jack:jack021213@192.168.8.7:5433/test_fastapi_template"
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
+TestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 # global fixture
@@ -29,23 +30,22 @@ def setup_database():
 @pytest.fixture
 def test_db() -> Generator[Session, None, None]:
     """class Generator(Iterator[_YieldT_co], Generic[_YieldT_co, _SendT_contra, _ReturnT_co]):"""
-    session = TestSessionLocal()
+    connection = engine.connect()
+    transaction = connection.begin()
 
-    try:
-        yield session
-        # must commit in test functions
-        # In the test function, `commit` will immediately assert.
-        # otherwise, it will cause an assertion error inside the function.
-        # session.commit()
-    except Exception as e:
-        print(e)
-        session.rollback()
-        raise
-    finally:
-        session.close()
-        # del tables data
-        for table in reversed(Base.metadata.sorted_tables):
-            session.execute(table.delete())
+    session = TestSessionLocal(bind=connection)
+    session.begin_nested()
+
+    @event.listens_for(session, "after_transaction_end")
+    def restart_savepoint(session_, transaction_):
+        if transaction_.nested and not transaction_._parent.nested:
+            session_.begin_nested()
+
+    yield session
+
+    session.close()
+    transaction.rollback()
+    connection.close()
 
 
 def override_get_db(db: Session) -> Generator[Session, None, None]:
