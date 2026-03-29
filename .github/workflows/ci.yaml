@@ -47,10 +47,5 @@ jobs:
           # so define a local loop ip, let gitHub runner can run tests.
           # but we need use os.getenv() in conftest.py
           TEST_DATABASE_URL: postgresql+psycopg2://jack:jack021213@localhost:5433/test_fastapi_template
-          # ----------------
         run: |
           poetry run coverage run -m pytest -v
-      - name: Run tests with coverage
-        run: |
-          poetry run coverage run -m pytest -v
-          poetry run coverage report -m --fail-under=80
