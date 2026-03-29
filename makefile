@@ -1,4 +1,4 @@
-.PHONY: all lint format type test coverage pre_commit commit changelog
+.PHONY: all lint format type test coverage pre_commit
 
 all: pre_commit coverage
 
