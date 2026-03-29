@@ -9,8 +9,7 @@ from src.utils.datastructures.json_web_token import JSONWebToken
 class RefreshService:
     @staticmethod
     def refresh(req: RefreshRequestSchema, db: Session) -> RefreshResponseSchema:
-        refresh_token = req.refresh
-        payload = JSONWebToken.decode_token(refresh_token, token_type="refresh")
+        payload = JSONWebToken.decode_token(req.refresh, token_type="refresh")
         user_id = payload.get("user_id")
         user = UserRepo(db).get_by_id(user_id)
         if user is None:

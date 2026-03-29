@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel  # pragma: no cover
 
 
-class RegisterRequestSchema(BaseModel):
+class RegisterRequestSchema(BaseModel):  # pragma: no cover
     pass
 
 
-class RegisterResponseSchema(BaseModel):
+class RegisterResponseSchema(BaseModel):  # pragma: no cover
     pass

@@ -1,4 +1,4 @@
-from sqlalchemy import text, delete
+from sqlalchemy import delete
 from sqlalchemy.orm import Session
 from sqlalchemy.dialects.postgresql.dml import Insert
 
