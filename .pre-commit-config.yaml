@@ -21,10 +21,3 @@ repos:
         entry: poetry run mypy --config-file mypy.ini
         language: system
         pass_filenames: false
-
-      - id: pytest
-        name: test
-        entry: poetry run pytest
-        language: system
-        pass_filenames: false
-        args: [ "-q" ]
