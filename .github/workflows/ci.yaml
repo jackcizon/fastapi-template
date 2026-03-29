@@ -37,7 +37,7 @@ jobs:
             up -d \
             --remove-orphans
           echo "Waiting for Postgres to be ready..."
-          until docker exec test_postgresql_fastapi_template test_postgresql_fastapi_template; do
+          until docker exec test_postgresql_fastapi_template pg_isready -U jack; do
             sleep 2
           done
       - name: Run tests with coverage
