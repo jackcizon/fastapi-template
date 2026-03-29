@@ -27,6 +27,19 @@ jobs:
       - name: pre-commit
         run: poetry run pre-commit run -a
 
+      - name: Start Postgres for Testing
+        run: |
+          sed -i 's/192.168.8.7/localhost/g' ./envs/.env.docker.test
+          docker compose \
+            --env-file ../envs/.env.docker.test \
+            -f ./docker/compose.test.yaml \
+            up -d \
+            --remove-orphans
+          echo "Waiting for Postgres to be ready..."
+          until docker exec test_postgresql_fastapi_template test_postgresql_fastapi_template; do
+            sleep 2
+          done
+
       - name: Run tests with coverage
         run: |
           poetry run coverage run -m pytest -v
