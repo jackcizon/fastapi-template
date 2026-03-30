@@ -11,7 +11,7 @@ class RefreshService:
     def refresh(req: RefreshRequestSchema, db: Session) -> RefreshResponseSchema:
         payload = JSONWebToken.decode_token(req.refresh, token_type="refresh")
         user_id = payload.get("user_id")
-        user = UserRepo(db).get_by_id(user_id)
+        user = UserRepo(db).get_one_by_field_eq("id", user_id)
         if user is None:
             raise AuthError("User not found.")
         access = JSONWebToken.create_access_token(user_id)

@@ -10,7 +10,7 @@ from src.core.exceptions.auth import AuthError
 
 class TestRefreshService:
     @patch("src.api.auth.services.refresh_service.JSONWebToken")
-    def test_refresh_success_with_sqlite(self, mock_jwt, test_db):
+    def test_refresh_success(self, mock_jwt, test_db):
         """
         @patch("src.utils.datastructures.json_web_token.JSONWebToken")  # error
         @patch("src.api.auth.services.refresh_service.JSONWebToken")  # right
@@ -35,7 +35,7 @@ class TestRefreshService:
         assert response.access == "new_access_token_123"
 
     @patch("src.api.auth.services.refresh_service.JSONWebToken")
-    def test_refresh_user_not_found_in_sqlite(self, mock_jwt, test_db):
+    def test_refresh_user_not_found(self, mock_jwt, test_db):
         mock_jwt.decode_token.return_value = {"user_id": 99}
 
         req = RefreshRequestSchema(refresh="token_for_non_existent_user")
