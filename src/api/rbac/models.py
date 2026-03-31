@@ -1,24 +1,23 @@
 from sqlalchemy import String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
+from src.core.db.mixin import IdMixin
 from src.core.db.models import BaseModel, Base
 
 
-class Role(Base):
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+class Role(IdMixin, Base):
     name: Mapped[str] = mapped_column(String(16), unique=True)
 
     __tablename__ = "Rbac_Role"
 
 
-class Permission(Base):
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+class Permission(IdMixin, Base):
     code: Mapped[str] = mapped_column(String(256), unique=True)
 
     __tablename__ = "Rbac_Permission"
 
 
-class User(BaseModel):
+class User(IdMixin, BaseModel):
     name: Mapped[str] = mapped_column(String(16))
     email: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(String(256))
@@ -26,10 +25,9 @@ class User(BaseModel):
     __tablename__ = "Rbac_User"
 
 
-class User2Role(Base):
+class User2Role(IdMixin, Base):
     """no fk constraint, but do more works."""
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     user_id: Mapped[int] = mapped_column(index=True)
     role_id: Mapped[int] = mapped_column(index=True)
 
@@ -37,8 +35,7 @@ class User2Role(Base):
     __table_args__ = (UniqueConstraint("user_id", "role_id", name="unique_user_role"),)
 
 
-class Role2Permission(Base):
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+class Role2Permission(IdMixin, Base):
     role_id: Mapped[int] = mapped_column(index=True)
     permission_id: Mapped[int] = mapped_column(index=True)
 
