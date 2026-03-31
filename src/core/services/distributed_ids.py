@@ -2,6 +2,9 @@
 # https://github.com/twitter-archive/snowflake/blob/snowflake-2010/src/main/scala/com/twitter/service/snowflake/IdWorker.scala
 
 import time
+import os
+
+__all__ = ["unique_id_factory"]
 
 # div 64 bits
 WORKER_ID_BITS = 5
@@ -81,6 +84,7 @@ class IdWorker(object):  # pragma: no cover
         return timestamp
 
 
-if __name__ == "__main__":
-    worker = IdWorker(1, 2, 0)
-    print(worker.get_id())
+WORKER_ID = int(os.getenv("WORKER_ID", 1))
+DATACENTER_ID = int(os.getenv("DATACENTER_ID", 1))
+worker = IdWorker(DATACENTER_ID, WORKER_ID)
+unique_id_factory = worker.get_id
