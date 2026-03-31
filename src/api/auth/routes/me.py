@@ -2,12 +2,13 @@ from fastapi import APIRouter, Depends
 from starlette.responses import JSONResponse
 
 from src.api.rbac.models import User
+from src.core.constants import ROLE
 from src.core.securities.jwt import jwt_required_dep
 
 me_router = APIRouter()
 
 
-@me_router.get("/me/", name="auth:me", openapi_extra={"role": "user"})
+@me_router.get("/me/", name="auth:me", openapi_extra={"role": ROLE.USER})
 async def me(user: User = Depends(jwt_required_dep)) -> JSONResponse:  # pragma: no cover
     """
     personal home page.
