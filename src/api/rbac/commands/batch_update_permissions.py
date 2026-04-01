@@ -9,6 +9,7 @@ from src.api.rbac.repos.permission_repo import PermissionRepo
 from src.api.rbac.repos.role2permission_repo import Role2PermissionRepo
 from src.core.db.session import SessionLocal
 from src.core.constants import ROLE_CHILD_MAP, PASSED_APP_PERMISSIONS_CHECK, DEFAULT_ROLE
+from src.utils.datastructures.permission_info import PermissionInfo
 from src.utils.helpers import get_superior_roles
 
 
@@ -18,9 +19,7 @@ class BatchUpdatePermissionsCommand(Command):
         self.help = "batch update rbac permissions"
 
     def invoke(self, ctx: Context) -> Any:
-        # permissions: list[PermissionInfo] = []
-        valid_codes: list[str] = []
-        roles_dict: dict[str, set[str]] = {}
+        permissions: list[PermissionInfo] = []
 
         app_routes: list[Route | APIRoute | Any] = app.instance.routes
         for app_route in app_routes:
@@ -48,38 +47,40 @@ class BatchUpdatePermissionsCommand(Command):
 
             role_parents_set = get_superior_roles(role, ROLE_CHILD_MAP)
 
-            # permissions.append(PermissionInfo(code=code, role_parents_set=role_parents_set))
-            valid_codes.append(code)
-            roles_dict[role] = role_parents_set
+            permissions.append(PermissionInfo(code=code, role_parents_set=role_parents_set))
 
+        # for permission in permissions:
+        #     print(f"{permission.code:<20} => {permission.role_parents_set}")
+
+        # exit()
         with SessionLocal() as db:  # manually manage db context
             try:
                 perm_repo = PermissionRepo(db)
                 role2perm_repo = Role2PermissionRepo(db)
 
-                if valid_codes is None:
-                    perm_repo.del_all()
-                    role2perm_repo.del_all()
-                    db.commit()
-                    return
-
-                perm_repo.upsert_by_codes(valid_codes)
-                perm_repo.del_dirty_data(valid_codes)
-
-                # Role2Permission
-                role_perm_pairs: list[tuple[str, str]] = []
-                for code in valid_codes:
-                    for role, parents in roles_dict.items():
-                        for parent_role in parents:
-                            # [('cto', 'auth:login'), ('user', 'auth:login'), ('staff', 'auth:login'), ...]
-                            role_perm_pairs.append((parent_role, code))
-
-                if not role_perm_pairs:
-                    db.commit()
-                    return
-
-                role2perm_repo.upsert_by_role_perm_pairs(role_perm_pairs)
-                role2perm_repo.del_dirty_data(role_perm_pairs)
+                # if valid_codes is None:
+                #     perm_repo.del_all()
+                #     role2perm_repo.del_all()
+                #     db.commit()
+                #     return
+                #
+                # perm_repo.upsert_by_codes(valid_codes)
+                # perm_repo.del_dirty_data(valid_codes)
+                #
+                # # Role2Permission
+                # role_perm_pairs: list[tuple[str, str]] = []
+                # for code in valid_codes:
+                #     for role, parents in roles_dict.items():
+                #         for parent_role in parents:
+                #             # [('cto', 'auth:login'), ('user', 'auth:login'), ('staff', 'auth:login'), ...]
+                #             role_perm_pairs.append((parent_role, code))
+                #
+                # if not role_perm_pairs:
+                #     db.commit()
+                #     return
+                #
+                # role2perm_repo.upsert_by_role_perm_pairs(role_perm_pairs)
+                # role2perm_repo.del_dirty_data(role_perm_pairs)
 
                 # example in django orm: not optimize:
                 # for permission in permissions:
