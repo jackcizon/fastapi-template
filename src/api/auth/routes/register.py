@@ -3,7 +3,7 @@ from fastapi import APIRouter
 register_router = APIRouter()
 
 
-@register_router.post("/register/", name="auth:register")  # pragma: no cover
+@register_router.post("/register/", name="auth:register:post")  # pragma: no cover
 async def register() -> None:
     """
     Warning, you should:

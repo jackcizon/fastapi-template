@@ -10,7 +10,7 @@ from src.core.db.session import get_db
 refresh_router = APIRouter()
 
 
-@refresh_router.post("/refresh/", name="auth:refresh")
+@refresh_router.post("/refresh/", name="auth:refresh:post")
 async def refresh(req: RefreshRequestSchema, db: Session = Depends(get_db)) -> JSONResponse:  # pragma: no cover
     resp = RefreshService.refresh(req, db)
     return JSONResponse(content={"access": resp.access})
