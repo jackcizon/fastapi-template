@@ -31,9 +31,6 @@ class QueryRepo(BaseRepo[Model]):
         stat = select(self.model).where(col.in_(vals))
         return self.db.execute(stat).scalars().all()
 
-    def execute_stat_params(self, stat: Any, params: list[dict[str, Any]]) -> Any:
-        return self.db.execute(stat, params)
-
 
 class ModifyRepo(BaseRepo[Model]):
     """update, delete, insert"""
@@ -45,3 +42,6 @@ class ModifyRepo(BaseRepo[Model]):
 
 class CrudRepo(QueryRepo[Model], ModifyRepo[Model]):
     """crud"""
+
+    def execute_stat_params(self, stat: Any, params: list[dict[str, Any]] = None) -> Any:
+        return self.db.execute(stat, params)

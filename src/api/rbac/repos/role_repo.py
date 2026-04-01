@@ -4,11 +4,12 @@ from sqlalchemy.dialects.postgresql import Insert
 from sqlalchemy.orm import Session
 
 from src.api.rbac.models import Role
-from src.core.db.repo.base import BaseRepo
+from src.core.db.repo.base import CrudRepo
 from src.core.db.repo.mixins import BatchCreateMixin
+from src.core.types import Model
 
 
-class RoleRepo(BatchCreateMixin, BaseRepo):
+class RoleRepo(BatchCreateMixin, CrudRepo[Model]):
     def __init__(self, db: Session) -> None:
         super().__init__(db, model=Role)
 
