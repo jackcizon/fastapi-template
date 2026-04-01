@@ -32,7 +32,7 @@ def jwt_required_dep(request: Request) -> User:
 
     with SessionLocal() as db:
         try:
-            user = UserRepo(db).get_by_id(user_id)
+            user = UserRepo(db).get_one_by_field_eq("id", user_id)
         except Exception as e:
             print(e)
             db.rollback()
