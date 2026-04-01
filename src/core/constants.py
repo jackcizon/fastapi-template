@@ -28,7 +28,7 @@ ROLE_CHILD_MAP = {
 
 DEFAULT_ROLES = [role.value for role in ROLE]
 
-DEFAULT_ROLE = DEFAULT_ROLES[0]
+DEFAULT_ROLE = ROLE.VISITOR.value
 
 PASSED_APP_PERMISSIONS_CHECK: Final[list[str]] = [
     "alembic",

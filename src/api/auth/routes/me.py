@@ -8,7 +8,7 @@ from src.core.securities.jwt import jwt_required_dep
 me_router = APIRouter()
 
 
-@me_router.get("/me/", name="auth:me", openapi_extra={"role": ROLE.USER})
+@me_router.get("/me/", name="auth:me", openapi_extra={"role": ROLE.USER.value})
 async def me(user: User = Depends(jwt_required_dep)) -> JSONResponse:  # pragma: no cover
     """
     personal home page.
