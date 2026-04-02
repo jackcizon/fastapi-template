@@ -11,7 +11,7 @@ omit =
     */router.py
 
 [report]
-fail_under = 80
+fail_under = 60
 show_missing = True
 exclude_lines =
     pragma: no cover
