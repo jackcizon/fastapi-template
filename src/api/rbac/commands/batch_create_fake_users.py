@@ -5,7 +5,7 @@ from faker import Faker
 from click import Context, Parameter, Option, Command
 
 from src.api.rbac.repos.user_repo import UserRepo
-from src.core.db.session import SessionLocal
+from src.core.db.session import AsyncSessionFactory
 from src.core.securities.password import Password
 
 
@@ -18,14 +18,14 @@ class BatchCreateFakeUsersCommand(Command):
         ]
         self.help = "default password is `123456`, they don't have roles, they are login visitors."
 
-    def invoke(self, ctx: Context) -> Any:
+    async def invoke(self, ctx: Context) -> Any:
         number = int(ctx.params.get("number"))
         number = 100_000 if number > 100_000 else number
-        self._batch_create(number)
+        await self._batch_create(number)
         return super().invoke(ctx)
 
     @staticmethod
-    def _batch_create(num: int) -> None:
+    async def _batch_create(num: int) -> None:
         faker_ = Faker()
         params = []
 
@@ -46,11 +46,11 @@ class BatchCreateFakeUsersCommand(Command):
                 }
             )
 
-        with SessionLocal() as db:
+        async with AsyncSessionFactory() as db:
             try:
-                UserRepo(db).batch_create(params=params)
-                db.commit()
+                await UserRepo(db).batch_create(params=params)
+                await db.commit()
             except Exception as e:
                 print(e)
-                db.rollback()
+                await db.rollback()
                 raise

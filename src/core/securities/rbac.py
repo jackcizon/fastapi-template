@@ -2,7 +2,7 @@ from typing import Any, Sequence
 
 from fastapi import HTTPException, Request, Depends
 from fastapi.routing import APIRoute
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.api.rbac.models import User
 from src.api.rbac.repos.rbac_repo import RbacRepo
@@ -11,9 +11,9 @@ from src.core.securities.jwt import jwt_required_dep
 from src.core.constants import DEFAULT_ROLE
 
 
-def role_permission_check_dep(
+async def role_permission_check_dep(
     request: Request,
-    db: Session = Depends(get_db),
+    db: AsyncSession = Depends(get_db),
     user: User = Depends(jwt_required_dep),
 ) -> tuple[User, str]:
     """
@@ -27,7 +27,7 @@ def role_permission_check_dep(
     else:
         role = metadata.get("role")
 
-    user_permissions = RbacRepo(db).get_user_permissions(user)
+    user_permissions: Any = await RbacRepo(db).get_user_permissions(user)
     codes = [user_perm for user_perm in user_permissions]
     if permission_code not in codes:
         raise HTTPException(status_code=403, detail="403 Forbidden")
@@ -51,8 +51,8 @@ class RolePermissionCheck:
         else:
             self._role = metadata.get("role")
 
-    def _has_permission(self, db: Session, user: User) -> bool:
-        user_permissions: Sequence[str] = RbacRepo(db).get_user_permissions(user)
+    async def _has_permission(self, db: AsyncSession, user: User) -> bool:
+        user_permissions: Sequence[str] = await RbacRepo(db).get_user_permissions(user)
         codes: list[str] = [user_permission for user_permission in user_permissions]
 
         if self._permission_code in codes:
@@ -65,7 +65,7 @@ class RolePermissionCheck:
     async def __call__(
         self,
         request: Request,
-        db: Session,  # can del Depends, avoid repeat params
+        db: AsyncSession,  # can del Depends, avoid repeat params
         user: User,  # can del Depends, avoid repeat params
     ) -> tuple[User, str]:
         await self._assign_args(request, user)
@@ -75,7 +75,7 @@ class RolePermissionCheck:
 
 
 async def role_prem_check_wrapper_dep(
-    request: Request, db: Session = Depends(get_db), user: User = Depends(jwt_required_dep)
+    request: Request, db: AsyncSession = Depends(get_db), user: User = Depends(jwt_required_dep)
 ) -> tuple[User, str]:
     checker = RolePermissionCheck()
     return await checker(request, db, user)

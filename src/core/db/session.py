@@ -1,33 +1,21 @@
-from collections.abc import Generator
+from typing import AsyncGenerator
 
-from sqlalchemy.engine.create import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 
 from src.core.config import settings
 
-engine = create_engine(settings.database_url, pool_pre_ping=True)
-# session factory
-SessionLocal = sessionmaker(engine)
+engine = create_async_engine(settings.database_url, pool_pre_ping=True)
+AsyncSessionFactory = async_sessionmaker(bind=engine, expire_on_commit=False)
 
 
-def get_db() -> Generator:
-    """
-    A Route(with Depends() -> context)---------\
-                                                =====> Service -> Repo -> DB
-    A Script(with SessionLocal() -> context)---/
-
-    call it in routes via `db = Depends(get_db)`.
-
-    `with SessionLocal() as db:` is not recommend usually, because you need to manually manage `try, except, finally`,
-    or use it in scripts.
-    """
-    db = SessionLocal()
-    try:
-        yield db
-        db.commit()  # comment this line if you want to manually commit in `with` code block
-    except Exception as e:
-        print(e)
-        db.rollback()
-        raise  # any exceptions
-    finally:
-        db.close()
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
+    async with AsyncSessionFactory() as db:
+        try:
+            yield db
+            await db.commit()  # comment this line if you want to manually commit in `with` code block
+        except Exception as e:
+            await db.rollback()
+            print(e)
+            raise  # any exceptions
+        finally:
+            await db.close()

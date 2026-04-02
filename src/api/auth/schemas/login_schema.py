@@ -1,4 +1,16 @@
+from typing import TypedDict
+
 from pydantic import BaseModel, Field
+
+
+class LoginRequest(TypedDict):
+    email: str
+    password: str
+
+
+class LoginResponse(TypedDict):
+    access: str
+    refresh: str
 
 
 class LoginRequestSchema(BaseModel):

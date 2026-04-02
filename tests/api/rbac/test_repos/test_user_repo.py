@@ -1,33 +1,34 @@
 from datetime import datetime
-from typing import Any
 
 from faker import Faker
 from sqlalchemy import Select, func, delete
+from sqlalchemy.dialects.postgresql import Insert
 
 from src.api.rbac.models import User
 from src.api.rbac.repos.user_repo import UserRepo
 
 
 class TestUserRepo:
-    def test_get_user_by_email(self, test_db):
+    async def test_get_user_by_email(self, test_db):
         name = "abcdefg"
         email = "aaa@qq.com"
         password = "123456"
-        user = User(name=name, email=email, password=password)
-        test_db.add(user)
-        test_db.commit()
+        stat = Insert(User)
+        params = [{"name": name, "email": email, "password": password}]
+        await test_db.execute(stat, params)
+        await test_db.flush()
 
-        user_dict: dict[str, Any] | None = UserRepo(test_db).get_user_by_email(email)
+        user: User | None = await UserRepo(test_db).get_one_by_field_eq("email", email)
 
-        assert user_dict.get("id") is not None
-        assert user_dict.get("name") == name
-        assert user_dict.get("email") == email
-        assert user_dict.get("password") == password
+        assert user.id is not None
+        assert user.name == name
+        assert user.email == email
+        assert user.password == password
 
-    def test_batch_create(self, test_db):
+    async def test_batch_create(self, test_db):
         stat = delete(User)
-        test_db.execute(stat)
-        test_db.commit()
+        await test_db.execute(stat)
+        await test_db.flush()
 
         faker_ = Faker()
         num = 10
@@ -47,10 +48,11 @@ class TestUserRepo:
                 }
             )
 
-        UserRepo(test_db).batch_create(params=params)
-        test_db.commit()
+        await UserRepo(test_db).batch_create(params=params)
+        await test_db.flush()
 
         stat = Select(func.count()).select_from(User)
-        count = test_db.execute(stat).scalar()
+        res = await test_db.execute(stat)
+        count = res.scalar()
 
         assert count == num

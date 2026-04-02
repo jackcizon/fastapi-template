@@ -3,11 +3,11 @@ from jwt import ExpiredSignatureError, InvalidTokenError
 
 from src.api.rbac.models import User
 from src.api.rbac.repos.user_repo import UserRepo
-from src.core.db.session import SessionLocal
+from src.core.db.session import AsyncSessionFactory
 from src.utils.datastructures.json_web_token import JSONWebToken
 
 
-def jwt_required_dep(request: Request) -> User:
+async def jwt_required_dep(request: Request) -> User:
     """
     :param request: FastAPI Request
     :return: str: user_id
@@ -30,15 +30,15 @@ def jwt_required_dep(request: Request) -> User:
         raise HTTPException(status_code=401, detail="token type must be access")
     user_id = payload.get("user_id")
 
-    with SessionLocal() as db:
+    async with AsyncSessionFactory() as db:
         try:
-            user = UserRepo(db).get_one_by_field_eq("id", user_id)
+            user = await UserRepo(db).get_one_by_field_eq("id", user_id)
         except Exception as e:
             print(e)
-            db.rollback()
+            await db.rollback()
             raise
         finally:
-            db.close()
+            await db.close()
 
     if not user_id or user is None:
         raise HTTPException(401, "Invalid token payload")

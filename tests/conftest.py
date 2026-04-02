@@ -1,84 +1,81 @@
-"""global fixtures"""
-
-from collections.abc import Generator
-from functools import partial
-
+import asyncio
 import pytest
-from sqlalchemy import create_engine, event
-from fastapi.testclient import TestClient
-from sqlalchemy.orm import sessionmaker, Session
+from httpx import AsyncClient, ASGITransport
+from sqlalchemy import NullPool
 
-from src.main import app
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+
+from src.core.config import Settings
 from src.core.db.models import Base
 from src.core.db.session import get_db
-from src.core.config import Settings
+from src.main import app
 
 test_settings = Settings("test")
 
-engine = create_engine(test_settings.database_url)
-TestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+DATABASE_URL = test_settings.database_url
 
 
-# global fixture
-# _ScopeName = Literal["session", "package", "module", "class", "function"]
 @pytest.fixture(scope="session", autouse=True)
-def setup_database():
-    Base.metadata.create_all(bind=engine)
+def event_loop():
+    loop = asyncio.new_event_loop()
+    yield loop
+    loop.close()
+
+
+@pytest.fixture(scope="session", autouse=True)
+def test_engine():
+    engine = create_async_engine(
+        DATABASE_URL,
+        echo=False,
+        pool_pre_ping=True,
+        poolclass=NullPool,  # must use it
+    )
+    return engine
+
+
+@pytest.fixture(scope="session", autouse=True)
+async def prepare_database(test_engine):
+    async with test_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
     yield
-    Base.metadata.drop_all(bind=engine)
+    async with test_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
 
 
 @pytest.fixture
-def test_db() -> Generator[Session, None, None]:
-    """class Generator(Iterator[_YieldT_co], Generic[_YieldT_co, _SendT_contra, _ReturnT_co]):"""
-    connection = engine.connect()
-    transaction = connection.begin()
+async def test_db(test_engine):
+    async with test_engine.connect() as conn:
+        trans = await conn.begin()
 
-    session = TestSessionLocal(bind=connection)
-    session.begin_nested()
+        session_factory = async_sessionmaker(
+            bind=conn,  # bind conn, not engine, otherwise may cause `different loop error`
+            class_=AsyncSession,
+            expire_on_commit=False,
+        )
 
-    @event.listens_for(session, "after_transaction_end")
-    def restart_savepoint(session_, transaction_):
-        if transaction_.nested and not transaction_._parent.nested:
-            session_.begin_nested()
+        async with session_factory() as session:
+            try:
+                yield session
+            finally:
+                await session.close()
 
-    yield session
-
-    session.close()
-    transaction.rollback()
-    connection.close()
-
-
-def override_get_db(db: Session) -> Generator[Session, None, None]:
-    try:
-        yield db
-    finally:
-        pass
+        await trans.rollback()
 
 
 @pytest.fixture
-def test_client(test_db: Session) -> Generator[TestClient, None, None]:
-    """test client factory
-
-    # e.g.:
-    from functools import partial
-
-    def get_name(name: str):
-        return name
-
-    get_jack = partial(name, "jack")  # froze `name` to "jack"
-
-    if __name__ == '__main__':
-        print(get_jack())
-    """
-
-    # use test db
-    # froze to `test_db`
+async def test_client(test_db):
     app_instance = app.instance
 
-    app_instance.dependency_overrides[get_db] = partial(override_get_db, test_db)
+    async def override_get_db():
+        yield test_db
 
-    with TestClient(app_instance) as client:
-        yield client
+    app_instance.dependency_overrides[get_db] = override_get_db
+
+    async with AsyncClient(
+        transport=ASGITransport(app=app_instance),
+        base_url="http://test",
+    ) as ac:
+        yield ac
 
     app_instance.dependency_overrides.clear()
