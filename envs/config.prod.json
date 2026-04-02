@@ -1,11 +1,11 @@
 {
     "env": "prod",
-    "debug": true,
+    "debug": false,
     "db": {
-        "name": "fastapi_template",
+        "name": "prod_fastapi_template",
         "user": "jack",
         "password": "jack021213",
-        "url": "postgresql+asyncpg://jack:jack021213@192.168.8.7:5432/fastapi_template"
+        "url": "postgresql+asyncpg://jack:jack021213@192.168.8.7:5432/prod_fastapi_template"
     },
     "cache": {
         "host": "0.0.0.0",
@@ -19,15 +19,9 @@
         "algo": "HS256"
     },
     "cors": {
-        "allow_origins": [
-            "*"
-        ],
+        "allow_origins": [],
         "allow_credentials": true,
-        "allow_methods": [
-            "*"
-        ],
-        "allow_headers": [
-            "*"
-        ]
+        "allow_methods": [],
+        "allow_headers": []
     }
 }
