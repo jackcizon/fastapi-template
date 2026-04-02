@@ -1,4 +1,6 @@
+import os
 import asyncio
+
 import pytest
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy import NullPool
@@ -12,7 +14,7 @@ from src.main import app
 
 test_settings = Settings("test")
 
-DATABASE_URL = test_settings.database_url
+TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL", test_settings.database_url)  # ci docker test db
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -25,7 +27,7 @@ def event_loop():
 @pytest.fixture(scope="session", autouse=True)
 def test_engine():
     engine = create_async_engine(
-        DATABASE_URL,
+        TEST_DATABASE_URL,
         echo=False,
         pool_pre_ping=True,
         poolclass=NullPool,  # must use it
