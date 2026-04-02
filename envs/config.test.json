@@ -1,11 +1,11 @@
 {
-    "env": "dev",
+    "env": "test",
     "debug": true,
     "db": {
         "name": "test_fastapi_template",
         "user": "jack",
         "password": "jack021213",
-        "url": "postgresql+psycopg2://jack:jack021213@192.168.8.7:5433/test_fastapi_template"
+        "url": "postgresql+asyncpg://jack:jack021213@192.168.8.7:5433/test_fastapi_template"
     },
     "cache": {
         "host": "0.0.0.0",

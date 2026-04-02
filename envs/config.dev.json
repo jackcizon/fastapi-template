@@ -5,7 +5,7 @@
         "name": "fastapi_template",
         "user": "jack",
         "password": "jack021213",
-        "url": "postgresql+psycopg2://jack:jack021213@192.168.8.7:5432/fastapi_template"
+        "url": "postgresql+asyncpg://jack:jack021213@192.168.8.7:5432/fastapi_template"
     },
     "cache": {
         "host": "0.0.0.0",

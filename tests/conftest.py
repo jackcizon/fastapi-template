@@ -12,11 +12,15 @@ from sqlalchemy.orm import sessionmaker, Session
 from src.main import app
 from src.core.db.models import Base
 from src.core.db.session import get_db
+from src.core.config import Settings
 
 # Hint: when test config becomes complex, use json as config.
 # 1. is there exists an env var:TEST_DATABASE_URL?
 # 2. if has(in CI)，just use it.
 # 3. if not exists,(in local), use private ip 192.168.x.x
+
+test_settings = Settings("test")
+
 SQLALCHEMY_DATABASE_URL = os.getenv(
     "TEST_DATABASE_URL", "postgresql+psycopg2://jack:jack021213@192.168.8.7:5433/test_fastapi_template"
 )
