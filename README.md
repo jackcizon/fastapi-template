@@ -4,7 +4,7 @@
 
 # Version
 
-`3.0.0` (async)
+`3.0.1` (async)
 
 ## get the template project:
 
