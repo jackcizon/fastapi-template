@@ -1,3 +1,4 @@
+import asyncio
 from typing import Any
 
 from click import Command, Context
@@ -11,9 +12,12 @@ class BatchCreateRolesCommand(Command):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
-    async def invoke(self, ctx: Context) -> Any:
-        await self._batch_create()
+    def invoke(self, ctx: Context) -> Any:
+        asyncio.run(self._invoke())
         return super().invoke(ctx)
+
+    async def _invoke(self) -> Any:
+        await self._batch_create()
 
     @staticmethod
     async def _batch_create() -> None:

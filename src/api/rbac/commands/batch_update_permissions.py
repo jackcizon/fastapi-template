@@ -1,5 +1,4 @@
 import asyncio
-import typing as t
 from typing import Any
 
 from click import Command, Context, Option
@@ -25,20 +24,22 @@ class BatchUpdatePermissionsCommand(Command):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.help = "No CTE, No Join, All in python code."
-        self._dict = {"arg": {"purify": ["--purify"]}}
+        self._dict = {"opt": {"purify": ["--purify"]}}
         self.params = [
             Option(
-                param_decls=self._dict.get("arg").get("purify"),
+                param_decls=self._dict.get("opt").get("purify"),
                 is_flag=True,
                 default=False,
                 help="Purify Role2Permission table before sync.",
             ),
         ]
 
-    def invoke(self, ctx: Context) -> t.Any:
-        return asyncio.run(self._invoke(ctx))
+    def invoke(self, ctx: Context) -> Any:
+        asyncio.run(self._invoke(ctx))
+        return super().invoke(ctx)
 
-    async def _invoke(self, ctx: Context) -> Any:
+    @staticmethod
+    async def _invoke(ctx: Context) -> Any:
         permissions_info: list[PermissionInfo] = []
 
         app_routes: list[Route | APIRoute | Any] = app.instance.routes

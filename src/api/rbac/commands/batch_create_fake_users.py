@@ -1,3 +1,5 @@
+import asyncio
+import typing as t
 from typing import Any
 from datetime import datetime
 
@@ -18,11 +20,14 @@ class BatchCreateFakeUsersCommand(Command):
         ]
         self.help = "default password is `123456`, they don't have roles, they are login visitors."
 
-    async def invoke(self, ctx: Context) -> Any:
+    def invoke(self, ctx: Context) -> t.Any:
+        asyncio.run(self._invoke(ctx))
+        return super().invoke(ctx)
+
+    async def _invoke(self, ctx: Context) -> Any:
         number = int(ctx.params.get("number"))
         number = 100_000 if number > 100_000 else number
         await self._batch_create(number)
-        return super().invoke(ctx)
 
     @staticmethod
     async def _batch_create(num: int) -> None:
