@@ -1,9 +1,10 @@
+A Minimum FastAPI Template Project
+==================================
+
 .. image:: https://github.com/jackcizon/fastapi-template/actions/workflows/ci.yaml/badge.svg
    :target: https://github.com/jackcizon/fastapi-template/actions/workflows/ci.yaml
    :alt: CI
 
-A Minimum FastAPI Template Project
-==================================
 
 Version
 -------

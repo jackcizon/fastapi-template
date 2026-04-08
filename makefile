@@ -1,4 +1,4 @@
-.PHONY: all lint format type test coverage pre_commit
+.PHONY: all lint format type test coverage pre_commit docs
 
 all: pre_commit coverage
 
@@ -21,3 +21,6 @@ coverage:
 
 pre_commit:
 	poetry run pre-commit run -a
+
+docs:
+	sphinx-autobuild docs docs/_build/html
