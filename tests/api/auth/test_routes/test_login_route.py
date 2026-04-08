@@ -7,7 +7,7 @@ from src.api.rbac.models import User
 from src.core.securities.password import Password
 
 
-class TestAuthService:
+class TestLogin:
     url: Final[str] = "/auth/login/"
 
     async def test_login_success(self, test_client, test_db):
