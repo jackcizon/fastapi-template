@@ -3,6 +3,7 @@ import asyncio
 
 import pytest
 from httpx import AsyncClient, ASGITransport
+from redis.asyncio import Redis
 from sqlalchemy import NullPool
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
@@ -20,6 +21,21 @@ if TEST_DATABASE_URL.startswith("postgresql://"):
     TEST_DATABASE_URL = TEST_DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
 elif TEST_DATABASE_URL.startswith("postgresql+psycopg2://"):
     TEST_DATABASE_URL = TEST_DATABASE_URL.replace("postgresql+psycopg2://", "postgresql+asyncpg://", 1)
+
+
+TEST_REDIS_URL = os.getenv("TEST_REDIS_URL", test_settings.redis_host)
+TEST_CACHE = Redis(
+    host=TEST_REDIS_URL,
+    port=test_settings.redis_port,
+    password=test_settings.redis_password,
+    decode_responses=True,
+)
+
+
+@pytest.fixture()
+async def clear_test_redis():
+    await TEST_CACHE.flushdb()
+    yield
 
 
 @pytest.fixture(scope="session", autouse=True)
