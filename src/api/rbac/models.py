@@ -1,4 +1,4 @@
-from sqlalchemy import String, UniqueConstraint, BigInteger, Integer
+from sqlalchemy import String, UniqueConstraint, BigInteger, Integer, text, Index
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.core.db.mixin import IdMixin, DistributedIdMixin
@@ -23,6 +23,12 @@ class User(DistributedIdMixin, BaseModel):
     password: Mapped[str] = mapped_column(String(256))
 
     __tablename__ = "Rbac_User"
+    __table_args__ = (
+        # # partial index
+        # email is unique globally.
+        # enable reuse: if a user is deleted, his email can be reused, system can create a new user with same email.
+        Index("unique_user_email_active", "email", unique=True, postgresql_where=text("is_deleted IS FALSE")),
+    )
 
 
 class User2Role(DistributedIdMixin, Base):
