@@ -19,7 +19,7 @@ class Permission(IdMixin, Base):
 
 class User(DistributedIdMixin, BaseModel):
     name: Mapped[str] = mapped_column(String(16))
-    email: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(String(32), nullable=False)
     password: Mapped[str] = mapped_column(String(256))
 
     __tablename__ = "Rbac_User"
