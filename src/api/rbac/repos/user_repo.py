@@ -1,6 +1,6 @@
 from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import select, text
 from sqlalchemy.dialects.postgresql import Insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -25,5 +25,5 @@ class UserRepo(BatchCreateMixin, QueryRepo[User]):
 
     async def batch_create(self, params: list[dict[str, Any]] = None) -> None:
         stat = Insert(self.model)
-        stat = stat.on_conflict_do_nothing(index_elements=["email"])
+        stat = stat.on_conflict_do_nothing(index_elements=["email"], index_where=text("is_deleted IS FALSE"))
         await self.db.execute(stat, params)
