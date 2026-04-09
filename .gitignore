@@ -1,11 +1,12 @@
 __pycache__/
 .idea/
-poetry.lock
+*.lock
 .env
 .coverage
 htmlcov/
 
 # Docker volumes
-pgdata/
-redisdata/
+docker/data/
+
+# docs
 docs/_build/

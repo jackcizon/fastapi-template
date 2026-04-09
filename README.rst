@@ -26,9 +26,11 @@ Delete the useless parts
     cd fastapi-template
     rm -rf .git
     rm docs/*.md
-    rm -rf src/api/migrations
+    rm -rf src/api/migrations  # must do this, otherwise `db init` operation will fail.
     cd ..
     mv fastapi-template <your_project_name>
+    cd docs
+    mkdir _static  # if _static not exists
 
 Before starting
 ---------------
@@ -38,6 +40,8 @@ Before starting
 * Edit Docker configurations in ``docker/``.
 * See available scripts in ``scripts/``.
 * View CLI usage: ``python manage.py Demo``.
+* press ``ctrl+shift+r`` in PyCharm, find ``fastapi-template`` and ``fastapi_template``, replace with ``<your_proj>``.
+* ``poetry update`` to update deps, or use ``uv`` (maybe you like it, I prefer to ``poetry``).
 
 Init DB
 -------
@@ -62,8 +66,8 @@ In file ``src/api/migrations/env.py``, modify the metadata configuration:
 
 .. code-block:: python
 
-    from src.core.database import Base
-    from src.api.models import * # must include
+    from src.core.db.models import Base
+    from src.api.models import *  # must include
 
     target_metadata = Base.metadata
 
@@ -73,6 +77,9 @@ Start project
 .. code-block:: shell
 
     python manage.py AlembicCheck
+    # show error is ok
+	# it means `alembic` notifies you that the models have changed,
+	# but the migration has not yet occurred.
     python manage.py MakeMigrations
     python manage.py Migrate
 

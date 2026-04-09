@@ -26,7 +26,7 @@ ROLE_CHILD_MAP = {
     ROLE.CHAIRMAN.value: [ROLE.CEO.value],
 }
 
-DEFAULT_ROLES = [role.value for role in ROLE]
+DEFAULT_ROLES = [str(role.value) for role in ROLE]
 
 DEFAULT_ROLE = ROLE.VISITOR.value
 

@@ -25,5 +25,5 @@ class RunServerCommand(Command):
     def invoke(self, ctx: Context) -> Any:
         host = ctx.params.get("host")
         port = ctx.params.get("port")
-        uvicorn.run("main:app", host=host, port=port, reload=True, factory=True)
+        uvicorn.run("main:app", host=host, port=port, reload=True, factory=True, reload_dirs=["src"])
         return super().invoke(ctx)

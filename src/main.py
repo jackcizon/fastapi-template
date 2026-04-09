@@ -10,5 +10,4 @@ from src.core.application.lazy_load_app import LazyLoadApp
 app = LazyLoadApp(debug=settings.debug)
 
 if __name__ == "__main__":
-    uvicorn.run(app=app, factory=True)
-    # uvicorn.run(app=app(), factory=False)
+    uvicorn.run(app=app, host="0.0.0.0", factory=True, reload_dirs=["src"])
