@@ -3,5 +3,5 @@ from redis.asyncio.client import Redis
 from src.core.config import settings
 
 cache = Redis(
-    host=settings.redis_host, port=settings.redis_port, password=settings.redis_password, decode_responses=True
+    host=settings.cache_host, port=settings.cache_port, password=settings.cache_password, decode_responses=True
 )

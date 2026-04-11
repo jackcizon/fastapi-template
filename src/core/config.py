@@ -32,9 +32,9 @@ class Settings:
         self.database_url: str = self.config_dict["db"]["url"]
 
         # cache
-        self.redis_host: str = self.config_dict["cache"]["host"]
-        self.redis_port: int = self.config_dict["cache"]["port"]
-        self.redis_password: str = self.config_dict["cache"]["password"]
+        self.cache_host: str = self.config_dict["cache"]["host"]
+        self.cache_port: int = self.config_dict["cache"]["port"]
+        self.cache_password: str = self.config_dict["cache"]["password"]
 
         # jwt
         self.access_token_ttl: int = self.config_dict["jwt"]["access_token_ttl"]
@@ -47,6 +47,9 @@ class Settings:
         self.cors_allow_methods: list[str] = self.config_dict["cors"]["allow_methods"]
         self.cors_allow_credentials: bool = self.config_dict["cors"]["allow_credentials"]
         self.cors_allow_headers: list[str] = self.config_dict["cors"]["allow_headers"]
+
+        # broker
+        self.broker_url: str = self.config_dict["broker"]["url"]
 
 
 # use module level singleton

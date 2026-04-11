@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 
 @dataclass
-class RedisDir:
+class CacheKeys:
     pass
 
 
-redis_dir = RedisDir()
+cache_keys = CacheKeys()

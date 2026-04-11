@@ -23,11 +23,11 @@ elif TEST_DATABASE_URL.startswith("postgresql+psycopg2://"):
     TEST_DATABASE_URL = TEST_DATABASE_URL.replace("postgresql+psycopg2://", "postgresql+asyncpg://", 1)
 
 
-TEST_REDIS_URL = os.getenv("TEST_REDIS_URL", test_settings.redis_host)
+TEST_REDIS_URL = os.getenv("TEST_REDIS_URL", test_settings.cache_host)
 TEST_CACHE = Redis(
     host=TEST_REDIS_URL,
-    port=test_settings.redis_port,
-    password=test_settings.redis_password,
+    port=test_settings.cache_port,
+    password=test_settings.cache_password,
     decode_responses=True,
 )
 
