@@ -2,4 +2,4 @@
 docker compose \
   --env-file ../envs/.env.docker.dev \
   -f ../docker/compose.dev.yaml \
-  up -d
+  up -d --remove-orphans

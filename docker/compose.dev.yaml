@@ -9,24 +9,40 @@ services:
   #        - action: sync
   #          path: .
   #          target: /code
-  redis:
-    container_name: redis_fastapi_template
+  cache:
+    container_name: cache_fastapi_template
     image: redis:7.2-alpine
     ports:
-      - "${REDIS_PORT}:6379"
+      - "${CACHE_REDIS_PORT}:6379"
     volumes:
-      - ./data/redis:/data
+      - ./data/redis/cache:/data
     command:
       - redis-server
       - --bind
-      - "${REDIS_HOST}"
+      - "${CACHE_REDIS_HOST}"
       - --protected-mode
       - "no"
       - --appendonly
       - "yes"
       - --requirepass
-      - "${REDIS_PASSWORD}"
-
+      - "${CACHE_REDIS_PASSWORD}"
+  broker:
+    container_name: broker_fastapi_template
+    image: redis:7.2-alpine
+    ports:
+      - "${BROKER_REDIS_PORT}:6379"
+    volumes:
+      - ./data/redis/broker:/data
+    command:
+      - redis-server
+      - --bind
+      - "${BROKER_REDIS_HOST}"
+      - --protected-mode
+      - "no"
+      - --appendonly
+      - "yes"
+      - --requirepass
+      - "${BROKER_REDIS_PASSWORD}"
   postgres:
     container_name: postgresql_fastapi_template
     image: postgres:16.2

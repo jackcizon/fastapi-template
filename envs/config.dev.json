@@ -12,6 +12,12 @@
         "port": "6379",
         "password": "jack021213"
     },
+    "broker": {
+        "host": "192.168.8.7",
+        "port": "6380",
+        "password": "jack021213",
+        "url": "redis://default:jack021213@192.168.8.7:6380/0"
+    },
     "jwt": {
         "access_token_ttl": 3600,
         "refresh_token_ttl": 360000,

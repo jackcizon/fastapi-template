@@ -24,3 +24,6 @@ pre_commit:
 
 docs:
 	sphinx-autobuild docs docs/_build/html
+
+task:
+	celery --app=tasks.main worker -l INFO
