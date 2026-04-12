@@ -11,6 +11,6 @@ refresh_router = APIRouter()
 
 
 @refresh_router.post("/refresh/", name="auth:refresh:post")
-async def refresh(req: RefreshRequestSchema, db: AsyncSession = Depends(get_db)) -> JSONResponse:  # pragma: no cover
+async def refresh(req: RefreshRequestSchema, db: AsyncSession = Depends(get_db)) -> JSONResponse:
     resp_dict = await RefreshService.refresh(req.model_dump(), db)
     return JSONResponse(content=RefreshResponseSchema(**resp_dict).model_dump())

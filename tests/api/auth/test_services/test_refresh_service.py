@@ -4,7 +4,7 @@ import pytest
 from sqlalchemy.dialects.postgresql import insert
 
 from src.api.rbac.models import User
-from src.api.auth.schemas.refresh_schema import RefreshRequestSchema
+from src.api.auth.schemas.refresh_schema import RefreshRequest
 from src.api.auth.services.refresh_service import RefreshService
 from src.core.exceptions.auth import AuthError
 
@@ -31,7 +31,7 @@ class TestRefreshService:
         mock_jwt.decode_token.return_value = {"user_id": 1}
         mock_jwt.create_access_token.return_value = "new_access_token_123"
 
-        req = RefreshRequestSchema(refresh="valid_refresh_token").model_dump()
+        req = RefreshRequest(refresh="valid_refresh_token")
         response = await RefreshService.refresh(req, test_db)
 
         assert response["access"] == "new_access_token_123"
@@ -40,7 +40,7 @@ class TestRefreshService:
     async def test_refresh_user_not_found(self, mock_jwt, test_db):
         mock_jwt.decode_token.return_value = {"user_id": 99}
 
-        req = RefreshRequestSchema(refresh="token_for_non_existent_user").model_dump()
+        req = RefreshRequest(refresh="token_for_non_existent_user")
 
         with pytest.raises(AuthError):
             await RefreshService.refresh(req, test_db)
