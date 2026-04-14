@@ -9,7 +9,7 @@ A Minimum FastAPI Template Project
 Version
 -------
 
-``3.0.2`` (async)
+``3.1.0`` (async)
 
 Get the template project
 ------------------------
@@ -40,7 +40,7 @@ Before starting
 * Edit Docker configurations in ``docker/``.
 * See available scripts in ``scripts/``.
 * View CLI usage: ``python manage.py Demo``.
-* press ``ctrl+shift+r`` in PyCharm, find ``fastapi-template`` and ``fastapi_template``, replace with ``<your_proj>``.
+* press ``ctrl+shift+r`` in PyCharm, find ``fastapi[_-]template``, and `192.168.8.7`, replace with your conf.
 * ``poetry update`` to update deps, or use ``uv`` (maybe you like it, I prefer to ``poetry``).
 
 Init DB
