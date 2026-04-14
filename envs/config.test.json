@@ -9,14 +9,15 @@
     },
     "cache": {
         "host": "192.168.8.7",
-        "port": "6379",
-        "password": "jack021213"
+        "port": "6389",
+        "password": "jack021213",
+        "url": "redis://default:jack021213@192.168.8.7:6389/0"
     },
     "broker": {
         "host": "192.168.8.7",
-        "port": "6380",
+        "port": "6390",
         "password": "jack021213",
-        "url": "redis://default:jack021213@192.168.8.7:6380/0"
+        "url": "redis://default:jack021213@192.168.8.7:6390/0"
     },
     "jwt": {
         "access_token_ttl": 3600,

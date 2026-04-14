@@ -10,7 +10,8 @@
     "cache": {
         "host": "192.168.8.7",
         "port": "6379",
-        "password": "jack021213"
+        "password": "jack021213",
+        "url": "redis://default:jack021213@192.168.8.7:6379/0"
     },
     "broker": {
         "host": "192.168.8.7",

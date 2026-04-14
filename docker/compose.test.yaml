@@ -9,3 +9,33 @@ services:
       - POSTGRES_USER=${TEST_POSTGRES_USER}
       - POSTGRES_PASSWORD=${TEST_POSTGRES_PW}
       - POSTGRES_DB=${TEST_POSTGRES_DB}
+  cache:
+    container_name: test_cache_fastapi_template
+    image: redis:7.2-alpine
+    ports:
+      - "${TEST_CACHE_REDIS_PORT}:6379"
+    command:
+      - redis-server
+      - --bind
+      - "${TEST_CACHE_REDIS_HOST}"
+      - --protected-mode
+      - "no"
+      - --appendonly
+      - "yes"
+      - --requirepass
+      - "${TEST_CACHE_REDIS_PASSWORD}"
+  broker:
+    container_name: test_broker_fastapi_template
+    image: redis:7.2-alpine
+    ports:
+      - "${TEST_BROKER_REDIS_PORT}:6379"
+    command:
+      - redis-server
+      - --bind
+      - "${TEST_BROKER_REDIS_HOST}"
+      - --protected-mode
+      - "no"
+      - --appendonly
+      - "yes"
+      - --requirepass
+      - "${TEST_BROKER_REDIS_PASSWORD}"
