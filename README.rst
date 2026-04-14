@@ -9,7 +9,7 @@ A Minimum FastAPI Template Project
 Version
 -------
 
-``3.1.0`` (async)
+``3.1.1`` (async)
 
 Get the template project
 ------------------------
