@@ -32,6 +32,7 @@ class Settings:
         self.database_url: str = self.config_dict["db"]["url"]
 
         # cache
+        self.cache_url: str = self.config_dict["cache"]["url"]
         self.cache_host: str = self.config_dict["cache"]["host"]
         self.cache_port: int = self.config_dict["cache"]["port"]
         self.cache_password: str = self.config_dict["cache"]["password"]
@@ -50,6 +51,9 @@ class Settings:
 
         # broker
         self.broker_url: str = self.config_dict["broker"]["url"]
+        self.broker_host: str = self.config_dict["broker"]["host"]
+        self.broker_port: int = self.config_dict["broker"]["port"]
+        self.broker_password: str = self.config_dict["broker"]["password"]
 
 
 # use module level singleton

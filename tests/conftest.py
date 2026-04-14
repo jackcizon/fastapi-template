@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from src.core.config import Settings
 from src.core.db.models import Base
 from src.core.db.session import get_db
+from src.core.rdb.base import get_cache, get_broker
 from src.main import app
 
 test_settings = Settings("test")
@@ -23,19 +24,32 @@ elif TEST_DATABASE_URL.startswith("postgresql+psycopg2://"):
     TEST_DATABASE_URL = TEST_DATABASE_URL.replace("postgresql+psycopg2://", "postgresql+asyncpg://", 1)
 
 
-TEST_REDIS_URL = os.getenv("TEST_REDIS_URL", test_settings.cache_host)
-TEST_CACHE = Redis(
-    host=TEST_REDIS_URL,
-    port=test_settings.cache_port,
-    password=test_settings.cache_password,
-    decode_responses=True,
-)
+@pytest.fixture
+async def test_cache():
+    client = Redis(
+        host=os.getenv("TEST_CACHE_REDIS_URL", test_settings.cache_host),
+        port=test_settings.cache_port,
+        password=test_settings.cache_password,
+        decode_responses=True,
+    )
+    await client.flushdb()
+    yield client
+    await client.flushdb()
+    await client.aclose()
 
 
-@pytest.fixture()
-async def clear_test_redis():
-    await TEST_CACHE.flushdb()
-    yield
+@pytest.fixture
+async def test_broker():
+    client = Redis(
+        host=os.getenv("TEST_BROKER_REDIS_URL", test_settings.broker_host),
+        port=test_settings.broker_port,
+        password=test_settings.broker_password,
+        decode_responses=True,
+    )
+    await client.flushdb()
+    yield client
+    await client.flushdb()
+    await client.aclose()
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -87,13 +101,21 @@ async def test_db(test_engine):
 
 
 @pytest.fixture
-async def test_client(test_db):
+async def test_client(test_db, test_cache, test_broker):
     app_instance = app.instance
 
     async def override_get_db():
         yield test_db
 
+    async def override_get_cache():
+        yield test_cache
+
+    async def override_get_broker():
+        yield test_broker
+
     app_instance.dependency_overrides[get_db] = override_get_db
+    app_instance.dependency_overrides[get_cache] = override_get_cache
+    app_instance.dependency_overrides[get_broker] = override_get_broker
 
     async with AsyncClient(
         transport=ASGITransport(app=app_instance),
