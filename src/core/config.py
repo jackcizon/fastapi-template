@@ -55,6 +55,12 @@ class Settings:
         self.broker_port: int = self.config_dict["broker"]["port"]
         self.broker_password: str = self.config_dict["broker"]["password"]
 
+        # smtp
+        self.smtp_server: str = self.config_dict["smtp"]["server"]
+        self.smtp_port: str = self.config_dict["smtp"]["port"]
+        self.smtp_from_email: str = self.config_dict["smtp"]["from_email"]
+        self.smtp_password: str = self.config_dict["smtp"]["password"]
+
 
 # use module level singleton
 settings = Settings()

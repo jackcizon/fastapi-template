@@ -36,5 +36,11 @@
         "allow_headers": [
             "*"
         ]
+    },
+    "smtp": {
+        "server": "",
+        "port": "",
+        "from_email": "",
+        "password": ""
     }
 }
