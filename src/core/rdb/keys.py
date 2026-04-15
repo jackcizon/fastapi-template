@@ -4,13 +4,12 @@ from dataclasses import dataclass
 @dataclass
 class CacheKeys:
     ratelimit = "limit:ip"
+    email_verification_code = "email_verification_code"
 
 
 @dataclass
 class BrokerKeys:
     """celery broker"""
-
-    pass
 
 
 cache_keys = CacheKeys()

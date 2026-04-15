@@ -20,8 +20,6 @@ class LoginService:
         Data flows through the domain layer using the most general data structure (Dict/TypedDict),
         which guarantees the atomicity and portability of business logic.
         Validation is the responsibility of the infrastructure layer and should not pollute the domain model.
-
-        # TODO: use typing.TypedDict to keep data safe.
         """
         user = await UserRepo(db).get_one_by_field_eq("email", login_request["email"])
         if user is None or not Password.verify(login_request["password"], user.password):
