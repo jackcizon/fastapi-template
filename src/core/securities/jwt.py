@@ -3,7 +3,7 @@ from jwt import ExpiredSignatureError, InvalidTokenError
 
 from src.api.rbac.models import User
 from src.api.rbac.repos.user_repo import UserRepo
-from src.core.db.session import AsyncSessionFactory
+from src.core.resources import resources
 from src.utils.datastructures.json_web_token import JSONWebToken
 
 
@@ -30,7 +30,7 @@ async def jwt_required_dep(request: Request) -> User:
         raise HTTPException(status_code=401, detail="token type must be access")
     user_id = payload.get("user_id")
 
-    async with AsyncSessionFactory() as db:
+    async with resources.session_factory() as db:
         try:
             user = await UserRepo(db).get_one_by_field_eq("id", user_id)
         except Exception as e:

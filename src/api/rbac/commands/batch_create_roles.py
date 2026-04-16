@@ -4,8 +4,8 @@ from typing import Any
 from click import Command, Context
 
 from src.api.rbac.repos.role_repo import RoleRepo
-from src.core.db.session import AsyncSessionFactory
 from src.core.constants import DEFAULT_ROLES
+from src.core.resources import resources
 
 
 class BatchCreateRolesCommand(Command):
@@ -21,7 +21,7 @@ class BatchCreateRolesCommand(Command):
 
     @staticmethod
     async def _batch_create() -> None:
-        async with AsyncSessionFactory() as db:
+        async with resources.session_factory() as db:
             try:
                 params = []
                 for role in DEFAULT_ROLES:

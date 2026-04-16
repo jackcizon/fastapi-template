@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from typing import Protocol, runtime_checkable
 
 from fastapi import FastAPI
@@ -13,9 +14,10 @@ class AppFactory(Protocol):
 
 
 class LazyLoadApp:
-    def __init__(self, debug: bool = True):
+    def __init__(self, debug: bool, lifespan: Callable) -> None:
         self._app: FastAPI | None = None
-        self.debug = debug
+        self._debug = debug
+        self._lifespan = lifespan
 
     def _setup_cors(self) -> None:
         setup_cors(self._app)
@@ -29,7 +31,7 @@ class LazyLoadApp:
     def _config_app(self) -> None:
         """app factory for lazy loading"""
         if self._app is None:
-            self._app = FastAPI(debug=self.debug)
+            self._app = FastAPI(debug=self._debug, lifespan=self._lifespan)
             self._add_exception_handlers()
             self._include_routers()
             self._setup_cors()

@@ -9,10 +9,10 @@ from starlette.routing import Route
 
 from src.api.rbac.models import Permission, Role, Role2Permission
 from src.api.rbac.repos.role_repo import RoleRepo
+from src.core.resources import resources
 from src.main import app
 from src.api.rbac.repos.permission_repo import PermissionRepo
 from src.api.rbac.repos.role2permission_repo import Role2PermissionRepo
-from src.core.db.session import AsyncSessionFactory
 from src.core.constants import ROLE_CHILD_MAP, PASSED_APP_PERMISSIONS_CHECK, DEFAULT_ROLE
 from src.utils.datastructures.permission_info import PermissionInfo
 from src.utils.helpers import get_superior_roles
@@ -74,7 +74,7 @@ class BatchUpdatePermissionsCommand(Command):
         #     print(f"{permission_info.code:<20} => {permission_info.role_parents_set}")
 
         # exit()
-        async with AsyncSessionFactory() as db:  # manually manage db context
+        async with resources.session_factory() as db:  # manually manage db context
             try:
                 # get the repos
                 perm_repo: Any = PermissionRepo(db)

@@ -1,5 +1,4 @@
 import asyncio
-import typing as t
 from typing import Any
 from datetime import datetime
 
@@ -7,7 +6,7 @@ from faker import Faker
 from click import Context, Parameter, Option, Command
 
 from src.api.rbac.repos.user_repo import UserRepo
-from src.core.db.session import AsyncSessionFactory
+from src.core.resources import resources
 from src.core.securities.password import Password
 
 
@@ -20,7 +19,7 @@ class BatchCreateFakeUsersCommand(Command):
         ]
         self.help = "default password is `123456`, they don't have roles, they are login visitors."
 
-    def invoke(self, ctx: Context) -> t.Any:
+    def invoke(self, ctx: Context) -> Any:
         asyncio.run(self._invoke(ctx))
         return super().invoke(ctx)
 
@@ -51,7 +50,7 @@ class BatchCreateFakeUsersCommand(Command):
                 }
             )
 
-        async with AsyncSessionFactory() as db:
+        async with resources.session_factory() as db:
             try:
                 await UserRepo(db).batch_create(params=params)
                 await db.commit()

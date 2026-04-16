@@ -1,15 +1,12 @@
 from typing import AsyncGenerator
 
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.core.config import settings
-
-engine = create_async_engine(settings.database_url, pool_pre_ping=True)
-AsyncSessionFactory = async_sessionmaker(bind=engine, expire_on_commit=False)
+from src.core.resources import resources
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
-    async with AsyncSessionFactory() as db:
+    async with resources.session_factory() as db:
         try:
             yield db
             await db.commit()  # comment this line if you want to manually commit in `with` code block
