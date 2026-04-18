@@ -5,9 +5,12 @@ from typing import Literal
 
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 SRC_DIR = os.path.join(ROOT_DIR, "src")
+STATIC_DIR = os.path.join(SRC_DIR, "static")
 
 ENVS_DIR = os.path.join(ROOT_DIR, "envs")
 ENV_FLAG = os.getenv("ENV", "dev")  # register into os envs, default is dev
+
+BASE_URL = "http://172.26.23.118:8000"
 
 
 class Settings:

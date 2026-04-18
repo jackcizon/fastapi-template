@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from src.core.application.cors import setup_cors
 from src.core.application.routes import include_routers
 from src.core.application.exceptions import add_exception_handlers
+from src.core.application.staticfiles import mount_staticfiles
 
 
 @runtime_checkable
@@ -28,6 +29,9 @@ class LazyLoadApp:
     def _add_exception_handlers(self) -> None:
         add_exception_handlers(self._app)
 
+    def _mount_staticfiles(self) -> None:
+        mount_staticfiles(self._app)
+
     def _config_app(self) -> None:
         """app factory for lazy loading"""
         if self._app is None:
@@ -35,6 +39,7 @@ class LazyLoadApp:
             self._add_exception_handlers()
             self._include_routers()
             self._setup_cors()
+            self._mount_staticfiles()
 
     @property
     def instance(self) -> FastAPI:
