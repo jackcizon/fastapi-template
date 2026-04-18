@@ -42,5 +42,13 @@
         "port": "",
         "from_email": "",
         "password": ""
+    },
+    "s3": {
+        "provider": "minio",
+        "region": "ap-southeast-1",
+        "endpoint": "http://localhost:9000",
+        "bucket": "fastapi-template",
+        "access_key_id": "admin",
+        "access_key_secret": "admin123"
     }
 }

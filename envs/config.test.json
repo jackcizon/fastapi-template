@@ -42,5 +42,13 @@
         "port": "",
         "from_email": "",
         "password": ""
+    },
+    "s3": {
+        "provider": "",
+        "region": "",
+        "endpoint": "",
+        "bucket": "",
+        "access_key_id": "",
+        "access_key_secret": ""
     }
 }

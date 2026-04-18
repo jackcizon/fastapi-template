@@ -54,4 +54,15 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
-
+  s3_minio:
+    container_name: s3_minio_fastapi_template
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY_ID}
+      MINIO_ROOT_PASSWORD: ${S3_ACCESS_KEY_SECRET}
+    volumes:
+      - ./data/s3/minio:/data

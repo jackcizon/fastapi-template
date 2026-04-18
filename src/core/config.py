@@ -61,6 +61,14 @@ class Settings:
         self.smtp_from_email: str = self.config_dict["smtp"]["from_email"]
         self.smtp_password: str = self.config_dict["smtp"]["password"]
 
+        # s3(simple storage service)
+        self.s3_provider: str = self.config_dict["s3"]["provider"]
+        self.s3_region: str = self.config_dict["s3"]["region"]
+        self.s3_endpoint: str = self.config_dict["s3"]["endpoint"]
+        self.s3_bucket: str = self.config_dict["s3"]["bucket"]
+        self.s3_access_key_id: str = self.config_dict["s3"]["access_key_id"]
+        self.s3_access_key_secret: str = self.config_dict["s3"]["access_key_secret"]
+
 
 # use module level singleton
 settings = Settings()
