@@ -1,6 +1,6 @@
 from typing import Any, Generic, Sequence
 
-from sqlalchemy import delete, select
+from sqlalchemy import delete, select, Update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.types import Model
@@ -16,11 +16,9 @@ class BaseRepo(Generic[Model]):
 
 
 class QueryRepo(BaseRepo[Model]):
-    """select
-    # TODO: use `.mappings()` to return a dict, combine  with `typing.TypedDict`, pass data to `services`
-    """
+    """select"""
 
-    async def get_one_by_field_eq(self, field: str, val: str) -> Model | None:
+    async def get_one_by_field_eq(self, field: str, val: Any) -> Model | None:
         stat = select(self.model).where(self.column(field) == val)  # type: ignore
         res = await self.db.execute(stat)
         return res.scalars().first()
@@ -50,3 +48,7 @@ class CrudRepo(QueryRepo[Model], ModifyRepo[Model]):
 
     async def execute_stat_params(self, stat: Any, params: list[dict[str, Any]] = None) -> Any:
         return await self.db.execute(stat, params)
+
+    async def update(self, where: Any, fields: dict) -> None:
+        stat = Update(self.model).where(where).values(**fields)
+        await self.db.execute(stat)

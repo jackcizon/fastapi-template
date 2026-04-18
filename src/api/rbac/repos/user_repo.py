@@ -5,15 +5,15 @@ from sqlalchemy.dialects.postgresql import Insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.api.rbac.models import User
-from src.core.db.repo.base import QueryRepo
+from src.core.db.repo.base import CrudRepo
 from src.core.db.repo.mixins import BatchCreateMixin
 
 
-class UserRepo(BatchCreateMixin, QueryRepo[User]):
+class UserRepo(BatchCreateMixin, CrudRepo[User]):
     def __init__(self, db: AsyncSession) -> None:
         super().__init__(db, model=User)
 
-    async def get_one_by_field_eq(self, field: str, val: str) -> User | None:
+    async def get_one_by_field_eq(self, field: str, val: Any) -> User | None:
         stat = (
             select(self.model)
             .where(self.column(field) == val)  # type: ignore
