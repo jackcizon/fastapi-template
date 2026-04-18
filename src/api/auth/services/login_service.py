@@ -25,4 +25,4 @@ class LoginService:
         if user is None or not Password.verify(login_request["password"], user.password):
             raise AuthError("Auth Failed")
         access, refresh = JSONWebToken.generate_token_pair(user.id)
-        return {"access": access, "refresh": refresh}
+        return LoginResponse(access=access, refresh=refresh)

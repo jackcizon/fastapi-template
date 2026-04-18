@@ -1,4 +1,3 @@
-# this map needs to recursion to get the role hierarchy
 from enum import StrEnum
 from typing import Final
 
@@ -15,6 +14,7 @@ class ROLE(StrEnum):
     CHAIRMAN = "chairman"
 
 
+# this map needs to recursion to get the role hierarchy
 ROLE_CHILD_MAP = {
     # role: [child1, child2] or []
     ROLE.VISITOR.value: [],  # not login user
@@ -26,9 +26,11 @@ ROLE_CHILD_MAP = {
     ROLE.CHAIRMAN.value: [ROLE.CEO.value],
 }
 
-DEFAULT_ROLES = [str(role.value) for role in ROLE]
+DEFAULT_ROLES = [str(role.value) for role in ROLE]  # type: ignore
 
 DEFAULT_ROLE = ROLE.VISITOR.value
+
+AUTHED_ROLE = ROLE.USER.value
 
 PASSED_APP_PERMISSIONS_CHECK: Final[list[str]] = [
     "alembic",

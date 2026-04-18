@@ -26,7 +26,7 @@ elif TEST_DATABASE_URL.startswith("postgresql+psycopg2://"):
 
 @pytest.fixture
 async def test_cache():
-    client = Redis.from_url(url=os.getenv("TEST_CACHE_REDIS_URL", test_settings.cache_url))
+    client = Redis.from_url(url=os.getenv("TEST_CACHE_REDIS_URL", test_settings.cache_url), decode_responses=True)
     await client.flushdb()
     yield client
     await client.flushdb()
@@ -35,7 +35,7 @@ async def test_cache():
 
 @pytest.fixture
 async def test_broker():
-    client = Redis.from_url(url=os.getenv("TEST_BROKER_REDIS_URL", test_settings.broker_url))
+    client = Redis.from_url(url=os.getenv("TEST_BROKER_REDIS_URL", test_settings.broker_url), decode_responses=True)
     await client.flushdb()
     yield client
     await client.flushdb()
