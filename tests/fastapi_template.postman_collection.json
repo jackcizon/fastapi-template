@@ -1,0 +1,386 @@
+{
+  "info": {
+    "_postman_id": "a1e8f8d3-5193-4326-9de7-75c60141ec3f",
+    "name": "fastapi_template",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "33046846"
+  },
+  "item": [
+    {
+      "name": "login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"jack20021213cn@gmail.com\",\r\n    \"password\": \"jack021213\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/auth/login/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "auth",
+            "login",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"jack\",\r\n    \"email\": \"jack20021213cn@gmail.com\",\r\n    \"password\": \"jack021213\",\r\n    \"verification_code\": \"yEWHBMpTg\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/auth/register/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "auth",
+            "register",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "me",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMDQ1MDUxMzg1OTUwNjM4MDgwLCJleHAiOjE3NzY1MjU5MTAsImlhdCI6MTc3NjUyMjMxMCwidHlwZSI6ImFjY2VzcyJ9.Aq62xsWP_EamziWwuONGGZsUNCKS_6wAN3oN14rGWB0",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/user/me/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "user",
+            "me",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "rbac_index",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3NzQ2OTM4MTgsImlhdCI6MTc3NDY5MDIxOCwidHlwZSI6ImFjY2VzcyJ9.AgcPd0DyZNRldfC3KBvVr5QNSRUimlijECZGmb0vtys",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/rbac/index/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "rbac",
+            "index",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "refresh",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMDQ1MDUxMzg1OTUwNjM4MDgwLCJleHAiOjE3NzY4NDYyNjcsImlhdCI6MTc3NjQ4NjI2NywidHlwZSI6InJlZnJlc2gifQ.Nm6Eg8fL84fp4jqmgp_10bU5zo0CUO5reCtsKKYd1nM\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/auth/refresh/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "auth",
+            "refresh",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "rbac_index",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMDM5MjMwNTA2ODAwOTEwMzM2LCJleHAiOjE3NzUwMjkzMTcsImlhdCI6MTc3NTAyNTcxNywidHlwZSI6ImFjY2VzcyJ9.0SbA5789rTL9SMzvwIPQzdHQEom71QD03_mB0IOZfOA",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/rbac/index/111",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "rbac",
+            "index",
+            "111"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "email_verification",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"jack20021213cn@gmail.com\",\r\n    \"registered\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/auth/email_verification/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "auth",
+            "email_verification",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "upload_avatar",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMDQ1MDUxMzg1OTUwNjM4MDgwLCJleHAiOjE3NzY0OTM2NzEsImlhdCI6MTc3NjQ5MDA3MSwidHlwZSI6ImFjY2VzcyJ9.7k0GKXghIn8EGolYyLpwgpcumZrqlOXTfnoBWJx8yhA",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"filename\": \"aaa.png\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/user/avatar/upload/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "user",
+            "avatar",
+            "upload",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "upload_avatar_callback",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMDQ1MDUxMzg1OTUwNjM4MDgwLCJleHAiOjE3NzY0OTM2NzEsImlhdCI6MTc3NjQ5MDA3MSwidHlwZSI6ImFjY2VzcyJ9.7k0GKXghIn8EGolYyLpwgpcumZrqlOXTfnoBWJx8yhA",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"key\": \"user/2045051385950638080/avatar/7c6b2854bbac4657b7faccae0226d6f4.png\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/user/avatar/upload/callback/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "user",
+            "avatar",
+            "upload",
+            "callback",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "password_reset",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMDQ1MDUxMzg1OTUwNjM4MDgwLCJleHAiOjE3NzY1MjQ4ODAsImlhdCI6MTc3NjUyMTI4MCwidHlwZSI6ImFjY2VzcyJ9.GzaAJgFsnl4DgEHYJ6cH4wgdgXm3dGlCEo4SphQ3HXs",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"new_password\": \"jackcizon\",\r\n    \"verification_code\": \"Z5dMIyUuG\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/user/password/reset/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "user",
+            "password",
+            "reset",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "password_forget",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "",
+            "value": "",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"jack20021213cn@gmail.com\",\r\n    \"new_password\": \"jack021213\",\r\n    \"verification_code\": \"yfmamW1PQ\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/user/password/forget/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "user",
+            "password",
+            "forget",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": ""
+    }
+  ]
+}
