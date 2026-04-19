@@ -17,10 +17,10 @@ class EmailVerificationService:
     async def verify(req: EmailVerificationRequest, cache: Redis, db: AsyncSession) -> EmailVerificationResponse:
         email = req["email"]
         exists = await UserRepo(db).get_one_by_field_eq("email", email)
-        if req["registered"]:
+        if req["registered"] is True:
             if not exists:
                 raise AuthError("Email not Exists.")
-        else:
+        if req["registered"] is False:
             if exists:
                 raise AuthError("Email Exists.")
 
@@ -29,5 +29,5 @@ class EmailVerificationService:
         return EmailVerificationResponse(verification_code=verification_code)
 
     @staticmethod
-    async def notify(to_email: str, verification_code: str, subject: str, content: str) -> None:
+    async def notify(to_email: str, verification_code: str, subject: str, content: str) -> None:  # pragma: no cover
         cast(Task, send_verification_code_email).delay(to_email, verification_code, subject, content)
