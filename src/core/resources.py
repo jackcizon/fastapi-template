@@ -2,6 +2,8 @@ from boto3 import Session
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncEngine
 
+from src.core.config import settings
+
 
 class ResourceManager:
     def __init__(self) -> None:
