@@ -50,6 +50,7 @@ class BatchCreateFakeUsersCommand(Command):
                 }
             )
 
+        await resources.init()
         async with resources.session_factory() as db:
             try:
                 await UserRepo(db).batch_create(params=params)

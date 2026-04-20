@@ -21,6 +21,7 @@ class BatchCreateRolesCommand(Command):
 
     @staticmethod
     async def _batch_create() -> None:
+        await resources.init()
         async with resources.session_factory() as db:
             try:
                 params = []

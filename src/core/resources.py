@@ -13,20 +13,24 @@ class ResourceManager:
 
     async def init(
         self,
-        db_url: str,
-        cache_url: str,
-        broker_url: str,
-        s3_region: str,
-        s3_access_key_id: str,
-        s3_access_key_secret: str,
+        db_url: str = settings.database_url,
+        cache_url: str | None = None,
+        broker_url: str | None = None,
+        s3_region: str | None = None,
+        s3_access_key_id: str | None = None,
+        s3_access_key_secret: str | None = None,
     ) -> None:
-        self.engine = create_async_engine(db_url, pool_pre_ping=True)
-        self.session_factory = async_sessionmaker(bind=self.engine, expire_on_commit=False)
-        self.cache = Redis.from_url(url=cache_url, decode_responses=True)
-        self.broker = Redis.from_url(url=broker_url, decode_responses=True)
-        self.s3_session = Session(
-            region_name=s3_region, aws_access_key_id=s3_access_key_id, aws_secret_access_key=s3_access_key_secret
-        )
+        if db_url:
+            self.engine = create_async_engine(db_url, pool_pre_ping=True)
+            self.session_factory = async_sessionmaker(bind=self.engine, expire_on_commit=False)
+        if cache_url:
+            self.cache = Redis.from_url(url=cache_url, decode_responses=True)
+        if broker_url:
+            self.broker = Redis.from_url(url=broker_url, decode_responses=True)
+        if s3_region and s3_access_key_id and s3_access_key_secret:
+            self.s3_session = Session(
+                region_name=s3_region, aws_access_key_id=s3_access_key_id, aws_secret_access_key=s3_access_key_secret
+            )
 
     async def aclose(self) -> None:
         if self.engine:

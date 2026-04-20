@@ -30,6 +30,7 @@ async def jwt_required_dep(request: Request) -> User:
         raise HTTPException(status_code=401, detail="token type must be access")
     user_id = payload.get("user_id")
 
+    await resources.init()
     async with resources.session_factory() as db:
         try:
             user = await UserRepo(db).get_one_by_field_eq("id", user_id)

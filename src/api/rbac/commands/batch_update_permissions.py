@@ -74,6 +74,7 @@ class BatchUpdatePermissionsCommand(Command):
         #     print(f"{permission_info.code:<20} => {permission_info.role_parents_set}")
 
         # exit()
+        await resources.init()
         async with resources.session_factory() as db:  # manually manage db context
             try:
                 # get the repos
