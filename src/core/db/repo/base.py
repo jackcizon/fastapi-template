@@ -23,6 +23,11 @@ class QueryRepo(BaseRepo[Model]):
         res = await self.db.execute(stat)
         return res.scalars().first()
 
+    async def get_all(self) -> Sequence[Model]:
+        stat = select(self.model)
+        res = await self.db.execute(stat)
+        return res.scalars().all()
+
     async def get_all_by_field_eq(self, field: str, val: str) -> Sequence[Model]:
         stat = select(self.model).where(self.column(field) == val)  # type: ignore
         res = await self.db.execute(stat)
