@@ -1,21 +1,23 @@
-from src.core.db.models import Base
+import asyncio
+
 from src.core.resources import resources
+from src.api.models import *
 
 
-def create_all_tables() -> None:  # pragma: no cover
+async def create_all_tables() -> None:  # pragma: no cover
     """useless when dba has already managed db"""
-    # from src.api.<api_name>.models import <model_name>
+    await resources.init()
+    async with resources.engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
-    Base.metadata.create_all(resources.engine)
 
-
-def drop_all_tables() -> None:  # pragma: no cover
-    # from src.api.<api_name>.models import <model_name>
-
-    Base.metadata.drop_all(resources.engine)
+async def drop_all_tables() -> None:  # pragma: no cover
+    await resources.init()
+    async with resources.engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
 
 
 if __name__ == "__main__":  # pragma: no cover
-    # create_all_tables()
-    # drop_all_tables()
+    asyncio.run(create_all_tables())
+    # asyncio.run(drop_all_tables())
     pass

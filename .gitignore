@@ -10,3 +10,5 @@ docker/data/
 
 # docs
 docs/_build/
+
+scripts/learn_io
