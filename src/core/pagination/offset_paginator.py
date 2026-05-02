@@ -16,6 +16,51 @@ class OffsetPaginator:
         - offset = (page - 1) * page_size
 
         A offset paginator needs 3 arguments: total, page_size, page.
+
+        example:
+        ```python
+        class _TagInfo(TypedDict):
+            id: int
+            name: str
+
+
+        class _TagInfoSchema(BaseModel):
+            id: int
+            name: str
+
+
+        class UserTagsResponse(Pagination):
+            # pagination: Pagination
+            items: list[_TagInfo]
+
+
+        class UserTagsResponseSchema(PaginationSchema):
+            # pagination: PaginationSchema
+            items: list[_TagInfoSchema]
+
+        async def get_user_tags(self, user: User, *, offset: int, limit: int) -> UserTagsResponse:
+            stat = (
+                select(self.tag.id, self.tag.name)
+                .where(self.tag.user_id == user.id)
+                .offset(offset)
+                .limit(limit)
+            )
+            res = await self.db.execute(stat)
+            return cast(UserTagsResponse, res.mappings().all())
+
+        async def get_user_all(username: str, db: AsyncSession, page: int, page_size: int) -> UserTagsResponse:
+            user = await UserRepo(db).get_one_by_field_eq("name", username)
+            if user is None:
+                raise NotFoundError("User not exists.")
+
+            total = await TagRepo(db).count()
+            paginator = BasicPaginator(total=total, page=page, page_size=page_size)
+            tags = await BlogRepo(db).get_user_tags(user, offset=paginator.offset, limit=paginator.limit)
+            return UserTagsResponse(
+                items=cast(list[dict[Any, Any]], tags),
+                **paginator.paginate()
+            )
+        ```
         """
 
         self.total = total
