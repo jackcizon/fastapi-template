@@ -1,6 +1,6 @@
 from typing import Any, Generic, Sequence
 
-from sqlalchemy import delete, select, Update
+from sqlalchemy import delete, select, Update, func, Delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.types import Model
@@ -39,9 +39,22 @@ class QueryRepo(BaseRepo[Model]):
         res = await self.db.execute(stat)
         return res.scalars().all()
 
+    async def count(self) -> int:
+        stat = select(func.count(self.model.id))
+        res = await self.db.execute(stat)
+        return res.scalar()
+
 
 class ModifyRepo(BaseRepo[Model]):
     """update, delete, insert"""
+
+    async def update(self, where: Any, fields: dict) -> None:
+        stat = Update(self.model).where(where).values(**fields)
+        await self.db.execute(stat)
+
+    async def delete(self, where: Any) -> None:
+        stat = Delete(self.model).where(where)
+        await self.db.execute(stat)
 
     async def del_all(self) -> None:
         stat = delete(self.model).where(self.column("id") > 0)
@@ -53,7 +66,3 @@ class CrudRepo(QueryRepo[Model], ModifyRepo[Model]):
 
     async def execute_stat_params(self, stat: Any, params: list[dict[str, Any]] = None) -> Any:
         return await self.db.execute(stat, params)
-
-    async def update(self, where: Any, fields: dict) -> None:
-        stat = Update(self.model).where(where).values(**fields)
-        await self.db.execute(stat)
