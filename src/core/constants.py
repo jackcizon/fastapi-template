@@ -36,3 +36,5 @@ PASSED_APP_PERMISSIONS_CHECK: Final[list[str]] = [
     "alembic",
     "migrations",
 ]  # these api will ignore permissions update.
+
+PAGE_SIZE: Final[int] = 10
