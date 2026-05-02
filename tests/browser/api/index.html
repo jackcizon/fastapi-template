@@ -1,0 +1,18 @@
+<div id="content"></div>
+<script type="module">
+import {BASE_URL} from '/core/config.js';
+
+document.addEventListener("DOMContentLoaded", async () => {
+try {
+    const res = await fetch(`${BASE_URL}`, {
+    method: "GET"
+    });
+
+    const data = await res.json();
+    console.log(data);
+    document.getElementById("content").innerHTML = JSON.stringify(data)
+} catch (err) {
+    console.error(err);
+}
+});
+</script>

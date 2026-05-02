@@ -1,0 +1,28 @@
+<div id="content"></div>
+<script type="module">
+	import { BASE_URL } from '/core/config.js';
+
+	const body = {
+        "name": "jack",
+		"email": "2752293333394@qq.com",
+		"password": "jack021213",
+        "verification_code": "86r9O7Erl"
+	}
+
+	document.addEventListener("DOMContentLoaded", async () => {
+		try {
+			const res = await fetch(`${BASE_URL}/auth/register/`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(body)
+			})
+			const response = await res.json();
+			console.log(response);
+			document.getElementById("content").innerHTML = response
+		} catch (err) {
+			console.error(err);
+		}
+	});
+</script>

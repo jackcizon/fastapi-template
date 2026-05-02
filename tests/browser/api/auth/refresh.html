@@ -1,0 +1,25 @@
+<div id="content"></div>
+<script type="module">
+	import { BASE_URL } from '/core/config.js';
+
+	const body = {
+		"refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMDQ5NzU1ODU4NjY1MDgyODgwLCJleHAiOjE3Nzc4OTY5MzYsImlhdCI6MTc3NzUzNjkzNiwidHlwZSI6InJlZnJlc2gifQ.n2nYb8RSz_NO3JniJqokv9Gc0lra9e1HLyPauREwssI"
+	}
+
+	document.addEventListener("DOMContentLoaded", async () => {
+		try {
+			const res = await fetch(`${BASE_URL}/auth/refresh/`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(body)
+			})
+			const response = await res.json();
+			console.log(response);
+			document.getElementById("content").innerHTML = response
+		} catch (err) {
+			console.error(err);
+		}
+	});
+</script>
