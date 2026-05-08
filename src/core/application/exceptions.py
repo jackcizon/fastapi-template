@@ -10,8 +10,10 @@ from src.core.exceptions.handlers.datetime_ import datetime_error_handler
 from src.core.exceptions.handlers.db import db_error_handler
 from src.core.exceptions.handlers.jwt import jwt_error_handler
 from src.core.exceptions.handlers.not_found import not_found_error_handler
+from src.core.exceptions.handlers.perm_deined import perm_denied_error_handler
 from src.core.exceptions.jwt import JWTError
 from src.core.exceptions.not_found import NotFoundError
+from src.core.exceptions.perm_denied import PermDeniedError
 
 
 def add_exception_handlers(app_: FastAPI) -> None:
@@ -21,3 +23,4 @@ def add_exception_handlers(app_: FastAPI) -> None:
     app_.add_exception_handler(NotFoundError, not_found_error_handler)
     app_.add_exception_handler(DBError, db_error_handler)
     app_.add_exception_handler(BadRequestError, bad_request_error_handler)
+    app_.add_exception_handler(PermDeniedError, perm_denied_error_handler)
