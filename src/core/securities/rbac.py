@@ -69,7 +69,7 @@ class RolePermissionCheck:
         user: User,  # can del Depends, avoid repeat params
     ) -> tuple[User, str]:
         await self._assign_args(request, user)
-        if not self._has_permission(db, user):
+        if not await self._has_permission(db, user):
             raise HTTPException(status_code=403, detail="403 Forbidden")
         return self._result()
 
