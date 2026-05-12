@@ -8,7 +8,7 @@ from src.api.rbac.repos.user_repo import UserRepo
 from src.api.user.repos.userprofile_repo import UserProfileRepo
 from src.core.constants import AUTHED_ROLE
 from src.core.exceptions.auth import AuthError
-from src.core.rdb.keys import cache_keys
+from src.core.cache.keys import cache_keys
 from src.core.securities.password import Password
 from src.core.services.distributed_ids import unique_id_factory
 

@@ -6,7 +6,7 @@ from src.api.rbac.repos.role_repo import RoleRepo
 from src.api.rbac.repos.user_repo import UserRepo
 from src.core.constants import AUTHED_ROLE
 from src.core.exceptions.auth import AuthError
-from src.core.rdb.keys import cache_keys
+from src.core.cache.keys import cache_keys
 
 
 class TestRegisterService:

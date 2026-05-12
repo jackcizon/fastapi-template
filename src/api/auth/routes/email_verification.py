@@ -9,7 +9,7 @@ from starlette.responses import JSONResponse
 from src.api.auth.schemas.email_schema import EmailVerificationRequestSchema, EmailVerificationResponseSchema
 from src.api.auth.services.email_verification_service import EmailVerificationService
 from src.core.db.session import get_db
-from src.core.rdb.base import get_cache
+from src.core.cache.base import get_cache
 from src.core.securities.ratelimit.deps import RateLimitDep
 
 email_verification_router = APIRouter()

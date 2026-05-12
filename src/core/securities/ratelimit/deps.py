@@ -3,8 +3,8 @@ from fastapi.params import Depends
 from redis.asyncio import Redis
 from starlette.requests import Request
 
-from src.core.rdb.base import get_cache
-from src.core.rdb.keys import cache_keys
+from src.core.cache.base import get_cache
+from src.core.cache.keys import cache_keys
 from src.core.securities.ratelimit.token_bucket import RedisTokenBucketRatelimiter
 
 

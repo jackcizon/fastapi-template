@@ -11,7 +11,7 @@ from src.api.user.schemas.password_schema import (
 )
 from src.api.user.services.password_service import PasswordService
 from src.core.db.session import get_db
-from src.core.rdb.base import get_cache
+from src.core.cache.base import get_cache
 from src.core.securities.jwt import jwt_required_dep
 
 password_router = APIRouter()

@@ -6,7 +6,7 @@ from src.api.rbac.repos.user_repo import UserRepo
 from src.api.user.schemas.password_schema import PasswordResetRequest, PasswordForgetRequest
 from src.api.user.services.password_service import PasswordService
 from src.core.exceptions.auth import AuthError
-from src.core.rdb.keys import cache_keys
+from src.core.cache.keys import cache_keys
 
 
 class TestPasswordService:

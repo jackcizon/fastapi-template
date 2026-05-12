@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from src.core.config import Settings
 from src.core.db.models import Base
 from src.core.db.session import get_db
-from src.core.rdb.base import get_cache, get_broker
+from src.core.cache.base import get_cache, get_broker
 from src.main import app
 
 test_settings = Settings("test")

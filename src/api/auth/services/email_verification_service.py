@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.api.auth.schemas.email_schema import EmailVerificationRequest, EmailVerificationResponse
 from src.api.rbac.repos.user_repo import UserRepo
 from src.core.exceptions.auth import AuthError
-from src.core.rdb.keys import cache_keys
+from src.core.cache.keys import cache_keys
 from src.core.securities.verification_code import generate_verification_code
 from tasks.email.tasks import send_verification_code_email
 

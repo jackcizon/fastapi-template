@@ -9,7 +9,7 @@ from starlette.responses import JSONResponse
 from src.api.auth.schemas.register_schema import RegisterRequestSchema, RegisterResponseSchema
 from src.api.auth.services.register_service import RegisterService
 from src.core.db.session import get_db
-from src.core.rdb.base import get_cache
+from src.core.cache.base import get_cache
 from src.core.securities.ratelimit.deps import RateLimitDep
 
 register_router = APIRouter()
