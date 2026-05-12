@@ -18,6 +18,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[Any, Any]:
         s3_region=settings.s3_region,
         s3_access_key_id=settings.s3_access_key_id,
         s3_access_key_secret=settings.s3_access_key_secret,
+        doc_db_url=settings.doc_db_url,
+        doc_db_name=settings.doc_db_name,
     )
     yield
     await resources.aclose()

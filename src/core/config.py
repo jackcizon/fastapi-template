@@ -76,6 +76,9 @@ class Settings:
         self.s3_access_key_id: str = self.config_dict["s3"]["access_key_id"]
         self.s3_access_key_secret: str = self.config_dict["s3"]["access_key_secret"]
 
+        # doc db
+        self.doc_db_url = self.config_dict["doc_db"]["url"]
+
 
 # use module level singleton
 settings = Settings()

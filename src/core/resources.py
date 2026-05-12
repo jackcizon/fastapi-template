@@ -1,4 +1,5 @@
 from boto3 import Session
+from pymongo import AsyncMongoClient
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncEngine
 
@@ -12,6 +13,7 @@ class ResourceManager:
         self.cache: Redis | None = None
         self.broker: Redis | None = None
         self.s3_session: Session | None = None
+        self.doc_client: AsyncMongoClient | None = None
 
     async def init(
         self,
@@ -21,6 +23,7 @@ class ResourceManager:
         s3_region: str | None = None,
         s3_access_key_id: str | None = None,
         s3_access_key_secret: str | None = None,
+        doc_db_url: str | None = None,
     ) -> None:
         if db_url:
             self.engine = create_async_engine(db_url, pool_pre_ping=True)
@@ -33,6 +36,8 @@ class ResourceManager:
             self.s3_session = Session(
                 region_name=s3_region, aws_access_key_id=s3_access_key_id, aws_secret_access_key=s3_access_key_secret
             )
+        if doc_db_url:
+            self.doc_client = AsyncMongoClient(doc_db_url)
 
     async def aclose(self) -> None:
         if self.engine:
@@ -41,6 +46,8 @@ class ResourceManager:
             await self.cache.aclose()
         if self.broker:
             await self.broker.aclose()
+        if self.doc_client:
+            await self.doc_client.close()
 
 
 resources = ResourceManager()
