@@ -26,7 +26,7 @@ Delete the useless parts
     cd fastapi-template
     rm -rf .git
     rm docs/*.md
-    rm -rf src/api/migrations  # must do this, otherwise `db init` operation will fail.
+    rm -rf src/core/db/migrations  # must do this, otherwise `db init` operation will fail.
     cd ..
     mv fastapi-template <your_project_name>
     cd docs
@@ -50,7 +50,7 @@ Init DB
 
     python manage.py AlembicInit
 
-In file ``src/api/migrations/env.py``, modify the metadata configuration:
+In file ``src/core/db/migrations/env.py``, modify the metadata configuration:
 
 **From:**
 
