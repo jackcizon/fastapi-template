@@ -50,5 +50,8 @@
         "bucket": "",
         "access_key_id": "",
         "access_key_secret": ""
+    },
+    "doc_db": {
+        "url": ""
     }
 }

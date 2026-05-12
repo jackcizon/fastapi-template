@@ -50,5 +50,8 @@
         "bucket": "fastapi-template",
         "access_key_id": "admin",
         "access_key_secret": "admin123"
+    },
+    "doc_db": {
+        "url": "mongodb://jack:jack021213@192.168.8.7:27017/"
     }
 }
