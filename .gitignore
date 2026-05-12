@@ -14,3 +14,5 @@ docs/_build/
 scripts/learn_io
 
 logs/*
+
+scripts/mongo/
