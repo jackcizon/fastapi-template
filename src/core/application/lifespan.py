@@ -1,4 +1,7 @@
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from typing import Any
+
 from fastapi import FastAPI
 
 from src.core.config import settings
@@ -6,7 +9,7 @@ from src.core.resources import resources
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> None:
+async def lifespan(app: FastAPI) -> AsyncGenerator[Any, Any]:
     print(f"app:{app} lifespan starting...")
     await resources.init(
         db_url=settings.database_url,
