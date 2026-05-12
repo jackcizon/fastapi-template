@@ -9,7 +9,7 @@
 project = "fastapi-template"
 copyright = "2026, jackcizon"
 author = "jackcizon"
-release = "3.2.0"
+release = "3.3.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
