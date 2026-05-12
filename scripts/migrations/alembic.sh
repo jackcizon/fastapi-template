@@ -1,4 +1,4 @@
-alembic init src/api/migrations
+alembic init src/core/db/migrations
 alembic check
-alembic revision --autogenerate --version-path src/api/migrations/versions -m ""
+alembic revision --autogenerate --version-path src/core/db/migrations/versions -m ""
 alembic upgrade head
