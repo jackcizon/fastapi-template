@@ -1,4 +1,3 @@
-# myapp.py
 import logging
 
 from src.core.config import LOGGER_NAME, LOGGER_PATH, LOGGER_FORMAT
