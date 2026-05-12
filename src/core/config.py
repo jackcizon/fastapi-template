@@ -12,6 +12,10 @@ ENV_FLAG = os.getenv("ENV", "dev")  # register into os envs, default is dev
 
 BASE_URL = "http://172.26.23.118:8000"
 
+LOGGER_NAME = str(ROOT_DIR).split("/")[-1]
+LOGGER_FORMAT = "%(levelname)s %(asctime)s %(module)s %(lineno)d %(message)s"
+LOGGER_PATH = os.path.join(ROOT_DIR, "logs/app.log")
+
 
 class Settings:
     """app settings"""

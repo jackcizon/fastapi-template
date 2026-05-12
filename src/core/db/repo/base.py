@@ -43,7 +43,7 @@ class QueryRepo(BaseRepo[Model]):
         stat = select(func.count(self.model.id))
         res = await self.db.execute(stat)
         return res.scalar()
-    
+
     async def get_all_paginated(self, offset: int, limit: int) -> Any:
         raise NotImplementedError
 
