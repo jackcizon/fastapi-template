@@ -1,5 +1,5 @@
-import os
 import json
+import os
 from pathlib import Path
 from typing import Literal
 
@@ -11,10 +11,6 @@ ENVS_DIR = os.path.join(ROOT_DIR, "envs")
 ENV_FLAG = os.getenv("ENV", "dev")  # register into os envs, default is dev
 
 BASE_URL = "http://172.26.23.118:8000"
-
-LOGGER_NAME = str(ROOT_DIR).split("/")[-1]
-LOGGER_FORMAT = "%(levelname)s %(asctime)s %(module)s %(lineno)d %(message)s"
-LOGGER_PATH = os.path.join(ROOT_DIR, "logs/app.log")
 
 
 class Settings:
@@ -31,6 +27,9 @@ class Settings:
         # basic
         self.env: str = self.config_dict["env"]
         self.debug: bool = self.config_dict["debug"]
+
+        # log
+        self.log = self.config_dict["log"]
 
         # DB
         self.postgres_user: str = self.config_dict["db"]["user"]
@@ -86,3 +85,4 @@ settings = Settings()
 if __name__ == "__main__":
     print(settings.env)
     print(settings.database_url)
+    print(settings.log)

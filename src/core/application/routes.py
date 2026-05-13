@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from src.api.auth.router import auth_router
+from src.api.home.router import home_router
 from src.api.rbac.router import rbac_router
 from src.api.user.router import user_router
 
@@ -10,3 +11,4 @@ def include_routers(app_: FastAPI) -> None:
     app_.include_router(router=auth_router, prefix="/auth", tags=["auth"])
     app_.include_router(router=rbac_router, prefix="/rbac", tags=["rbac"])
     app_.include_router(router=user_router, prefix="/user", tags=["user"])
+    app_.include_router(router=home_router, prefix="/home", tags=["home"])

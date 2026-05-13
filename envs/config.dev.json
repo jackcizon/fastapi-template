@@ -1,6 +1,42 @@
 {
     "env": "dev",
     "debug": true,
+    "log": {
+        "version": 1,
+        "disable_existing_loggers": false,
+        "formatters": {
+            "default": {
+                "format": "%(asctime)s | %(levelname)s | %(name)s:%(lineno)d | %(message)s"
+            }
+        },
+        "handlers": {
+            "file": {
+                "class": "logging.handlers.TimedRotatingFileHandler",
+                "filename": "logs/app.log",
+                "when": "midnight",
+                "interval": 1,
+                "backupCount": 30,
+                "formatter": "default"
+            },
+            "console": {
+                "class": "logging.StreamHandler",
+                "formatter": "default"
+            }
+        },
+        "root": {
+            "level": "INFO",
+            "handlers": [
+                "console",
+                "file"
+            ]
+        },
+        "loggers": {
+            "sqlalchemy.engine": {
+                "level": "WARNING",
+                "propagate": false
+            }
+        }
+    },
     "db": {
         "name": "fastapi_template",
         "user": "jack",

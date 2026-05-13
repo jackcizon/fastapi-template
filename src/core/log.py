@@ -1,13 +1,11 @@
-import logging
+import os
+from logging import config
 
-from src.core.config import LOGGER_NAME, LOGGER_PATH, LOGGER_FORMAT
-
-logger = logging.getLogger(LOGGER_NAME)
-logging.basicConfig(format=LOGGER_FORMAT, filename=LOGGER_PATH)
+from src.core.config import ROOT_DIR, settings
 
 
-if __name__ == "__main__":
-    # run with: python -m src.core.log
-    logger = logging.getLogger(LOGGER_NAME)
-    logger.info("logger test passed.")
-    logger.error("occurs an error.")
+def setup_logging() -> None:
+    log_dir = os.path.join(ROOT_DIR, "logs")
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+    config.dictConfig(settings.log)
