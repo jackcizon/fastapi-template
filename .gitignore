@@ -16,4 +16,5 @@ scripts/learn_io
 logs/*
 
 scripts/mongo/
-srcipts/grpc
+
+srcipts/grpc/
