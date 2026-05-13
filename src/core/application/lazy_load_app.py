@@ -3,7 +3,7 @@ from typing import Protocol, runtime_checkable
 
 from fastapi import FastAPI
 
-from src.core.application.cors import setup_cors
+from src.core.application.middlewares.cors import setup_cors_middleware
 from src.core.application.routes import include_routers
 from src.core.application.exceptions import add_exception_handlers
 from src.core.application.staticfiles import mount_staticfiles
@@ -21,8 +21,8 @@ class LazyLoadApp:
         self._debug = debug
         self._lifespan = lifespan
 
-    def _setup_cors(self) -> None:
-        setup_cors(self._app)
+    def _setup_middlewares(self) -> None:
+        setup_cors_middleware(self._app)
 
     def _include_routers(self) -> None:
         include_routers(self._app)
@@ -43,7 +43,7 @@ class LazyLoadApp:
             self._app = FastAPI(debug=self._debug, lifespan=self._lifespan)
             self._add_exception_handlers()
             self._include_routers()
-            self._setup_cors()
+            self._setup_middlewares()
             self._mount_staticfiles()
             self._setup_log()
 
