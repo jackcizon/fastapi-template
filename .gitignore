@@ -17,4 +17,4 @@ logs/*
 
 scripts/mongo/
 
-srcipts/grpc/
+srcipts/grpc/**
