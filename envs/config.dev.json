@@ -13,7 +13,7 @@
             "file": {
                 "class": "logging.handlers.TimedRotatingFileHandler",
                 "filename": "logs/app.log",
-                "when": "midnight",
+                "when": "MIDNIGHT",
                 "interval": 1,
                 "backupCount": 30,
                 "formatter": "default"
