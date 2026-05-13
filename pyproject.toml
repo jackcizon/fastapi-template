@@ -35,6 +35,8 @@ dependencies = [
     "boto3 (>=1.42.90,<2.0.0)",
     "reactor-server (>=2.3.0,<3.0.0)",
     "pymongo (>=4.17.0,<5.0.0)",
+    "grpcio (>=1.80.0,<2.0.0)",
+    "grpcio-tools (>=1.80.0,<2.0.0)",
 ]
 
 [build-system]
