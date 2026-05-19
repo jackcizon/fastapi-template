@@ -38,6 +38,7 @@ dependencies = [
     "grpcio (>=1.80.0,<2.0.0)",
     "grpcio-tools (>=1.80.0,<2.0.0)",
     "mypy-protobuf (>=5.1.0,<6.0.0)",
+    "confluent-kafka (>=2.14.0,<3.0.0)",
 ]
 
 [build-system]

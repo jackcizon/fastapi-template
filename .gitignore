@@ -4,17 +4,12 @@ __pycache__/
 .env
 .coverage
 htmlcov/
-
 # Docker volumes
 docker/data/
-
 # docs
 docs/_build/
-
-scripts/learn_io
-
-logs/*
-
+logs/
+# script
 scripts/mongo/
-
 scripts/grpc/
+scripts/kafka_demo/
