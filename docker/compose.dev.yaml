@@ -102,3 +102,21 @@ services:
       KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
     volumes:
       - ./data/kafka:/var/lib/kafka/data
+  mq:
+    image: rabbitmq:4.2-management
+    container_name: mq_fastapi_template
+    hostname: rabbitmq
+    ports:
+      - "${RABBITMQ_SERVER_PORT}:5672"
+      - "${RABBITMQ_WEB_UI_PORT}:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_DEFAULT_VHOST: /
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "check_port_connectivity" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
