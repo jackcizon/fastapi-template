@@ -15,3 +15,5 @@ scripts/grpc/
 scripts/kafka_demo/
 scripts/rabbitmq_demo/
 scripts/redis_demo/
+# Doc
+Doc/*.md
